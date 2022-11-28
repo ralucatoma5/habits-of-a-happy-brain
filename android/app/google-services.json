@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "461639416996",
+    "project_id": "habits-of-a-happy-brain",
+    "storage_bucket": "habits-of-a-happy-brain.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461639416996:android:0af3afda88af502e6d7a31",
+        "android_client_info": {
+          "package_name": "com.example.habits"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461639416996-0m0218d2ajs2a5qqq5smci8mrd5anrei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT7sqSSgKslUFIdBdTdvM6103_-L8RLjY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461639416996-0m0218d2ajs2a5qqq5smci8mrd5anrei.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
