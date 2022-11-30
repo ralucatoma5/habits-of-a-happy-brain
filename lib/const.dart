@@ -7,6 +7,7 @@ BoxShadow containerShadow = BoxShadow(
   blurRadius: 3,
   offset: const Offset(0, 3),
 );
+Color blue = const Color(0xff005489);
 
 class SizeConfig {
   static MediaQueryData? _mediaQueryData;
