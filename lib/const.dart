@@ -37,6 +37,11 @@ class SizeConfig {
   }
 }
 
+TextStyle readingText = TextStyle(
+    fontSize: SizeConfig.safeBlockVertical! * 2.7,
+    letterSpacing: 0.1,
+    height: 1.4,
+    fontWeight: FontWeight.w600);
 List<String> img = [
   'assets/images/dopamine.png',
   'assets/images/endorphin.png',

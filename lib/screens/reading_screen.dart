@@ -18,6 +18,7 @@ class ReadingScreen extends StatefulWidget {
 class _ReadingScreenState extends State<ReadingScreen> {
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(

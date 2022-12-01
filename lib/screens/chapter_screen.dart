@@ -10,6 +10,7 @@ class ChapterScreen extends StatelessWidget {
 
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
+  final nrw = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +80,7 @@ class ChapterScreen extends StatelessWidget {
                           'Your feelings are unique, but the chemicals that cause your feelings are the same as everyone else’s. Your life experience is unique, but it overlaps with everyone’s because the same basic survival needs command your brain’s attention.',
                           style: TextStyle(
                               fontSize: verticalBlock * 2.5,
-                              letterSpacing: 0.4,
+                              letterSpacing: 0.1,
                               height: 1.4,
                               color: const Color(0xff848181))),
                     ),
@@ -134,7 +135,7 @@ class ChapterScreen extends StatelessWidget {
         right: 0,
         left: 0,
         child: SizedBox(
-          height: verticalBlock * 15,
+          height: nrw > 2 ? verticalBlock * 20 : verticalBlock * 12.5,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 4,
@@ -165,7 +166,8 @@ class ChapterScreen extends StatelessWidget {
                           'Dopamine',
                           style: TextStyle(
                               color: blue,
-                              fontSize: verticalBlock * 2,
+                              fontSize:
+                                  nrw > 2 ? verticalBlock : verticalBlock * 2,
                               fontWeight: FontWeight.w800),
                         ),
                         Align(
@@ -180,8 +182,7 @@ class ChapterScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SubchapterScreen()),
+                                    builder: (context) => SubchapterScreen()),
                               );
                             },
                           ),
