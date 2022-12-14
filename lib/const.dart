@@ -84,7 +84,6 @@ double circleOpacity(int index) {
 
 TextStyle readingText = TextStyle(
     fontSize: SizeConfig.safeBlockVertical! * 2.7,
-    letterSpacing: 0.1,
     height: 1.4,
     fontWeight: FontWeight.w600);
 
