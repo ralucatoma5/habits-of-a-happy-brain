@@ -15,16 +15,14 @@ class SubchapterScreen extends StatelessWidget {
         SliverAppBar(
           elevation: 0.8,
           flexibleSpace: FlexibleSpaceBar(
-            background: Container(
-              child: Padding(
-                padding: EdgeInsets.only(
-                    top: verticalBlock * 4, right: horizontalBlock * 2),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Image.asset(
-                    'assets/images/dopamine.png',
-                    height: verticalBlock * 6,
-                  ),
+            background: Padding(
+              padding: EdgeInsets.only(
+                  top: verticalBlock * 4, right: horizontalBlock * 2),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Image.asset(
+                  'assets/images/dopamine.png',
+                  height: verticalBlock * 6,
                 ),
               ),
             ),
@@ -40,7 +38,7 @@ class SubchapterScreen extends StatelessWidget {
                   child: Text('Dopamine ',
                       style: TextStyle(
                         color: blue,
-                        fontSize: verticalBlock * 3,
+                        fontSize: verticalBlock * 3.3,
                         fontWeight: FontWeight.w800,
                       )),
                 )),
@@ -71,7 +69,7 @@ class SubchapterScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: horizontalBlock * 6,
+                            horizontal: horizontalBlock * 8,
                             vertical: verticalBlock),
                         child: Text(
                             'Dopamine promotes survival by telling your body where to invest its energy. A hungry lion expects a reward when she sees an isolated gazelle. Dopamine unleashes your reserve tank of energy when you see a way to meet a need. Even when you’re just sitting still, dopamine motivates you to scan a lot of detail to find a pattern that’s somehow relevant to your needs.',
@@ -79,8 +77,8 @@ class SubchapterScreen extends StatelessWidget {
                   }),
               Padding(
                 padding: EdgeInsets.only(
-                  right: horizontalBlock * 6,
-                  left: horizontalBlock * 6,
+                  right: horizontalBlock * 8,
+                  left: horizontalBlock * 8,
                   bottom: verticalBlock * 6,
                 ),
                 child: ListView.builder(
@@ -114,7 +112,7 @@ class SubchapterScreen extends StatelessWidget {
                           onPressed: () {},
                           style: OutlinedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: horizontalBlock * 3.5,
+                                  horizontal: horizontalBlock * 3.8,
                                   vertical: verticalBlock * 1.5),
                               backgroundColor:
                                   const Color(0xff006FA9).withOpacity(0.4),
@@ -126,7 +124,7 @@ class SubchapterScreen extends StatelessWidget {
                               style: TextStyle(
                                   color: blue,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: verticalBlock * 2.2))),
+                                  fontSize: horizontalBlock * 4))),
                     ),
                     SizedBox(
                       width: verticalBlock * 14,
@@ -143,7 +141,7 @@ class SubchapterScreen extends StatelessWidget {
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
-                                fontSize: verticalBlock * 2.2)),
+                                fontSize: horizontalBlock * 4)),
                       ),
                     )
                   ],

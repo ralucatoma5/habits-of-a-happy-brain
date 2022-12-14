@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 import 'package:habits/models/chapter.dart';
+import 'package:habits/screens/healthyhabits_screen.dart';
 import 'package:habits/screens/subchapter_screen.dart';
+import 'package:habits/widgets/positionedButton.dart';
 
 class ChapterScreen extends StatelessWidget {
   final int index;
@@ -16,18 +18,7 @@ class ChapterScreen extends StatelessWidget {
     return Scaffold(
         body: SingleChildScrollView(
             child: Stack(children: [
-      Positioned(
-          top: verticalBlock * 6,
-          left: horizontalBlock * 5,
-          child: IconButton(
-            padding: EdgeInsets.zero,
-            icon: Icon(
-              Icons.adaptive.arrow_back,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )),
+      positionedButton(context),
       Padding(
         padding: EdgeInsets.only(
             top: verticalBlock * 22, left: horizontalBlock * 15),
@@ -182,7 +173,7 @@ class ChapterScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SubchapterScreen()),
+                                    builder: (context) => HealthyHabits()),
                               );
                             },
                           ),

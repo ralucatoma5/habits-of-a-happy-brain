@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
+import 'package:habits/screens/healthyhabits_screen.dart';
 import 'package:habits/screens/myhabit_screet.dart';
 import 'package:habits/screens/reading_screen.dart';
 
@@ -13,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
-  final screens = [const ReadingScreen(), const MyHabitScreen()];
+  final screens = [ReadingScreen(), const MyHabitScreen()];
   final CollectionReference _referenceChapters =
       FirebaseFirestore.instance.collection('chapters');
   late Stream<QuerySnapshot> _streamChapters;

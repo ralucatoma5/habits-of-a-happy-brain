@@ -37,11 +37,57 @@ class SizeConfig {
   }
 }
 
+// healthy habits screen
+int topPosition(int index) {
+  if (index == 0)
+    return -10;
+  else if (index == 1)
+    return 3;
+  else if (index == 3)
+    return 0;
+  else
+    return 15;
+}
+
+int leftPosition(int index) {
+  if (index == 0)
+    return -10;
+  else if (index == 1)
+    return 20;
+  else if (index == 3)
+    return 20;
+  else
+    return -10;
+}
+
+int circleHeight(int index) {
+  if (index == 0)
+    return 30;
+  else if (index == 1)
+    return 17;
+  else if (index == 3)
+    return 15;
+  else
+    return 35;
+}
+
+double circleOpacity(int index) {
+  if (index == 0)
+    return 0.65;
+  else if (index == 1)
+    return 0.45;
+  else if (index == 3)
+    return 0.3;
+  else
+    return 0.55;
+}
+
 TextStyle readingText = TextStyle(
     fontSize: SizeConfig.safeBlockVertical! * 2.7,
     letterSpacing: 0.1,
     height: 1.4,
     fontWeight: FontWeight.w600);
+
 List<String> img = [
   'assets/images/dopamine.png',
   'assets/images/endorphin.png',

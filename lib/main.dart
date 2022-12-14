@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habits/firebase_options.dart';
+import 'package:habits/screens/healthyhabits_screen.dart';
 import 'package:habits/screens/home_screen.dart';
 
 Future<void> main() async {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xff005489),
         scaffoldBackgroundColor: const Color(0xffFEFEFE),
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(),
     );
   }
 }

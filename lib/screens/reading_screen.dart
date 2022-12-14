@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:habits/models/chapter.dart';
+import 'package:habits/screens/about_screen.dart';
 import 'package:habits/screens/chapter_screen.dart';
 import 'package:habits/screens/subchapter_screen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -108,7 +109,14 @@ class _ReadingScreenState extends State<ReadingScreen> {
                     padding:
                         EdgeInsets.symmetric(horizontal: horizontalBlock * 6),
                     child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                child: About(),
+                              ));
+                        },
                         child: Container(
                           height: verticalBlock * 8,
                           width: verticalBlock * 8,
@@ -130,7 +138,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
             ]),
           ),
           pinned: true,
-          expandedHeight: verticalBlock * 35,
+          expandedHeight: verticalBlock * 40,
           backgroundColor: Colors.white,
         ),
         SliverList(
@@ -193,7 +201,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
                                               fontWeight: FontWeight.w800)),
                                       Text('Your Inner Mammal',
                                           style: TextStyle(
-                                              fontSize: verticalBlock * 2.5,
+                                              fontSize: verticalBlock * 2.8,
                                               fontWeight: FontWeight.w600)),
                                       Align(
                                           alignment: Alignment.bottomRight,
