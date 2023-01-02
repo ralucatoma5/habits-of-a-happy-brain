@@ -14,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
-  final screens = [ReadingScreen(), const MyHabitScreen()];
   final CollectionReference _referenceChapters =
       FirebaseFirestore.instance.collection('chapters');
   late Stream<QuerySnapshot> _streamChapters;
@@ -35,8 +34,17 @@ class _HomeScreenState extends State<HomeScreen> {
               if (snapshot.hasError == true) {
                 return Center(child: Text(snapshot.error.toString()));
               }
-              if (snapshot.connectionState == ConnectionState.active) {}
-              return screens[currentIndex];
+              if (snapshot.connectionState == ConnectionState.active) {
+                QuerySnapshot querySnapshot = snapshot.data;
+                List<QueryDocumentSnapshot> listQueryDocumentSnapshot =
+                    querySnapshot.docs;
+                return currentIndex == 0
+                    ? ReadingScreen(listQueryDocumentSnapshot)
+                    : const MyHabitScreen();
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }),
         bottomNavigationBar: BottomNavigationBar(
           elevation: 10,

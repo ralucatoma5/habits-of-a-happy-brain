@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 import 'package:habits/widgets/positionedButton.dart';
@@ -7,6 +8,16 @@ class HabitScreen extends StatelessWidget {
   HabitScreen({Key? key, required this.index}) : super(key: key);
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
+  Future addToHabit() async {
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection("habit");
+    return _collectionRef
+        .doc()
+        .collection("habit")
+        .doc()
+        .set({'name': 'x', 'description': 'xyz'});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,21 +55,23 @@ class HabitScreen extends StatelessWidget {
                 ]),
               ),
               ListTile(
-                  visualDensity:
-                      const VisualDensity(horizontal: 0, vertical: -4),
-                  leading: Icon(Icons.timer_outlined,
-                      color: blue, size: verticalBlock * 5),
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: verticalBlock * 3,
-                      horizontal: horizontalBlock * 7),
-                  title: Text('Invest 10 minutes a day in your goal',
-                      style: TextStyle(
-                          fontSize: verticalBlock * 2.7,
-                          height: 1.4,
-                          fontWeight: FontWeight.w800,
-                          color: blue))),
+                visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                leading: Icon(Icons.timer_outlined,
+                    color: blue, size: verticalBlock * 5),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: verticalBlock * 2,
+                    horizontal: horizontalBlock * 7),
+                title: Text('Invest 10 minutes a day in your goal',
+                    style: TextStyle(
+                        fontSize: verticalBlock * 2.7,
+                        height: 1.4,
+                        fontWeight: FontWeight.w800,
+                        color: blue)),
+              ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: horizontalBlock * 9),
+                padding: EdgeInsets.symmetric(
+                    horizontal: horizontalBlock * 9,
+                    vertical: verticalBlock * 2),
                 child: Text(
                   'It doesn’t take much time or money to step toward a goal. Just commit ten minutes a day and you will feel momentum instead of feeling stuck. Ten minutes is not enough to move mountains, but it’s enough to approach the mountain and see it accurately. Instead of dreaming about your goal from afar, you can gather the information you need to plan realistically. Your goals might change as your information grows. You might even learn that your fantasy goal would not make you happy. Those ten-minute investments can free you from unnecessary regret and help you find a hill you can actually climb. Your ten-minute efforts can define manageable steps so you’re not just waiting for huge leaps that never come. Spend your time on concrete action. Don’t spend it fantasizing about quitting your day job or pressuring others to help you. It’s not their goal. Dig into practical realities instead. Do this faithfully for forty-five days and you will have the habit of moving forward.',
                   style: readingText,
@@ -87,20 +100,23 @@ class HabitScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: verticalBlock * 3,
-                        vertical: verticalBlock * 3),
-                    decoration: BoxDecoration(
-                      color: blue,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      'Add to your habit',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: verticalBlock * 2,
-                          fontWeight: FontWeight.w700),
+                  GestureDetector(
+                    onTap: addToHabit,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: verticalBlock * 3,
+                          vertical: verticalBlock * 3),
+                      decoration: BoxDecoration(
+                        color: blue,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Text(
+                        'Add to your habit',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: verticalBlock * 2,
+                            fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ),
                 ],

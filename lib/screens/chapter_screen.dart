@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 import 'package:habits/models/chapter.dart';
@@ -6,13 +7,19 @@ import 'package:habits/screens/subchapter_screen.dart';
 import 'package:habits/widgets/positionedButton.dart';
 
 class ChapterScreen extends StatelessWidget {
-  final int index;
+  final int screenIndex;
+  final QueryDocumentSnapshot document;
 
-  ChapterScreen(this.index, {super.key});
+  ChapterScreen(this.screenIndex, {super.key, required this.document});
 
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
-  final nrw = 2;
+  Future addToHabit() async {
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection("habit");
+    return _collectionRef.doc().set({'name': 'x', 'description': 'xyz'});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,23 +49,26 @@ class ChapterScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('1.',
+                              Text('${screenIndex + 1}.',
                                   style: TextStyle(
                                       fontSize: verticalBlock * 4,
                                       fontWeight: FontWeight.w800)),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: verticalBlock * 2.5,
+                              SizedBox(
+                                height: verticalBlock * 18,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    top: verticalBlock * 2.5,
+                                  ),
+                                  child: Text(document['name'],
+                                      style: TextStyle(
+                                          fontSize: verticalBlock * 3,
+                                          fontWeight: FontWeight.w700)),
                                 ),
-                                child: Text('Your Inner Mammal',
-                                    style: TextStyle(
-                                        fontSize: verticalBlock * 3,
-                                        fontWeight: FontWeight.w700)),
                               ),
                             ],
                           )),
                     ),
-                    SizedBox(height: verticalBlock * 28),
+                    SizedBox(height: verticalBlock * 26),
                     Text('About the chapter',
                         style: TextStyle(
                           fontSize: verticalBlock * 3,
@@ -67,8 +77,7 @@ class ChapterScreen extends StatelessWidget {
                     Padding(
                       padding:
                           EdgeInsets.symmetric(vertical: verticalBlock * 2),
-                      child: Text(
-                          'Your feelings are unique, but the chemicals that cause your feelings are the same as everyone else’s. Your life experience is unique, but it overlaps with everyone’s because the same basic survival needs command your brain’s attention.',
+                      child: Text(document['summary'],
                           style: TextStyle(
                               fontSize: verticalBlock * 2.5,
                               letterSpacing: 0.1,
@@ -78,23 +87,26 @@ class ChapterScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: verticalBlock * 3, vertical: verticalBlock * 3),
-                decoration: BoxDecoration(
-                  color: blue,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                  ),
-                ),
-                child: Text(
-                  'Finished Chapter',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: verticalBlock * 2,
-                      fontWeight: FontWeight.w700),
-                ),
-              )
+              GestureDetector(
+                  onTap: addToHabit,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: verticalBlock * 3,
+                        vertical: verticalBlock * 3),
+                    decoration: BoxDecoration(
+                      color: blue,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                      ),
+                    ),
+                    child: Text(
+                      'Finished Chapter',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: verticalBlock * 2,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ))
             ],
           ),
         ),
@@ -103,7 +115,7 @@ class ChapterScreen extends StatelessWidget {
           top: verticalBlock * 15,
           left: 0,
           child: Hero(
-            tag: index,
+            tag: screenIndex,
             child: Container(
               height: verticalBlock * 30,
               width: horizontalBlock * 50,
@@ -115,7 +127,7 @@ class ChapterScreen extends StatelessWidget {
                     topRight: Radius.circular(5),
                     bottomRight: Radius.circular(5)),
                 child: Image.asset(
-                  'assets/images/chapter1.png',
+                  document['img'],
                   fit: BoxFit.fill,
                 ),
               ),
@@ -126,18 +138,18 @@ class ChapterScreen extends StatelessWidget {
         right: 0,
         left: 0,
         child: SizedBox(
-          height: nrw > 2 ? verticalBlock * 20 : verticalBlock * 12.5,
+          height: verticalBlock * 22,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 4,
+              itemCount: document['subtitles'].length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.only(
-                      left: horizontalBlock * 5, bottom: verticalBlock * 2),
+                      left: horizontalBlock * 5, bottom: verticalBlock * 5),
                   child: Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: verticalBlock * 2, vertical: verticalBlock),
-                    width: verticalBlock * 20,
+                    width: horizontalBlock * 43,
                     decoration: BoxDecoration(
                       boxShadow: [containerShadow],
                       color: Colors.white,
@@ -154,11 +166,10 @@ class ChapterScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Dopamine',
+                          document['subtitles'][index],
                           style: TextStyle(
                               color: blue,
-                              fontSize:
-                                  nrw > 2 ? verticalBlock : verticalBlock * 2,
+                              fontSize: verticalBlock * 2,
                               fontWeight: FontWeight.w800),
                         ),
                         Align(
@@ -173,7 +184,12 @@ class ChapterScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HealthyHabits()),
+                                    builder: (context) => screenIndex == 5
+                                        ? HealthyHabits()
+                                        : SubchapterScreen(
+                                            document: document,
+                                            ind: index,
+                                            screenIndex: screenIndex)),
                               );
                             },
                           ),

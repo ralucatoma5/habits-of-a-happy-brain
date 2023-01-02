@@ -10,7 +10,8 @@ import 'package:habits/screens/subchapter_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 class ReadingScreen extends StatefulWidget {
-  const ReadingScreen({super.key});
+  final List<QueryDocumentSnapshot> list;
+  const ReadingScreen(this.list, {super.key});
 
   @override
   _ReadingScreenState createState() => _ReadingScreenState();
@@ -41,7 +42,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
                 alignment: Alignment.center,
                 children: [
                   SizedBox(
-                    height: verticalBlock * 23,
+                    height: verticalBlock * 24,
                     width: double.maxFinite,
                     child: Image.asset(
                       'assets/images/homepage.png',
@@ -71,7 +72,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
                           padding: EdgeInsets.symmetric(
                               horizontal: horizontalBlock * 10,
                               vertical: verticalBlock * 1.3),
-                          height: verticalBlock * 9,
+                          height: verticalBlock * 10,
                           width: double.infinity,
                           color: blue,
                           child: Align(
@@ -89,7 +90,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
                           padding: EdgeInsets.symmetric(
                               horizontal: horizontalBlock * 10,
                               vertical: verticalBlock * 1.3),
-                          height: verticalBlock * 9,
+                          height: verticalBlock * 10,
                           width: double.infinity,
                           color: Colors.white,
                           child: Align(
@@ -147,13 +148,15 @@ class _ReadingScreenState extends State<ReadingScreen> {
               ListView.builder(
                   physics: const ScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 6,
+                  itemCount: widget.list.length,
                   itemBuilder: (context, index) {
+                    QueryDocumentSnapshot document = widget.list[index];
+
                     return Padding(
                       padding: EdgeInsets.only(bottom: verticalBlock * 3.5),
                       child: SizedBox(
                         width: double.infinity,
-                        height: verticalBlock * 30,
+                        height: verticalBlock * 32,
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
@@ -162,7 +165,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
                                 child: Hero(
                                   tag: index,
                                   child: Container(
-                                    height: verticalBlock * 30,
+                                    height: verticalBlock * 32,
                                     width: horizontalBlock * 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
@@ -171,7 +174,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(5),
                                       child: Image.asset(
-                                        'assets/images/chapter1.png',
+                                        document['img'],
                                         fit: BoxFit.fill,
                                       ),
                                     ),
@@ -180,7 +183,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
                             Positioned(
                               right: horizontalBlock * 50,
                               child: Container(
-                                height: verticalBlock * 25,
+                                height: verticalBlock * 27,
                                 width: horizontalBlock * 40,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -188,20 +191,25 @@ class _ReadingScreenState extends State<ReadingScreen> {
                                   boxShadow: [containerShadow],
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.all(verticalBlock * 2),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: verticalBlock,
+                                      horizontal: horizontalBlock * 4),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('1.',
+                                      Text('${index + 1}.',
                                           style: TextStyle(
                                               fontSize: verticalBlock * 3.5,
                                               fontWeight: FontWeight.w800)),
-                                      Text('Your Inner Mammal',
+                                      SizedBox(
+                                        height: verticalBlock,
+                                      ),
+                                      Text(document['name'],
                                           style: TextStyle(
-                                              fontSize: verticalBlock * 2.8,
+                                              fontSize: verticalBlock * 2.5,
                                               fontWeight: FontWeight.w600)),
                                       Align(
                                           alignment: Alignment.bottomRight,
@@ -209,7 +217,8 @@ class _ReadingScreenState extends State<ReadingScreen> {
                                               onPressed: () {
                                                 Navigator.of(context).push(
                                                   PageTransition(
-                                                    child: ChapterScreen(index),
+                                                    child: ChapterScreen(index,
+                                                        document: document),
                                                     type: PageTransitionType
                                                         .rightToLeftWithFade,
                                                     duration: const Duration(

@@ -1,9 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 
 class SubchapterScreen extends StatelessWidget {
-  SubchapterScreen({Key? key}) : super(key: key);
-  final nrw = 1;
+  final QueryDocumentSnapshot document;
+  final int ind;
+  final int screenIndex;
+  SubchapterScreen(
+      {Key? key,
+      required this.document,
+      required this.ind,
+      required this.screenIndex})
+      : super(key: key);
+
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
   final safeareaVertical = SizeConfig.safeBlockVertical!;
@@ -34,8 +43,10 @@ class SubchapterScreen extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(
-                      top: nrw > 3 ? safeareaVertical * 4 : 0, left: 0),
-                  child: Text('Dopamine ',
+                      top: safeareaVertical * 4,
+                      left: 0,
+                      right: horizontalBlock * 4),
+                  child: Text(document['subtitles'][ind],
                       style: TextStyle(
                         color: blue,
                         fontSize: verticalBlock * 3.3,
@@ -44,7 +55,7 @@ class SubchapterScreen extends StatelessWidget {
                 )),
           ),
           backgroundColor: Colors.white,
-          toolbarHeight: nrw > 3 ? verticalBlock * 12 : verticalBlock * 8,
+          toolbarHeight: verticalBlock * 12,
           leading: IconButton(
             padding: EdgeInsets.symmetric(
                 horizontal: horizontalBlock * 4, vertical: verticalBlock * 3),
@@ -56,49 +67,47 @@ class SubchapterScreen extends StatelessWidget {
           ),
           centerTitle: false,
           leadingWidth: verticalBlock * 3,
-          expandedHeight: nrw > 3 ? verticalBlock * 17 : verticalBlock * 12,
+          expandedHeight: verticalBlock * 17,
           pinned: true,
         ),
         SliverList(
           delegate: SliverChildListDelegate(
             [
-              ListView.builder(
-                  physics: const ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: horizontalBlock * 8,
-                            vertical: verticalBlock),
-                        child: Text(
-                            'Dopamine promotes survival by telling your body where to invest its energy. A hungry lion expects a reward when she sees an isolated gazelle. Dopamine unleashes your reserve tank of energy when you see a way to meet a need. Even when you’re just sitting still, dopamine motivates you to scan a lot of detail to find a pattern that’s somehow relevant to your needs.',
-                            style: readingText));
-                  }),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: horizontalBlock * 5, vertical: verticalBlock),
+                child: Text(document['subtitle_description'][ind],
+                    style: readingText),
+              ),
               Padding(
                 padding: EdgeInsets.only(
                   right: horizontalBlock * 8,
                   left: horizontalBlock * 8,
                   bottom: verticalBlock * 6,
                 ),
-                child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: const ScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                          visualDensity:
-                              const VisualDensity(horizontal: 0, vertical: -4),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: verticalBlock * 0.5, horizontal: 0.0),
-                          leading: Container(
-                            width: verticalBlock * 2.5,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: blue),
-                          ),
-                          title: Text('In your work', style: readingText));
-                    }),
+                child: screenIndex == 4
+                    ? SizedBox(height: verticalBlock * 3)
+                    : ListView.builder(
+                        padding: EdgeInsets.zero,
+                        physics: const ScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 3,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                              visualDensity: const VisualDensity(
+                                  horizontal: 0, vertical: -4),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: verticalBlock * 0.5,
+                                  horizontal: 0.0),
+                              leading: Container(
+                                width: verticalBlock * 2.5,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle, color: blue),
+                              ),
+                              title: Text(
+                                  document['exemple']['exemple$ind'][index],
+                                  style: readingText));
+                        }),
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: verticalBlock * 5),
