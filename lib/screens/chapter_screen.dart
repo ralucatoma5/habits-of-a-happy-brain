@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
-import 'package:habits/models/chapter.dart';
 import 'package:habits/screens/healthyhabits_screen.dart';
+import 'package:habits/screens/reading_screen.dart';
 import 'package:habits/screens/subchapter_screen.dart';
-import 'package:habits/widgets/positionedButton.dart';
 
 class ChapterScreen extends StatelessWidget {
   final int screenIndex;
   final QueryDocumentSnapshot document;
+  final List<QueryDocumentSnapshot> list;
 
-  ChapterScreen(this.screenIndex, {super.key, required this.document});
+  ChapterScreen(this.screenIndex,
+      {super.key, required this.document, required this.list});
 
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
@@ -25,7 +26,21 @@ class ChapterScreen extends StatelessWidget {
     return Scaffold(
         body: SingleChildScrollView(
             child: Stack(children: [
-      positionedButton(context),
+      Positioned(
+          top: SizeConfig.safeBlockVertical! * 6.5,
+          left: SizeConfig.safeBlockHorizontal! * 5,
+          child: IconButton(
+            icon: Icon(
+              Icons.adaptive.arrow_back,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Scaffold(body: ReadingScreen(list))),
+              );
+            },
+          )),
       Padding(
         padding: EdgeInsets.only(
             top: verticalBlock * 22, left: horizontalBlock * 15),
@@ -185,11 +200,14 @@ class ChapterScreen extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => screenIndex == 5
-                                        ? HealthyHabits()
+                                        ? HealthyHabits(
+                                            document: document, ind: index)
                                         : SubchapterScreen(
                                             document: document,
                                             ind: index,
-                                            screenIndex: screenIndex)),
+                                            screenIndex: screenIndex,
+                                            list: list,
+                                          )),
                               );
                             },
                           ),

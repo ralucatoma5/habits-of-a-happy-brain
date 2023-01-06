@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:habits/models/chapter.dart';
+
 import 'package:habits/screens/about_screen.dart';
 import 'package:habits/screens/chapter_screen.dart';
 import 'package:habits/screens/subchapter_screen.dart';
@@ -218,7 +218,8 @@ class _ReadingScreenState extends State<ReadingScreen> {
                                                 Navigator.of(context).push(
                                                   PageTransition(
                                                     child: ChapterScreen(index,
-                                                        document: document),
+                                                        document: document,
+                                                        list: widget.list),
                                                     type: PageTransitionType
                                                         .rightToLeftWithFade,
                                                     duration: const Duration(

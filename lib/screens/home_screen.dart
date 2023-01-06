@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
   final CollectionReference _referenceChapters =
       FirebaseFirestore.instance.collection('chapters');
+
   late Stream<QuerySnapshot> _streamChapters;
   @override
   void initState() {

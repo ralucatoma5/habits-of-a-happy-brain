@@ -1,21 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
-import 'package:habits/widgets/positionedButton.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class HabitScreen extends StatelessWidget {
   final index;
-  HabitScreen({Key? key, required this.index}) : super(key: key);
+  final String summary;
+  final String description;
+  final String name;
+  HabitScreen(
+      {Key? key,
+      required this.index,
+      required this.summary,
+      required this.description,
+      required this.name})
+      : super(key: key);
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
   Future addToHabit() async {
     CollectionReference _collectionRef =
         FirebaseFirestore.instance.collection("habit");
-    return _collectionRef
-        .doc()
-        .collection("habit")
-        .doc()
-        .set({'name': 'x', 'description': 'xyz'});
+    return _collectionRef.doc().set({'name': name, 'description': description});
+  }
+
+  Future<void> addHabit(BuildContext context) async {
+    addToHabit();
+    showTopSnackBar(
+        context,
+        CustomSnackBar.success(
+          backgroundColor: Colors.white,
+          icon: const Icon(Icons.circle, size: 0),
+          message: "Added to your habit!",
+          messagePadding: const EdgeInsets.symmetric(horizontal: 0),
+          textStyle: TextStyle(color: blue, fontWeight: FontWeight.bold),
+          textScaleFactor: 1.3,
+        ),
+        displayDuration: const Duration(milliseconds: 50));
   }
 
   @override
@@ -28,7 +49,17 @@ class HabitScreen extends StatelessWidget {
                 height: verticalBlock * 23,
                 width: verticalBlock * 100,
                 child: Stack(alignment: Alignment.center, children: [
-                  positionedButton(context),
+                  Positioned(
+                      top: SizeConfig.safeBlockVertical! * 6.5,
+                      left: SizeConfig.safeBlockHorizontal! * 5,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.adaptive.arrow_back,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      )),
                   Positioned(
                       top: verticalBlock * -2,
                       right: horizontalBlock * -7,
@@ -45,7 +76,7 @@ class HabitScreen extends StatelessWidget {
                     padding: EdgeInsets.only(top: verticalBlock * 5),
                     width: horizontalBlock * 65,
                     child: Text(
-                      'Take Small Steps Toward a New Goal',
+                      name,
                       style: TextStyle(
                           fontSize: verticalBlock * 3.5,
                           height: 1.4,
@@ -61,7 +92,7 @@ class HabitScreen extends StatelessWidget {
                 contentPadding: EdgeInsets.symmetric(
                     vertical: verticalBlock * 2,
                     horizontal: horizontalBlock * 7),
-                title: Text('Invest 10 minutes a day in your goal',
+                title: Text(summary,
                     style: TextStyle(
                         fontSize: verticalBlock * 2.7,
                         height: 1.4,
@@ -73,7 +104,7 @@ class HabitScreen extends StatelessWidget {
                     horizontal: horizontalBlock * 9,
                     vertical: verticalBlock * 2),
                 child: Text(
-                  'It doesn’t take much time or money to step toward a goal. Just commit ten minutes a day and you will feel momentum instead of feeling stuck. Ten minutes is not enough to move mountains, but it’s enough to approach the mountain and see it accurately. Instead of dreaming about your goal from afar, you can gather the information you need to plan realistically. Your goals might change as your information grows. You might even learn that your fantasy goal would not make you happy. Those ten-minute investments can free you from unnecessary regret and help you find a hill you can actually climb. Your ten-minute efforts can define manageable steps so you’re not just waiting for huge leaps that never come. Spend your time on concrete action. Don’t spend it fantasizing about quitting your day job or pressuring others to help you. It’s not their goal. Dig into practical realities instead. Do this faithfully for forty-five days and you will have the habit of moving forward.',
+                  description,
                   style: readingText,
                 ),
               ),
@@ -101,7 +132,7 @@ class HabitScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: addToHabit,
+                    onTap: () => addHabit(context),
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: verticalBlock * 3,

@@ -1,21 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
+import 'package:habits/screens/chapter_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
-class SubchapterScreen extends StatelessWidget {
+class SubchapterScreen extends StatefulWidget {
   final QueryDocumentSnapshot document;
-  final int ind;
+  int ind;
+  final List<QueryDocumentSnapshot> list;
   final int screenIndex;
   SubchapterScreen(
       {Key? key,
       required this.document,
       required this.ind,
-      required this.screenIndex})
+      required this.screenIndex,
+      required this.list})
       : super(key: key);
 
+  @override
+  State<SubchapterScreen> createState() => _SubchapterScreenState();
+}
+
+class _SubchapterScreenState extends State<SubchapterScreen> {
   final verticalBlock = SizeConfig.safeBlockVertical!;
+
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
+
   final safeareaVertical = SizeConfig.safeBlockVertical!;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +58,7 @@ class SubchapterScreen extends StatelessWidget {
                       top: safeareaVertical * 4,
                       left: 0,
                       right: horizontalBlock * 4),
-                  child: Text(document['subtitles'][ind],
+                  child: Text(widget.document['subtitles'][widget.ind],
                       style: TextStyle(
                         color: blue,
                         fontSize: verticalBlock * 3.3,
@@ -60,7 +72,12 @@ class SubchapterScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(
                 horizontal: horizontalBlock * 4, vertical: verticalBlock * 3),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChapterScreen(widget.screenIndex,
+                        document: widget.document, list: widget.list)),
+              );
             },
             icon: Icon(Icons.adaptive.arrow_back,
                 size: verticalBlock * 3, color: blue),
@@ -76,7 +93,7 @@ class SubchapterScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: horizontalBlock * 5, vertical: verticalBlock),
-                child: Text(document['subtitle_description'][ind],
+                child: Text(widget.document['subtitle_description'][widget.ind],
                     style: readingText),
               ),
               Padding(
@@ -85,7 +102,7 @@ class SubchapterScreen extends StatelessWidget {
                   left: horizontalBlock * 8,
                   bottom: verticalBlock * 6,
                 ),
-                child: screenIndex == 4
+                child: widget.screenIndex == 4
                     ? SizedBox(height: verticalBlock * 3)
                     : ListView.builder(
                         padding: EdgeInsets.zero,
@@ -105,7 +122,8 @@ class SubchapterScreen extends StatelessWidget {
                                     shape: BoxShape.circle, color: blue),
                               ),
                               title: Text(
-                                  document['exemple']['exemple$ind'][index],
+                                  widget.document['exemple']
+                                      ['exemple${widget.ind}'][index],
                                   style: readingText));
                         }),
               ),
@@ -114,45 +132,75 @@ class SubchapterScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
-                      width: verticalBlock * 14,
-                      height: verticalBlock * 6,
-                      child: OutlinedButton(
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: horizontalBlock * 3.8,
-                                  vertical: verticalBlock * 1.5),
-                              backgroundColor:
-                                  const Color(0xff006FA9).withOpacity(0.4),
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5))),
-                              side: BorderSide(color: blue, width: 2)),
-                          child: Text('Previous',
-                              style: TextStyle(
-                                  color: blue,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: horizontalBlock * 4))),
-                    ),
-                    SizedBox(
-                      width: verticalBlock * 14,
-                      height: verticalBlock * 6,
-                      child: TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          backgroundColor: blue,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5))),
-                        ),
-                        child: Text('Next',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: horizontalBlock * 4)),
-                      ),
-                    )
+                    widget.ind > 0
+                        ? SizedBox(
+                            width: verticalBlock * 14,
+                            height: verticalBlock * 6,
+                            child: OutlinedButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(PageTransition(
+                                    child: SubchapterScreen(
+                                      document: widget.document,
+                                      ind: widget.ind - 1,
+                                      screenIndex: widget.screenIndex,
+                                      list: widget.list,
+                                    ),
+                                    type: PageTransitionType.leftToRight,
+                                  ));
+                                },
+                                style: OutlinedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: horizontalBlock * 3.8,
+                                        vertical: verticalBlock * 1.5),
+                                    backgroundColor: const Color(0xff006FA9)
+                                        .withOpacity(0.4),
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5))),
+                                    side: BorderSide(color: blue, width: 2)),
+                                child: Text('Previous',
+                                    style: TextStyle(
+                                        color: blue,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: horizontalBlock * 4))),
+                          )
+                        : SizedBox(
+                            width: verticalBlock * 14,
+                            height: verticalBlock * 6,
+                          ),
+                    widget.document['subtitles'].length > widget.ind + 1
+                        ? SizedBox(
+                            width: verticalBlock * 14,
+                            height: verticalBlock * 6,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(PageTransition(
+                                  child: SubchapterScreen(
+                                    document: widget.document,
+                                    ind: widget.ind + 1,
+                                    screenIndex: widget.screenIndex,
+                                    list: widget.list,
+                                  ),
+                                  type: PageTransitionType.rightToLeft,
+                                ));
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor: blue,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5))),
+                              ),
+                              child: Text('Next',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: horizontalBlock * 4)),
+                            ),
+                          )
+                        : SizedBox(
+                            width: verticalBlock * 14,
+                            height: verticalBlock * 6,
+                          )
                   ],
                 ),
               )
