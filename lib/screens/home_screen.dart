@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 import 'package:habits/screens/healthyhabits_screen.dart';
-import 'package:habits/screens/myhabit_screet.dart';
+
 import 'package:habits/screens/reading_screen.dart';
+import 'package:habits/screens/signin.dart';
+import 'package:habits/screens/signup.dart';
+import 'package:habits/screens/timer_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,8 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 List<QueryDocumentSnapshot> listQueryDocumentSnapshot =
                     querySnapshot.docs;
                 return currentIndex == 0
-                    ? ReadingScreen(listQueryDocumentSnapshot)
-                    : const MyHabitScreen();
+                    ? SignInScreen()
+                    //ReadingScreen(listQueryDocumentSnapshot)
+                    : SignUp();
+                //TimerScreen();
               }
               return const Center(
                 child: CircularProgressIndicator(),

@@ -68,8 +68,7 @@ class HabitScreen extends StatelessWidget {
                         width: verticalBlock * 23,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: const Color(0xff006FA9)
-                              .withOpacity(circleOpacity(index)),
+                          color: circleColor(index).withOpacity(0.75),
                         ),
                       )),
                   Container(

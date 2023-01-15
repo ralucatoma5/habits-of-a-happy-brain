@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:habits/const.dart';
 import 'package:habits/firebase_options.dart';
 import 'package:habits/screens/healthyhabits_screen.dart';
 import 'package:habits/screens/home_screen.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Habbits of a Happy Brain',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: const Color(0xff005489),
+        primaryColor: blue,
         scaffoldBackgroundColor: const Color(0xffFEFEFE),
       ),
       home: HomeScreen(),

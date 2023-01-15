@@ -71,15 +71,15 @@ int circleHeight(int index) {
     return 35;
 }
 
-double circleOpacity(int index) {
+Color circleColor(int index) {
   if (index == 0)
-    return 0.65;
+    return Color(0xff3C3EFC);
   else if (index == 1)
-    return 0.45;
+    return Color(0xffD93695);
   else if (index == 3)
-    return 0.3;
+    return Color(0xff9C34FC);
   else
-    return 0.55;
+    return Color(0xffFB7706);
 }
 
 TextStyle readingText = TextStyle(
@@ -94,3 +94,36 @@ List<String> img = [
   'assets/images/serotonin.png'
 ];
 List<String> name = ['dopamine', 'endorphin', 'oxytocin', 'serotonin'];
+
+const Color pink = Color(0xffE94297);
+
+const Color blue2 = Color.fromARGB(255, 10, 136, 214);
+LinearGradient gradientBluePink = const LinearGradient(
+    begin: Alignment.bottomLeft,
+    end: Alignment.topRight,
+    colors: [
+      blue2,
+      pink,
+    ]);
+
+LinearGradient gradientPinkBlue = LinearGradient(
+    begin: Alignment.bottomLeft,
+    end: Alignment.topRight,
+    colors: [
+      pink,
+      blue,
+    ]);
+LinearGradient gradientBright = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      blue,
+      pink,
+    ]);
+
+const BoxShadow buttonShadow = BoxShadow(
+  color: Color.fromARGB(255, 223, 223, 223),
+  blurRadius: 10,
+  spreadRadius: 2.0,
+  offset: Offset(4, 4),
+);

@@ -73,11 +73,12 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                 horizontal: horizontalBlock * 4, vertical: verticalBlock * 3),
             onPressed: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChapterScreen(widget.screenIndex,
-                        document: widget.document, list: widget.list)),
-              );
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: ChapterScreen(widget.screenIndex,
+                        document: widget.document, list: widget.list),
+                  ));
             },
             icon: Icon(Icons.adaptive.arrow_back,
                 size: verticalBlock * 3, color: blue),
