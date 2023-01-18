@@ -127,3 +127,17 @@ const BoxShadow buttonShadow = BoxShadow(
   spreadRadius: 2.0,
   offset: Offset(4, 4),
 );
+
+final timerButtonStyle = ElevatedButton.styleFrom(
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(5),
+  ),
+  backgroundColor: Colors.white,
+  padding: EdgeInsets.symmetric(
+      horizontal: SizeConfig.safeBlockHorizontal! * 10,
+      vertical: SizeConfig.safeBlockVertical! * 2),
+);
+TextStyle timerButtonText = TextStyle(
+    color: blue,
+    fontWeight: FontWeight.bold,
+    fontSize: SizeConfig.safeBlockVertical! * 2.3);
