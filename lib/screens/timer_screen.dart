@@ -94,28 +94,21 @@ class _TimerScreenState extends State<TimerScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                  style: timerButtonStyle,
-                  child: Text(isRunning ? 'Pause' : 'Resume',
-                      style: timerButtonText),
+                  child: Text(isRunning ? 'Pause' : 'Resume'),
                   onPressed: () {
                     isRunning
                         ? stopTimer(reset: false)
                         : startTimer(reset: false);
                   }),
-              SizedBox(
-                width: horizontalBlock * 3,
-              ),
               ElevatedButton(
-                  style: timerButtonStyle,
-                  child: Text('Cancel', style: timerButtonText),
+                  child: Text('Cancel'),
                   onPressed: () {
                     stopTimer();
                   }),
             ],
           )
         : ElevatedButton(
-            style: timerButtonStyle,
-            child: Text('Start timer', style: timerButtonText),
+            child: Text('Start timer'),
             onPressed: () {
               startTimer();
             });
@@ -128,7 +121,7 @@ class _TimerScreenState extends State<TimerScreen> {
           fit: StackFit.expand,
           children: [
             CircularProgressIndicator(
-              valueColor: const AlwaysStoppedAnimation(Colors.black),
+              valueColor: AlwaysStoppedAnimation(Colors.black),
               value: duration.inSeconds / 600,
               backgroundColor: blue,
             ),

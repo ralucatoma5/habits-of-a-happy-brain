@@ -1,7 +1,6 @@
 {
   "project_info": {
     "project_number": "461639416996",
-    "firebase_url": "https://habits-of-a-happy-brain-default-rtdb.firebaseio.com",
     "project_id": "habits-of-a-happy-brain",
     "storage_bucket": "habits-of-a-happy-brain.appspot.com"
   },
@@ -30,13 +29,6 @@
             {
               "client_id": "461639416996-0m0218d2ajs2a5qqq5smci8mrd5anrei.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "461639416996-ieb5iobiknsrucu5jv7bln0g4lkcnetf.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.habits"
-              }
             }
           ]
         }

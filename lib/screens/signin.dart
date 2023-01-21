@@ -1,32 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/components/background_signin.dart';
 import 'package:habits/const.dart';
 
 import 'signup.dart';
 
-class SignIn extends StatefulWidget {
-  SignIn({Key? key}) : super(key: key);
-
-  @override
-  State<SignIn> createState() => _SignInState();
-}
-
-class _SignInState extends State<SignIn> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
+class SignInScreen extends StatelessWidget {
+  SignInScreen({Key? key}) : super(key: key);
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -39,7 +20,7 @@ class _SignInState extends State<SignIn> {
               height: verticalBlock * 13,
             ),
             Text(
-              "SIGN IN",
+              " SIGN IN",
               style: TextStyle(
                   color: blue,
                   fontSize: verticalBlock * 5,
@@ -59,10 +40,9 @@ class _SignInState extends State<SignIn> {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
-              child: TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: "Email",
+              child: const TextField(
+                decoration: InputDecoration(
+                  labelText: "Username",
                 ),
               ),
             ),
@@ -72,9 +52,8 @@ class _SignInState extends State<SignIn> {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
-              child: TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(
+              child: const TextField(
+                decoration: InputDecoration(
                   labelText: "Password",
                 ),
                 obscureText: true,
@@ -129,10 +108,4 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
-
-  /*Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim());
-  }*/
 }

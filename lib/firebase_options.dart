@@ -49,7 +49,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '461639416996',
     projectId: 'habits-of-a-happy-brain',
     authDomain: 'habits-of-a-happy-brain.firebaseapp.com',
-    databaseURL: 'https://habits-of-a-happy-brain-default-rtdb.firebaseio.com',
     storageBucket: 'habits-of-a-happy-brain.appspot.com',
   );
 
@@ -58,19 +57,17 @@ class DefaultFirebaseOptions {
     appId: '1:461639416996:android:0af3afda88af502e6d7a31',
     messagingSenderId: '461639416996',
     projectId: 'habits-of-a-happy-brain',
-    databaseURL: 'https://habits-of-a-happy-brain-default-rtdb.firebaseio.com',
     storageBucket: 'habits-of-a-happy-brain.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyArI83jHO8FaiHBiDmGxq4zLC98SOHQyJ8',
-    appId: '1:461639416996:ios:eab543acf3f01ce36d7a31',
+    appId: '1:461639416996:ios:532f5cf7121ba4f26d7a31',
     messagingSenderId: '461639416996',
     projectId: 'habits-of-a-happy-brain',
-    databaseURL: 'https://habits-of-a-happy-brain-default-rtdb.firebaseio.com',
     storageBucket: 'habits-of-a-happy-brain.appspot.com',
-    iosClientId: '461639416996-s3idqnric1fvsjjq863e8f0torstdua6.apps.googleusercontent.com',
-    iosBundleId: 'com.example.test',
+    iosClientId: '461639416996-ieb5iobiknsrucu5jv7bln0g4lkcnetf.apps.googleusercontent.com',
+    iosBundleId: 'com.example.habits',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -78,7 +75,6 @@ class DefaultFirebaseOptions {
     appId: '1:461639416996:ios:532f5cf7121ba4f26d7a31',
     messagingSenderId: '461639416996',
     projectId: 'habits-of-a-happy-brain',
-    databaseURL: 'https://habits-of-a-happy-brain-default-rtdb.firebaseio.com',
     storageBucket: 'habits-of-a-happy-brain.appspot.com',
     iosClientId: '461639416996-ieb5iobiknsrucu5jv7bln0g4lkcnetf.apps.googleusercontent.com',
     iosBundleId: 'com.example.habits',

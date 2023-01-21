@@ -37,10 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   gradient_borders: ^0.2.0
   page_transition: "^2.0.9"
-  firebase_core: ^2.4.1
-  equatable: ^2.0.5
-  cloud_firestore: ^4.0.2
-  firebase_auth: ^4.2.2
+  firebase_core: ^2.2.0
+  equatable: ^2.0.0
+  cloud_firestore: ^4.0.5
   another_flushbar: ^1.10.28
   top_snackbar_flutter: ^1.0.2
 
