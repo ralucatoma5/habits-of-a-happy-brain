@@ -127,3 +127,18 @@ const BoxShadow buttonShadow = BoxShadow(
   spreadRadius: 2.0,
   offset: Offset(4, 4),
 );
+
+buttonStyle(Color color) {
+  return TextButton.styleFrom(
+    backgroundColor: color,
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5))),
+  );
+}
+
+buttonTextStyle(Color color, double font) {
+  return TextStyle(
+      color: color,
+      fontWeight: FontWeight.w600,
+      fontSize: SizeConfig.safeBlockHorizontal! * font);
+}

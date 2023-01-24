@@ -41,6 +41,7 @@ class _TimerScreenState extends State<TimerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: blue,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,22 +52,29 @@ class _TimerScreenState extends State<TimerScreen> {
               SizedBox(
                 width: horizontalBlock * 45,
                 child: Text('Keep Adjusting the Bar',
-                    style: TextStyle(fontSize: verticalBlock * 3)),
+                    style: TextStyle(
+                        fontSize: verticalBlock * 3,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700)),
               ),
               Column(
                 children: [
-                  const Text('60%'),
+                  const Text('60%',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w600)),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: verticalBlock * 1.5),
                     child: Container(
                       height: 1.0,
                       width: horizontalBlock * 15,
-                      color: Colors.black,
+                      color: pink,
                     ),
                   ),
                   GestureDetector(
-                    child: Text('About the habit'),
+                    child: Text('About the habit',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w600)),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -78,7 +86,11 @@ class _TimerScreenState extends State<TimerScreen> {
               ),
             ],
           ),
-          Text('Day 3', style: TextStyle(fontSize: verticalBlock * 4)),
+          Text('Day 3',
+              style: TextStyle(
+                  fontSize: verticalBlock * 5,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700)),
           buildTimer(),
           buildButtons()
         ],
@@ -88,42 +100,51 @@ class _TimerScreenState extends State<TimerScreen> {
 
   Widget buildButtons() {
     final isRunning = timer == null ? false : timer!.isActive;
-    final isCompleted = duration.inSeconds == 0 || duration.inSeconds == 5;
+    final isCompleted = duration.inSeconds == 0 || duration.inMinutes == 10;
     return isRunning || !isCompleted
         ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                  child: Text(isRunning ? 'Pause' : 'Resume'),
-                  onPressed: () {
-                    isRunning
-                        ? stopTimer(reset: false)
-                        : startTimer(reset: false);
-                  }),
-              ElevatedButton(
-                  child: Text('Cancel'),
-                  onPressed: () {
-                    stopTimer();
-                  }),
+              TextButton(
+                onPressed: () {
+                  isRunning
+                      ? stopTimer(reset: false)
+                      : startTimer(reset: false);
+                },
+                style: buttonStyle(Colors.white),
+                child: Text(isRunning ? 'Pause' : 'Resume',
+                    style: buttonTextStyle(blue, 5)),
+              ),
+              SizedBox(
+                width: horizontalBlock * 10,
+              ),
+              TextButton(
+                onPressed: () {
+                  stopTimer();
+                },
+                style: buttonStyle(Colors.white),
+                child: Text('Cancel', style: buttonTextStyle(blue, 5)),
+              ),
             ],
           )
-        : ElevatedButton(
-            child: Text('Start timer'),
+        : TextButton(
+            style: buttonStyle(Colors.white),
+            child: Text('Start timer', style: buttonTextStyle(blue, 5)),
             onPressed: () {
               startTimer();
             });
   }
 
   Widget buildTimer() => SizedBox(
-        width: 300,
-        height: 300,
+        width: verticalBlock * 35,
+        height: verticalBlock * 35,
         child: Stack(
           fit: StackFit.expand,
           children: [
             CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(Colors.black),
+              valueColor: AlwaysStoppedAnimation(pink),
               value: duration.inSeconds / 600,
-              backgroundColor: blue,
+              backgroundColor: Color.fromARGB(255, 25, 95, 139),
             ),
             Center(child: buildTime())
           ],
@@ -136,7 +157,7 @@ class _TimerScreenState extends State<TimerScreen> {
     final seconds = twoDigits(duration.inSeconds.remainder(60));
     return Text(
       '$minutes:$seconds',
-      style: TextStyle(fontSize: verticalBlock * 7),
+      style: TextStyle(fontSize: verticalBlock * 6, color: Colors.white),
     );
   }
 }

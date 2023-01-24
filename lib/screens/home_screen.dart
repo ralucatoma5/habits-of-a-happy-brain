@@ -43,10 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 List<QueryDocumentSnapshot> listQueryDocumentSnapshot =
                     querySnapshot.docs;
                 return currentIndex == 0
-                    ? SignInScreen()
-                    //ReadingScreen(listQueryDocumentSnapshot)
-                    : SignUp();
-                //TimerScreen();
+                    ? ReadingScreen(listQueryDocumentSnapshot)
+                    : TimerScreen();
               }
               return const Center(
                 child: CircularProgressIndicator(),
