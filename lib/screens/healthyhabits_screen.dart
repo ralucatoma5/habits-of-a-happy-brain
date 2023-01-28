@@ -13,6 +13,7 @@ class HealthyHabits extends StatelessWidget {
 
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
+  final safeareaVertical = SizeConfig.safeBlockVertical!;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
@@ -29,7 +30,7 @@ class HealthyHabits extends StatelessWidget {
             );
           } else if (snapshot.hasData) {
             return Scaffold(
-                appBar: AppBar(
+                /* appBar: AppBar(
                     iconTheme: const IconThemeData(color: Colors.black),
                     toolbarHeight: verticalBlock * 10,
                     backgroundColor: Colors.white,
@@ -39,10 +40,57 @@ class HealthyHabits extends StatelessWidget {
                           color: blue,
                           fontSize: verticalBlock * 3.7,
                           fontWeight: FontWeight.w800,
-                        ))),
-                body: Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: StaggeredGridView.countBuilder(
+                        ))),*/
+                body: CustomScrollView(slivers: [
+              SliverAppBar(
+                elevation: 0.8,
+                flexibleSpace: FlexibleSpaceBar(
+                  expandedTitleScale: 1.15,
+                  centerTitle: false,
+                  title: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: horizontalBlock * 70,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: safeareaVertical * 8,
+                            left: 0,
+                            right: horizontalBlock * 4),
+                        child: Text(snapshot.data!.docs[ind]['name'],
+                            style: TextStyle(
+                              color: blue,
+                              fontSize:
+                                  wordNr(snapshot.data!.docs[ind]['name']) < 3
+                                      ? verticalBlock * 3.8
+                                      : verticalBlock * 3.2,
+                              fontWeight: FontWeight.w800,
+                            )),
+                      )),
+                ),
+                backgroundColor: Colors.white,
+                toolbarHeight: verticalBlock * 10,
+                leading: IconButton(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: horizontalBlock * 4,
+                      vertical: verticalBlock * 2),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.adaptive.arrow_back,
+                      size: verticalBlock * 3, color: blue),
+                ),
+                centerTitle: false,
+                leadingWidth: verticalBlock * 3,
+                expandedHeight: wordNr(snapshot.data!.docs[ind]['name']) < 3
+                    ? verticalBlock * 8
+                    : verticalBlock * 15,
+                pinned: true,
+              ),
+              SliverList(
+                  delegate: SliverChildListDelegate([
+                Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: StaggeredGridView.countBuilder(
                       shrinkWrap: true,
                       physics: const ScrollPhysics(),
                       padding: const EdgeInsets.all(15),
@@ -120,8 +168,10 @@ class HealthyHabits extends StatelessWidget {
                       staggeredTileBuilder: (index) {
                         return StaggeredTile.count(
                             1, index == 1 || index == 3 ? 1.35 : 1.55);
-                      }),
-                ));
+                      },
+                    ))
+              ]))
+            ]));
           }
         }
 

@@ -135,7 +135,7 @@ class HabitScreen extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: verticalBlock * 3,
-                          vertical: verticalBlock * 3),
+                          vertical: verticalBlock * 2),
                       decoration: BoxDecoration(
                         color: blue,
                         borderRadius: BorderRadius.circular(5),

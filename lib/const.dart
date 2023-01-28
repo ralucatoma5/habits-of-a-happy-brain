@@ -142,3 +142,23 @@ buttonTextStyle(Color color, double font) {
       fontWeight: FontWeight.w600,
       fontSize: SizeConfig.safeBlockHorizontal! * font);
 }
+
+int wordNr(String s) {
+  final List l = s.split(' ');
+  return l.length;
+}
+
+Map<int, Color> color = {
+  50: blue.withOpacity(0.1),
+  100: blue.withOpacity(0.2),
+  200: blue.withOpacity(0.3),
+  300: blue.withOpacity(0.4),
+  400: blue.withOpacity(0.5),
+  500: blue.withOpacity(0.6),
+  600: blue.withOpacity(0.7),
+  700: blue.withOpacity(0.8),
+  800: blue.withOpacity(0.9),
+  900: blue,
+};
+
+MaterialColor colorCustom = MaterialColor(0xff005489, color);

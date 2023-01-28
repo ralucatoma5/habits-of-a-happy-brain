@@ -38,7 +38,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
           flexibleSpace: FlexibleSpaceBar(
             background: Padding(
               padding: EdgeInsets.only(
-                  top: verticalBlock * 4, right: horizontalBlock * 2),
+                  top: verticalBlock * 2, right: horizontalBlock * 2),
               child: Align(
                 alignment: Alignment.topRight,
                 child: Image.asset(
@@ -55,22 +55,25 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(
-                      top: safeareaVertical * 4,
+                      top: safeareaVertical * 8,
                       left: 0,
                       right: horizontalBlock * 4),
                   child: Text(widget.document['subtitles'][widget.ind],
                       style: TextStyle(
                         color: blue,
-                        fontSize: verticalBlock * 3.3,
+                        fontSize:
+                            wordNr(widget.document['subtitles'][widget.ind]) < 3
+                                ? verticalBlock * 3.8
+                                : verticalBlock * 3.2,
                         fontWeight: FontWeight.w800,
                       )),
                 )),
           ),
           backgroundColor: Colors.white,
-          toolbarHeight: verticalBlock * 12,
+          toolbarHeight: verticalBlock * 10,
           leading: IconButton(
             padding: EdgeInsets.symmetric(
-                horizontal: horizontalBlock * 4, vertical: verticalBlock * 3),
+                horizontal: horizontalBlock * 4, vertical: verticalBlock * 2),
             onPressed: () {
               Navigator.push(
                   context,
@@ -85,7 +88,9 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
           ),
           centerTitle: false,
           leadingWidth: verticalBlock * 3,
-          expandedHeight: verticalBlock * 17,
+          expandedHeight: wordNr(widget.document['subtitles'][widget.ind]) < 3
+              ? verticalBlock * 8
+              : verticalBlock * 15,
           pinned: true,
         ),
         SliverList(
@@ -103,7 +108,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                   left: horizontalBlock * 8,
                   bottom: verticalBlock * 6,
                 ),
-                child: widget.screenIndex == 4
+                child: widget.screenIndex == 4 || widget.screenIndex == 0
                     ? SizedBox(height: verticalBlock * 3)
                     : ListView.builder(
                         padding: EdgeInsets.zero,
@@ -137,7 +142,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                         ? SizedBox(
                             width: verticalBlock * 14,
                             height: verticalBlock * 6,
-                            child: OutlinedButton(
+                            child: TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(PageTransition(
                                     child: SubchapterScreen(
@@ -149,21 +154,9 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                                     type: PageTransitionType.leftToRight,
                                   ));
                                 },
-                                style: OutlinedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: horizontalBlock * 3.8,
-                                        vertical: verticalBlock * 1.5),
-                                    backgroundColor: const Color(0xff006FA9)
-                                        .withOpacity(0.4),
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5))),
-                                    side: BorderSide(color: blue, width: 2)),
+                                style: buttonStyle(blue),
                                 child: Text('Previous',
-                                    style: TextStyle(
-                                        color: blue,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: horizontalBlock * 4))),
+                                    style: buttonTextStyle(Colors.white, 4))),
                           )
                         : SizedBox(
                             width: verticalBlock * 14,
@@ -185,17 +178,9 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                                   type: PageTransitionType.rightToLeft,
                                 ));
                               },
-                              style: TextButton.styleFrom(
-                                backgroundColor: blue,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5))),
-                              ),
+                              style: buttonStyle(blue),
                               child: Text('Next',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: horizontalBlock * 4)),
+                                  style: buttonTextStyle(Colors.white, 4)),
                             ),
                           )
                         : SizedBox(

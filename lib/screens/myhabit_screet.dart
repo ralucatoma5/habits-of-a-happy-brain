@@ -10,6 +10,7 @@ class MyHabitScreen extends StatefulWidget {
 class _MyHabitScreenState extends State<MyHabitScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    Size size = MediaQuery.of(context).size;
+    return Center(child: Text('hirek', style: TextStyle(fontSize: 1000)));
   }
 }

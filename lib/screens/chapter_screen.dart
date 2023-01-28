@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 import 'package:habits/screens/healthyhabits_screen.dart';
+import 'package:habits/screens/home_screen.dart';
 import 'package:habits/screens/reading_screen.dart';
 import 'package:habits/screens/subchapter_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ChapterScreen extends StatelessWidget {
   final int screenIndex;
@@ -34,11 +36,11 @@ class ChapterScreen extends StatelessWidget {
               Icons.adaptive.arrow_back,
             ),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Scaffold(body: ReadingScreen(list))),
-              );
+              Navigator.of(context).push(PageTransition(
+                child: HomeScreen(),
+                duration: Duration(milliseconds: 300),
+                type: PageTransitionType.leftToRight,
+              ));
             },
           )),
       Padding(
@@ -153,7 +155,7 @@ class ChapterScreen extends StatelessWidget {
         right: 0,
         left: 0,
         child: SizedBox(
-          height: verticalBlock * 22,
+          height: verticalBlock * 20,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: document['subtitles'].length,
@@ -164,7 +166,7 @@ class ChapterScreen extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: verticalBlock * 2, vertical: verticalBlock),
-                    width: horizontalBlock * 43,
+                    width: horizontalBlock * 47,
                     decoration: BoxDecoration(
                       boxShadow: [containerShadow],
                       color: Colors.white,
@@ -184,7 +186,10 @@ class ChapterScreen extends StatelessWidget {
                           document['subtitles'][index],
                           style: TextStyle(
                               color: blue,
-                              fontSize: verticalBlock * 2,
+                              fontSize:
+                                  wordNr(document['subtitles'][index]) == 1
+                                      ? verticalBlock * 3
+                                      : verticalBlock * 2,
                               fontWeight: FontWeight.w800),
                         ),
                         Align(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
+import 'package:habits/screens/account.dart';
 import 'package:habits/screens/healthyhabits_screen.dart';
 
 import 'package:habits/screens/reading_screen.dart';
@@ -44,13 +45,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     querySnapshot.docs;
                 return currentIndex == 0
                     ? ReadingScreen(listQueryDocumentSnapshot)
-                    : TimerScreen();
+                    : currentIndex == 1
+                        ? TimerScreen()
+                        : Account();
               }
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }),
         bottomNavigationBar: BottomNavigationBar(
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
           elevation: 10,
           currentIndex: currentIndex,
           onTap: (index) => setState(() => currentIndex = index),
@@ -77,6 +82,17 @@ class _HomeScreenState extends State<HomeScreen> {
               activeIcon: ImageIcon(
                 const AssetImage('assets/images/habit_icon.png'),
                 size: horizonalBlock * 11,
+              ),
+              label: "",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.account_circle,
+                size: horizonalBlock * 6,
+              ),
+              activeIcon: Icon(
+                Icons.account_circle,
+                size: horizonalBlock * 9,
               ),
               label: "",
             ),
