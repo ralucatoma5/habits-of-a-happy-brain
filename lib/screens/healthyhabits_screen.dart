@@ -104,14 +104,17 @@ class HealthyHabits extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HabitScreen(
-                                      index: index,
-                                      name: snapshot.data!.docs[ind]
-                                          ['habits_name'][index],
-                                      description: snapshot.data!.docs[ind]
-                                          ['habits_description'][index],
-                                      summary: snapshot.data!.docs[ind]
-                                          ['habits_summary'][index])),
+                                builder: (context) => HabitScreen(
+                                  index: index,
+                                  name: snapshot.data!.docs[ind]['habits_name']
+                                      [index],
+                                  description: snapshot.data!.docs[ind]
+                                      ['habits_description'][index],
+                                  summary: snapshot.data!.docs[ind]
+                                      ['habits_summary'][index],
+                                  type: snapshot.data!.docs[ind]['type'][index],
+                                ),
+                              ),
                             );
                           },
                           child: Container(

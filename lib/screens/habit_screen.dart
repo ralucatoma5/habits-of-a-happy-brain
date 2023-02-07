@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -9,19 +10,25 @@ class HabitScreen extends StatelessWidget {
   final String summary;
   final String description;
   final String name;
+  final String type;
   HabitScreen(
       {Key? key,
       required this.index,
       required this.summary,
       required this.description,
-      required this.name})
+      required this.name,
+      required this.type})
       : super(key: key);
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
   Future addToHabit() async {
     CollectionReference _collectionRef =
         FirebaseFirestore.instance.collection("habit");
-    return _collectionRef.doc().set({'name': name, 'description': description});
+    return _collectionRef.doc(FirebaseAuth.instance.currentUser!.email).set({
+      'name': name,
+      'description': description,
+      'id': FirebaseAuth.instance.currentUser!.email
+    });
   }
 
   Future<void> addHabit(BuildContext context) async {

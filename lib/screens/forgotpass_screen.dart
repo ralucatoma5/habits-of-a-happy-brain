@@ -38,9 +38,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xffFEFEFE),
           iconTheme: IconThemeData(
-            color: blue, //OR Colors.red or whatever you want
+            color: blue,
           ),
         ),
         body: Form(
@@ -120,6 +120,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   Future resetPassword() async {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) return;
     showDialog(
       context: context,
       barrierDismissible: false,

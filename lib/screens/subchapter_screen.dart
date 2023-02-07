@@ -64,13 +64,15 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                         fontSize:
                             wordNr(widget.document['subtitles'][widget.ind]) < 3
                                 ? verticalBlock * 3.8
-                                : verticalBlock * 3.2,
+                                : verticalBlock * 3,
                         fontWeight: FontWeight.w800,
                       )),
                 )),
           ),
           backgroundColor: Colors.white,
-          toolbarHeight: verticalBlock * 10,
+          toolbarHeight: wordNr(widget.document['subtitles'][widget.ind]) < 3
+              ? verticalBlock * 10
+              : verticalBlock * 13,
           leading: IconButton(
             padding: EdgeInsets.symmetric(
                 horizontal: horizontalBlock * 4, vertical: verticalBlock * 2),

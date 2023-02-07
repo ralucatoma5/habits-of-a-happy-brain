@@ -17,11 +17,6 @@ class ChapterScreen extends StatelessWidget {
 
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
-  Future addToHabit() async {
-    CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection("habit");
-    return _collectionRef.doc().set({'name': 'x', 'description': 'xyz'});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +100,7 @@ class ChapterScreen extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                  onTap: addToHabit,
+                  onTap: () {},
                   child: Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: verticalBlock * 3,
