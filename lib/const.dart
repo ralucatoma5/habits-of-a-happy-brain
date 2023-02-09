@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 BoxShadow containerShadow = BoxShadow(
   color: Colors.grey.withOpacity(0.5),

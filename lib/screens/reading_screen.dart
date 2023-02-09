@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:habits/screens/about_screen.dart';
-import 'package:habits/screens/chapter_screen.dart';
-import 'package:habits/screens/subchapter_screen.dart';
 import 'package:page_transition/page_transition.dart';
+
+import 'about_screen.dart';
+import 'chapter_screen.dart';
 
 class ReadingScreen extends StatefulWidget {
   final List<QueryDocumentSnapshot> list;

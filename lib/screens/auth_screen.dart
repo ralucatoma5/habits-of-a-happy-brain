@@ -1,7 +1,8 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:habits/screens/signin.dart';
-import 'package:habits/screens/signup.dart';
+
+import 'signin.dart';
+import 'signup.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});

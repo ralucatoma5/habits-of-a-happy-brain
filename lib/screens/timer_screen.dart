@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:habits/const.dart';
-import 'package:habits/screens/home_screen.dart';
+
+import '../const.dart';
+import 'home_screen.dart';
 
 class TimerScreen extends StatefulWidget {
   const TimerScreen({Key? key}) : super(key: key);
@@ -16,6 +19,9 @@ class _TimerScreenState extends State<TimerScreen> {
   Timer? timer;
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
+  final refh = FirebaseFirestore.instance
+      .collection('habit')
+      .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email);
   void resetTimer() => setState(() => duration = Duration(minutes: 10));
 
   void startTimer({bool reset = true}) {
@@ -41,61 +47,72 @@ class _TimerScreenState extends State<TimerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: blue,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                width: horizontalBlock * 45,
-                child: Text('Keep Adjusting the Bar',
-                    style: TextStyle(
-                        fontSize: verticalBlock * 3,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700)),
-              ),
-              Column(
-                children: [
-                  const Text('60%',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w600)),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: verticalBlock * 1.5),
-                    child: Container(
-                      height: 1.0,
-                      width: horizontalBlock * 15,
-                      color: pink,
+        backgroundColor: blue,
+        body: StreamBuilder(
+            stream: refh.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          width: horizontalBlock * 45,
+                          child: Text(snapshot.data!.docs[0]['name'],
+                              style: TextStyle(
+                                  fontSize: verticalBlock * 3,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700)),
+                        ),
+                        Column(
+                          children: [
+                            Text('%',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600)),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: verticalBlock * 1.5),
+                              child: Container(
+                                height: 1.0,
+                                width: horizontalBlock * 15,
+                                color: pink,
+                              ),
+                            ),
+                            GestureDetector(
+                              child: Text('About the habit',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600)),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()),
+                                );
+                              },
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                  GestureDetector(
-                    child: Text('About the habit',
+                    Text('Day 3',
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w600)),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                      );
-                    },
-                  )
-                ],
-              ),
-            ],
-          ),
-          Text('Day 3',
-              style: TextStyle(
-                  fontSize: verticalBlock * 5,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700)),
-          buildTimer(),
-          buildButtons()
-        ],
-      ),
-    );
+                            fontSize: verticalBlock * 5,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700)),
+                    buildTimer(),
+                    buildButtons()
+                  ],
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }));
   }
 
   Widget buildButtons() {

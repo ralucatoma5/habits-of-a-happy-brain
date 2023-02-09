@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:habits/const.dart';
+
+import '../const.dart';
 
 class EditNote extends StatefulWidget {
   DocumentSnapshot docToEdit;

@@ -1,16 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:habits/const.dart';
-import 'package:habits/screens/account.dart';
-import 'package:habits/screens/healthyhabits_screen.dart';
 import 'package:habits/screens/myhabit_screet.dart';
-import 'package:habits/screens/notes_screen.dart';
-
-import 'package:habits/screens/reading_screen.dart';
-import 'package:habits/screens/signin.dart';
-import 'package:habits/screens/signup.dart';
-
 import 'package:habits/screens/timer_screen.dart';
+
+import '../const.dart';
+import 'account.dart';
+import 'notes_screen.dart';
+import 'reading_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -49,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return currentIndex == 0
                     ? ReadingScreen(listQueryDocumentSnapshot)
                     : currentIndex == 1
-                        ? NotesScreen()
+                        ? MyHabitScreen()
                         : Account();
               }
               return const Center(

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:habits/const.dart';
 
+import '../const.dart';
 import 'habit_screen.dart';
 
 class HealthyHabits extends StatelessWidget {
@@ -178,9 +178,7 @@ class HealthyHabits extends StatelessWidget {
           }
         }
 
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const Center();
       },
     );
   }

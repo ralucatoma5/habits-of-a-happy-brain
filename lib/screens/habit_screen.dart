@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:habits/const.dart';
+
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../const.dart';
 
 class HabitScreen extends StatelessWidget {
   final index;
@@ -27,6 +29,8 @@ class HabitScreen extends StatelessWidget {
     return _collectionRef.doc(FirebaseAuth.instance.currentUser!.email).set({
       'name': name,
       'description': description,
+      'summary': summary,
+      'type': type,
       'id': FirebaseAuth.instance.currentUser!.email
     });
   }

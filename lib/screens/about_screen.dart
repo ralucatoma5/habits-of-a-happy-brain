@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:habits/const.dart';
+
+import '../const.dart';
 
 class About extends StatelessWidget {
   About({Key? key}) : super(key: key);
@@ -68,7 +69,7 @@ class About extends StatelessWidget {
                   right: horizontalBlock * 8,
                   bottom: verticalBlock * 5),
               child: Text(
-                  'An app designed to boost your happiness in just 45 days! "Habits of a Happy Brain" shows you how to retrain your brain to turn on the chemicals that make you happy. Each page offers simple activities that help you understand the roles of your “happy chemicals”—serotonin, dopamine, oxytocin, and endorphin. You’ll also learn how to build new habits by rerouting the electricity in your brain to flow down a new pathway, making it even easier to trigger these happy chemicals and increase feelings of satisfaction when you need them most. Filled with dozens of exercises that will help you reprogram your brain, Habits of a Happy Brain shows you how to live a happier, healthier life!',
+                  'An app designed to boost your happiness in just 45 days! "Habits of a Happy Brain" shows you how to retrain your brain to turn on the chemicals that make you happy. Each chapter offers simple activities that help you understand the roles of your “happy chemicals”—serotonin, dopamine, oxytocin, and endorphin. You’ll also learn how to build new habits by rerouting the electricity in your brain to flow down a new pathway, making it even easier to trigger these happy chemicals and increase feelings of satisfaction when you need them most. Filled with dozens of exercises that will help you reprogram your brain, Habits of a Happy Brain shows you how to live a happier, healthier life!',
                   style: readingText),
             ),
           ],

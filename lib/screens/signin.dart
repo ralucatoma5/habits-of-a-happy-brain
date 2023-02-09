@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:habits/components/background_signin.dart';
-import 'package:habits/const.dart';
-import 'package:habits/screens/forgotpass_screen.dart';
 
+import '../components/background_signin.dart';
+import '../const.dart';
 import '../main.dart';
+import 'forgotpass_screen.dart';
 import 'signup.dart';
 
 class SignInScreen extends StatefulWidget {

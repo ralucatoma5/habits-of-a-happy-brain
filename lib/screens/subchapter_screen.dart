@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:habits/const.dart';
-import 'package:habits/screens/chapter_screen.dart';
+
 import 'package:page_transition/page_transition.dart';
+
+import '../const.dart';
+import 'chapter_screen.dart';
 
 class SubchapterScreen extends StatefulWidget {
   final QueryDocumentSnapshot document;

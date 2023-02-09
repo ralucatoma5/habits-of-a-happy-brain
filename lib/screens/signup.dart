@@ -2,9 +2,9 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:habits/components/background_signup.dart';
-import 'package:habits/const.dart';
 
+import '../components/background_signup.dart';
+import '../const.dart';
 import '../main.dart';
 
 class SignUpScreen extends StatefulWidget {

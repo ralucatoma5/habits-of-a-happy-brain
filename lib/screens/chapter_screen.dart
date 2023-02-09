@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:habits/const.dart';
-import 'package:habits/screens/healthyhabits_screen.dart';
-import 'package:habits/screens/home_screen.dart';
-import 'package:habits/screens/reading_screen.dart';
-import 'package:habits/screens/subchapter_screen.dart';
+
 import 'package:page_transition/page_transition.dart';
+
+import '../const.dart';
+import 'healthyhabits_screen.dart';
+import 'home_screen.dart';
+import 'subchapter_screen.dart';
 
 class ChapterScreen extends StatelessWidget {
   final int screenIndex;
