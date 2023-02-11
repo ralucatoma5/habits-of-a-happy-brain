@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:habits/screens/habit_screen.dart';
 import '../const.dart';
 import 'addNote.dart';
 import 'editNote.dart';
@@ -95,6 +96,11 @@ class _NotesScreenState extends State<NotesScreen> {
                     stream: refh.snapshots(),
                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasData) {
+                        String name = snapshot.data!.docs[0]['name'];
+                        String type = snapshot.data!.docs[0]['type'];
+                        String description =
+                            snapshot.data!.docs[0]['description'];
+                        String content = snapshot.data!.docs[0]['summary'];
                         return Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: verticalBlock * 4,
@@ -154,7 +160,14 @@ class _NotesScreenState extends State<NotesScreen> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            HomeScreen()),
+                                                            HabitScreen(
+                                                                index: 4,
+                                                                summary:
+                                                                    content,
+                                                                description:
+                                                                    description,
+                                                                name: name,
+                                                                type: type)),
                                                   );
                                                 },
                                               ),
@@ -197,6 +210,8 @@ class _NotesScreenState extends State<NotesScreen> {
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               AddNote(
+                                                                  content:
+                                                                      content,
                                                                   ind: snapshot
                                                                       .data!
                                                                       .docs
@@ -222,7 +237,7 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                       .circular(
                                                                           5)),
                                                       child: Image.asset(
-                                                        'assets/images/img2.png',
+                                                        'assets/images/img${snapshot.data!.docs.length % 3}.png',
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ),
@@ -263,6 +278,8 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                 builder:
                                                                     (context) =>
                                                                         EditNote(
+                                                                          content:
+                                                                              content,
                                                                           docToEdit: snapshot
                                                                               .data!
                                                                               .docs[index],

@@ -8,7 +8,8 @@ import '../const.dart';
 
 class AddNote extends StatelessWidget {
   int ind;
-  AddNote({super.key, required this.ind});
+  String content;
+  AddNote({super.key, required this.ind, required this.content});
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
   final verticalBlock = SizeConfig.safeBlockVertical!;
@@ -64,7 +65,7 @@ class AddNote extends StatelessWidget {
                       controller: contentController,
                       maxLines: null,
                       expands: true,
-                      decoration: InputDecoration(hintText: 'Content'),
+                      decoration: InputDecoration(hintText: content),
                       style: TextStyle(fontSize: verticalBlock * 2.5))),
             )
           ],

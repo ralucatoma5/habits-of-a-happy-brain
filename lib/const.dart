@@ -77,8 +77,10 @@ Color circleColor(int index) {
     return Color(0xffD93695);
   else if (index == 3)
     return Color(0xff9C34FC);
-  else
+  else if (index == 2)
     return Color(0xffFB7706);
+  else
+    return blue;
 }
 
 TextStyle readingText = TextStyle(

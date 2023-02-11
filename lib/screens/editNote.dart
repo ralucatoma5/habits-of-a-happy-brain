@@ -5,7 +5,9 @@ import '../const.dart';
 
 class EditNote extends StatefulWidget {
   DocumentSnapshot docToEdit;
-  EditNote({super.key, required this.docToEdit});
+  String content;
+
+  EditNote({super.key, required this.content, required this.docToEdit});
 
   @override
   State<EditNote> createState() => _EditNoteState();
@@ -69,7 +71,7 @@ class _EditNoteState extends State<EditNote> {
                   controller: contentController,
                   maxLines: null,
                   expands: true,
-                  decoration: InputDecoration(hintText: 'Content'),
+                  decoration: InputDecoration(hintText: widget.content),
                   style: TextStyle(fontSize: verticalBlock * 2.5)),
             )
           ],

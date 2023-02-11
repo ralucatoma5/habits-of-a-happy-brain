@@ -4,8 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 
 import '../const.dart';
 
-class NoHbitScreen extends StatelessWidget {
-  NoHbitScreen({super.key});
+class NoHabitScreen extends StatelessWidget {
+  NoHabitScreen({super.key});
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
   @override

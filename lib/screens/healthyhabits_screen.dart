@@ -131,10 +131,15 @@ class HealthyHabits extends StatelessWidget {
                                 Positioned(
                                   top: verticalBlock * 2,
                                   right: horizontalBlock * 3,
-                                  child: Image.asset(
-                                    'assets/images/write-icon.png',
-                                    height: verticalBlock * 5,
-                                  ),
+                                  child: snapshot.data!.docs[ind]['type']
+                                              [index] ==
+                                          'write'
+                                      ? Image.asset(
+                                          'assets/images/write-icon.png',
+                                          height: verticalBlock * 5,
+                                        )
+                                      : Icon(Icons.timer_outlined,
+                                          size: verticalBlock * 5),
                                 ),
                                 Positioned(
                                   bottom: verticalBlock * 5,

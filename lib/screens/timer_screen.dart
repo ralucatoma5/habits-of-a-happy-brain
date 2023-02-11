@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:habits/screens/habit_screen.dart';
 
 import '../const.dart';
 
@@ -145,7 +146,16 @@ class _TimerScreenState extends State<TimerScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomeScreen()),
+                                        builder: (context) => HabitScreen(
+                                            index: 4,
+                                            summary: snapshot.data!.docs[0]
+                                                ['summary'],
+                                            description: snapshot.data!.docs[0]
+                                                ['description'],
+                                            name: snapshot.data!.docs[0]
+                                                ['name'],
+                                            type: snapshot.data!.docs[0]
+                                                ['type'])),
                                   );
                                 },
                               ),

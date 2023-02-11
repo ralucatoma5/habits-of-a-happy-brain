@@ -97,8 +97,13 @@ class HabitScreen extends StatelessWidget {
               ),
               ListTile(
                 visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
-                leading: Icon(Icons.timer_outlined,
-                    color: blue, size: verticalBlock * 5),
+                leading: type == 'write'
+                    ? Image.asset(
+                        'assets/images/write-blueIcon.png',
+                        height: verticalBlock * 5,
+                      )
+                    : Icon(Icons.timer_outlined,
+                        color: blue, size: verticalBlock * 5),
                 contentPadding: EdgeInsets.symmetric(
                     vertical: verticalBlock * 2,
                     horizontal: horizontalBlock * 7),

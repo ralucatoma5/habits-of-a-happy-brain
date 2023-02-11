@@ -25,7 +25,7 @@ class MyHabitScreen extends StatelessWidget {
                       ? NotesScreen()
                       : TimerScreen();
                 } else if (snapshot.data!.docs.length == 0) {
-                  return NoHbitScreen();
+                  return NoHabitScreen();
                 }
               }
 
