@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +11,18 @@ import 'addNote.dart';
 import 'editNote.dart';
 import 'home_screen.dart';
 
-class NotesScreen extends StatelessWidget {
+class NotesScreen extends StatefulWidget {
   NotesScreen({super.key});
+
+  @override
+  State<NotesScreen> createState() => _NotesScreenState();
+}
+
+class _NotesScreenState extends State<NotesScreen> {
   final verticalBlock = SizeConfig.safeBlockVertical!;
+
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
+
   final refh = FirebaseFirestore.instance
       .collection('habit')
       .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email);
@@ -19,15 +32,58 @@ class NotesScreen extends StatelessWidget {
       .doc(FirebaseAuth.instance.currentUser!.email)
       .collection('notes');
 
-  Future<void> deleteHabit() async {
+  Future<void> delete() async {
     CollectionReference _collectionRef =
         FirebaseFirestore.instance.collection('habit');
     _collectionRef.doc(FirebaseAuth.instance.currentUser!.email).delete();
-    _collectionRef
+
+    final collectionhabit = FirebaseFirestore.instance
+        .collection('habit')
         .doc(FirebaseAuth.instance.currentUser!.email)
-        .collection('notes')
-        .doc()
-        .delete();
+        .collection('notes');
+    var snapshots = await collectionhabit.get();
+    for (var doc in snapshots.docs) {
+      await doc.reference.delete();
+    }
+  }
+
+  Future<void> deleteHabit(BuildContext context) async {
+    Platform.isAndroid
+        ? showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text(
+                      "Are you sure you want to stop building this habit"),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text("No"),
+                    ),
+                    TextButton(
+                      onPressed: delete,
+                      child: const Text("Yes"),
+                    ),
+                  ],
+                ))
+        : showCupertinoDialog(
+            context: context,
+            builder: (context) => CupertinoAlertDialog(
+                  title: const Text(
+                      "Are you sure you want to stop building this habit"),
+                  actions: [
+                    CupertinoDialogAction(
+                      child: const Text("No"),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    CupertinoDialogAction(
+                      child: const Text("Yes"),
+                      onPressed: () {
+                        delete();
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ));
   }
 
   @override
@@ -59,7 +115,7 @@ class NotesScreen extends StatelessWidget {
                                             fontWeight: FontWeight.w700)),
                                   ),
                                   IconButton(
-                                      onPressed: deleteHabit,
+                                      onPressed: () => deleteHabit(context),
                                       icon: Icon(
                                         Icons.delete_outline_rounded,
                                         size: verticalBlock * 4.5,
@@ -73,6 +129,9 @@ class NotesScreen extends StatelessWidget {
                                     if (snapshot.hasData) {
                                       return Column(
                                         children: [
+                                          SizedBox(
+                                            height: verticalBlock,
+                                          ),
                                           Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,

@@ -129,7 +129,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: ((value) =>
                           value != passwordController.text.trim()
-                              ? 'wrong'
+                              ? 'Passwords do not match'
                               : null),
                     ),
                   ),

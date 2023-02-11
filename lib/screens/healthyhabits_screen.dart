@@ -30,17 +30,6 @@ class HealthyHabits extends StatelessWidget {
             );
           } else if (snapshot.hasData) {
             return Scaffold(
-                /* appBar: AppBar(
-                    iconTheme: const IconThemeData(color: Colors.black),
-                    toolbarHeight: verticalBlock * 10,
-                    backgroundColor: Colors.white,
-                    elevation: 0,
-                    title: Text(snapshot.data!.docs[ind]['name'],
-                        style: TextStyle(
-                          color: blue,
-                          fontSize: verticalBlock * 3.7,
-                          fontWeight: FontWeight.w800,
-                        ))),*/
                 body: CustomScrollView(slivers: [
               SliverAppBar(
                 elevation: 0.8,

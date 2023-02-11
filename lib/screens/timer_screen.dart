@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../const.dart';
+
 import 'home_screen.dart';
 
 class TimerScreen extends StatefulWidget {
@@ -44,6 +47,51 @@ class _TimerScreenState extends State<TimerScreen> {
     });
   }
 
+  Future<void> delete() async {
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('habit');
+    _collectionRef.doc(FirebaseAuth.instance.currentUser!.email).delete();
+  }
+
+  Future<void> deleteHabit(BuildContext context) async {
+    Platform.isAndroid
+        ? showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text(
+                      "Are you sure you want to stop building this habit"),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text("No"),
+                    ),
+                    TextButton(
+                      onPressed: delete,
+                      child: const Text("Yes"),
+                    ),
+                  ],
+                ))
+        : showCupertinoDialog(
+            context: context,
+            builder: (context) => CupertinoAlertDialog(
+                  title: const Text(
+                      "Are you sure you want to stop building this habit"),
+                  actions: [
+                    CupertinoDialogAction(
+                      child: const Text("No"),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    CupertinoDialogAction(
+                      child: const Text("Yes"),
+                      onPressed: () {
+                        delete();
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,61 +100,75 @@ class _TimerScreenState extends State<TimerScreen> {
             stream: refh.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasData) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                          width: horizontalBlock * 45,
-                          child: Text(snapshot.data!.docs[0]['name'],
-                              style: TextStyle(
-                                  fontSize: verticalBlock * 3,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700)),
-                        ),
-                        Column(
-                          children: [
-                            Text('%',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600)),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: verticalBlock * 1.5),
-                              child: Container(
-                                height: 1.0,
-                                width: horizontalBlock * 15,
-                                color: pink,
+                return Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: horizontalBlock * 45,
+                                child: Text(snapshot.data!.docs[0]['name'],
+                                    style: TextStyle(
+                                        fontSize: verticalBlock * 3,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700)),
                               ),
-                            ),
-                            GestureDetector(
-                              child: Text('About the habit',
+                              Text('60%',
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontWeight: FontWeight.w600)),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeScreen()),
-                                );
-                              },
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    Text('Day 3',
-                        style: TextStyle(
-                            fontSize: verticalBlock * 5,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700)),
-                    buildTimer(),
-                    buildButtons()
-                  ],
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: verticalBlock * 2.3)),
+                            ],
+                          ),
+                          SizedBox(
+                            height: verticalBlock * 3,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                child: Text('About the habit',
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      color: pink,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: verticalBlock * 2.4,
+                                    )),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeScreen()),
+                                  );
+                                },
+                              ),
+                              IconButton(
+                                  onPressed: () => deleteHabit(context),
+                                  icon: Icon(
+                                    Icons.delete_outline_rounded,
+                                    size: verticalBlock * 4.5,
+                                    color: pink,
+                                  ))
+                            ],
+                          ),
+                        ],
+                      ),
+                      Text('Day 3',
+                          style: TextStyle(
+                              fontSize: verticalBlock * 4.5,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700)),
+                      buildTimer(),
+                      buildButtons()
+                    ],
+                  ),
                 );
               }
               return const Center(
@@ -153,8 +215,8 @@ class _TimerScreenState extends State<TimerScreen> {
   }
 
   Widget buildTimer() => SizedBox(
-        width: verticalBlock * 35,
-        height: verticalBlock * 35,
+        width: verticalBlock * 32,
+        height: verticalBlock * 32,
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -174,7 +236,7 @@ class _TimerScreenState extends State<TimerScreen> {
     final seconds = twoDigits(duration.inSeconds.remainder(60));
     return Text(
       '$minutes:$seconds',
-      style: TextStyle(fontSize: verticalBlock * 6, color: Colors.white),
+      style: TextStyle(fontSize: verticalBlock * 5, color: Colors.white),
     );
   }
 }
