@@ -81,7 +81,7 @@ class ChapterScreen extends StatelessWidget {
                             ],
                           )),
                     ),
-                    SizedBox(height: verticalBlock * 26),
+                    SizedBox(height: verticalBlock * 23),
                     Text('About the chapter',
                         style: TextStyle(
                           fontSize: verticalBlock * 3,
@@ -151,7 +151,7 @@ class ChapterScreen extends StatelessWidget {
         right: 0,
         left: 0,
         child: SizedBox(
-          height: verticalBlock * 20,
+          height: verticalBlock * 18,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: document['subtitles'].length,
@@ -161,7 +161,9 @@ class ChapterScreen extends StatelessWidget {
                       left: horizontalBlock * 5, bottom: verticalBlock * 5),
                   child: Container(
                     padding: EdgeInsets.symmetric(
-                        horizontal: verticalBlock * 2, vertical: verticalBlock),
+                      horizontal: verticalBlock * 2,
+                      vertical: verticalBlock,
+                    ),
                     width: horizontalBlock * 47,
                     decoration: BoxDecoration(
                       boxShadow: [containerShadow],
@@ -171,13 +173,7 @@ class ChapterScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Image.asset(
-                            'assets/images/dopamine.png',
-                            height: verticalBlock * 3,
-                          ),
-                        ),
+                        SizedBox(height: verticalBlock),
                         Text(
                           document['subtitles'][index],
                           style: TextStyle(

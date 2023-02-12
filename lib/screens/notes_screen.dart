@@ -20,6 +20,7 @@ class NotesScreen extends StatefulWidget {
 }
 
 class _NotesScreenState extends State<NotesScreen> {
+  final now = DateTime.now();
   final verticalBlock = SizeConfig.safeBlockVertical!;
 
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
@@ -96,6 +97,10 @@ class _NotesScreenState extends State<NotesScreen> {
                     stream: refh.snapshots(),
                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasData) {
+                        DateTime time = DateTime.parse(
+                            snapshot.data!.docs[0]['time'].toDate().toString());
+                        final initialDay =
+                            DateTime(time.year, time.month, time.day);
                         String name = snapshot.data!.docs[0]['name'];
                         String type = snapshot.data!.docs[0]['type'];
                         String description =
@@ -133,6 +138,11 @@ class _NotesScreenState extends State<NotesScreen> {
                                   builder: (context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasData) {
+                                      final today = DateTime(
+                                          time.year,
+                                          time.month,
+                                          time.day +
+                                              snapshot.data!.docs.length);
                                       return Column(
                                         children: [
                                           SizedBox(
@@ -204,20 +214,25 @@ class _NotesScreenState extends State<NotesScreen> {
                                               alignment: Alignment.center,
                                               children: [
                                                 GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              AddNote(
-                                                                  content:
-                                                                      content,
-                                                                  ind: snapshot
-                                                                      .data!
-                                                                      .docs
-                                                                      .length)),
-                                                    );
-                                                  },
+                                                  onTap: today ==
+                                                          DateTime(
+                                                              now.year,
+                                                              now.month,
+                                                              now.day)
+                                                      ? () {
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => AddNote(
+                                                                    content:
+                                                                        content,
+                                                                    ind: snapshot
+                                                                        .data!
+                                                                        .docs
+                                                                        .length)),
+                                                          );
+                                                        }
+                                                      : () {},
                                                   child: Container(
                                                     height: verticalBlock * 20,
                                                     width: horizontalBlock * 80,
@@ -244,7 +259,13 @@ class _NotesScreenState extends State<NotesScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                    'Start Day ${snapshot.data!.docs.length + 1}',
+                                                    today ==
+                                                            DateTime(
+                                                                now.year,
+                                                                now.month,
+                                                                now.day)
+                                                        ? 'Start Day ${snapshot.data!.docs.length + 1}'
+                                                        : 'Wait until tomorrow',
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontWeight:

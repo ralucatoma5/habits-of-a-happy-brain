@@ -19,6 +19,11 @@ class TimerScreen extends StatefulWidget {
 }
 
 class _TimerScreenState extends State<TimerScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Duration duration = Duration(minutes: 10);
   Timer? timer;
   final verticalBlock = SizeConfig.safeBlockVertical!;

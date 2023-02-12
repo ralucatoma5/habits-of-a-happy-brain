@@ -41,13 +41,6 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
             background: Padding(
               padding: EdgeInsets.only(
                   top: verticalBlock * 2, right: horizontalBlock * 2),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Image.asset(
-                  'assets/images/dopamine.png',
-                  height: verticalBlock * 6,
-                ),
-              ),
             ),
             expandedTitleScale: 1.15,
             centerTitle: false,
@@ -73,8 +66,8 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
           ),
           backgroundColor: Colors.white,
           toolbarHeight: wordNr(widget.document['subtitles'][widget.ind]) < 3
-              ? verticalBlock * 10
-              : verticalBlock * 13,
+              ? verticalBlock * 9
+              : verticalBlock * 12,
           leading: IconButton(
             padding: EdgeInsets.symmetric(
                 horizontal: horizontalBlock * 4, vertical: verticalBlock * 2),
@@ -93,8 +86,8 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
           centerTitle: false,
           leadingWidth: verticalBlock * 3,
           expandedHeight: wordNr(widget.document['subtitles'][widget.ind]) < 3
-              ? verticalBlock * 8
-              : verticalBlock * 15,
+              ? verticalBlock * 10
+              : verticalBlock * 13,
           pinned: true,
         ),
         SliverList(
@@ -118,7 +111,8 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                         padding: EdgeInsets.zero,
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: 3,
+                        itemCount: widget
+                            .document['exemple']['exemple${widget.ind}'].length,
                         itemBuilder: (context, index) {
                           return ListTile(
                               visualDensity: const VisualDensity(
