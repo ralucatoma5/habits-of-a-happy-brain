@@ -88,6 +88,37 @@ class _NotesScreenState extends State<NotesScreen> {
                 ));
   }
 
+  Future<void> stopHabit(BuildContext context) async {
+    Platform.isAndroid
+        ? showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text(
+                      "You missed at least a day of your habit, so you have to start over"),
+                  actions: [
+                    TextButton(
+                      onPressed: delete,
+                      child: const Text("Ok"),
+                    ),
+                  ],
+                ))
+        : showCupertinoDialog(
+            context: context,
+            builder: (context) => CupertinoAlertDialog(
+                  title: const Text(
+                      "You missed at least a day of your habit, so you have to start over"),
+                  actions: [
+                    CupertinoDialogAction(
+                      child: const Text("OK"),
+                      onPressed: () {
+                        delete();
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +132,8 @@ class _NotesScreenState extends State<NotesScreen> {
                             snapshot.data!.docs[0]['time'].toDate().toString());
                         final initialDay =
                             DateTime(time.year, time.month, time.day);
+                        final lastDay =
+                            DateTime(time.year, time.month, time.day + 45);
                         String name = snapshot.data!.docs[0]['name'];
                         String type = snapshot.data!.docs[0]['type'];
                         String description =
@@ -143,6 +176,7 @@ class _NotesScreenState extends State<NotesScreen> {
                                           time.month,
                                           time.day +
                                               snapshot.data!.docs.length);
+
                                       return Column(
                                         children: [
                                           SizedBox(
@@ -215,24 +249,33 @@ class _NotesScreenState extends State<NotesScreen> {
                                               children: [
                                                 GestureDetector(
                                                   onTap: today ==
-                                                          DateTime(
-                                                              now.year,
-                                                              now.month,
-                                                              now.day)
-                                                      ? () {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) => AddNote(
-                                                                    content:
-                                                                        content,
-                                                                    ind: snapshot
-                                                                        .data!
-                                                                        .docs
-                                                                        .length)),
-                                                          );
-                                                        }
-                                                      : () {},
+                                                              DateTime(
+                                                                  now.year,
+                                                                  now.month,
+                                                                  now.day +
+                                                                      1) ||
+                                                          lastDay == today
+                                                      ? () {}
+                                                      : today ==
+                                                              DateTime(
+                                                                  now.year,
+                                                                  now.month,
+                                                                  now.day)
+                                                          ? () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) => AddNote(
+                                                                        content:
+                                                                            content,
+                                                                        ind: snapshot
+                                                                            .data!
+                                                                            .docs
+                                                                            .length)),
+                                                              );
+                                                            }
+                                                          : () => stopHabit(
+                                                              context),
                                                   child: Container(
                                                     height: verticalBlock * 20,
                                                     width: horizontalBlock * 80,
@@ -258,21 +301,29 @@ class _NotesScreenState extends State<NotesScreen> {
                                                     ),
                                                   ),
                                                 ),
-                                                Text(
-                                                    today ==
-                                                            DateTime(
-                                                                now.year,
-                                                                now.month,
-                                                                now.day)
-                                                        ? 'Start Day ${snapshot.data!.docs.length + 1}'
-                                                        : 'Wait until tomorrow',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.w800,
-                                                        fontSize:
-                                                            verticalBlock *
-                                                                3.5)),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: horizontalBlock * 7,
+                                                      right:
+                                                          horizontalBlock * 7),
+                                                  child: Text(
+                                                      today ==
+                                                              DateTime(
+                                                                  now.year,
+                                                                  now.month,
+                                                                  now.day + 1)
+                                                          ? 'Wait until tomorrow'
+                                                          : lastDay == today
+                                                              ? 'You have finished building your habit. Start a new one!'
+                                                              : 'Start Day ${snapshot.data!.docs.length + 1}',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.w800,
+                                                          fontSize:
+                                                              verticalBlock *
+                                                                  3)),
+                                                ),
                                               ]),
                                           SizedBox(
                                             height: verticalBlock * 5,
