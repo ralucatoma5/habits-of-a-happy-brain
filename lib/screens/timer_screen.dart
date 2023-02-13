@@ -24,14 +24,14 @@ class _TimerScreenState extends State<TimerScreen> {
     super.initState();
   }
 
-  Duration duration = Duration(minutes: 10);
+  Duration duration = const Duration(minutes: 10);
   Timer? timer;
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
   final refh = FirebaseFirestore.instance
       .collection('habit')
       .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email);
-  void resetTimer() => setState(() => duration = Duration(minutes: 10));
+  void resetTimer() => setState(() => duration = const Duration(minutes: 10));
 
   void startTimer({bool reset = true}) {
     if (reset) resetTimer();
@@ -195,6 +195,7 @@ class _TimerScreenState extends State<TimerScreen> {
   Widget buildButtons() {
     final isRunning = timer == null ? false : timer!.isActive;
     final isCompleted = duration.inSeconds == 0 || duration.inMinutes == 10;
+    //if (duration.inSeconds == 0) print('completed');
     return isRunning || !isCompleted
         ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -237,7 +238,9 @@ class _TimerScreenState extends State<TimerScreen> {
           children: [
             CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation(pink),
-              value: duration.inSeconds / 600,
+              value: duration.inSeconds == 0
+                  ? 3600 / 600
+                  : duration.inSeconds / 600,
               backgroundColor: Color.fromARGB(255, 25, 95, 139),
             ),
             Center(child: buildTime())
@@ -249,9 +252,10 @@ class _TimerScreenState extends State<TimerScreen> {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return Text(
-      '$minutes:$seconds',
-      style: TextStyle(fontSize: verticalBlock * 5, color: Colors.white),
-    );
+    return duration.inSeconds == 0
+        ? Text('10:00',
+            style: TextStyle(fontSize: verticalBlock * 5, color: Colors.white))
+        : Text('$minutes:$seconds',
+            style: TextStyle(fontSize: verticalBlock * 5, color: Colors.white));
   }
 }
