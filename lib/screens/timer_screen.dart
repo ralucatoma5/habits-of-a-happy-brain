@@ -21,14 +21,14 @@ class TimerScreen extends StatefulWidget {
 class _TimerScreenState extends State<TimerScreen> {
   final now = DateTime.now();
 
-  Duration duration = const Duration(minutes: 10);
+  Duration duration = const Duration(seconds: 10);
   Timer? timer;
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
   final refh = FirebaseFirestore.instance
       .collection('habit')
       .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email);
-  void resetTimer() => setState(() => duration = const Duration(minutes: 10));
+  void resetTimer() => setState(() => duration = const Duration(seconds: 10));
 
   void startTimer({bool reset = true}) {
     if (reset) resetTimer();
@@ -115,7 +115,8 @@ class _TimerScreenState extends State<TimerScreen> {
                     snapshot.data!.docs[0]['time'].toDate().toString());
                 final initialDay = DateTime(time.year, time.month, time.day);
                 final lastDay = DateTime(time.year, time.month, time.day + 45);
-                int nrday = snapshot.data!.docs[0]['nrday'].toInt();
+                //int nrday = snapshot.data!.docs[0]['nrday'].toInt();
+                int nrday = 44;
                 final today = DateTime(time.year, time.month, time.day + nrday);
                 return duration.inSeconds != 0
                     ? Padding(
@@ -140,7 +141,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                               color: Colors.white,
                                               fontWeight: FontWeight.w700)),
                                     ),
-                                    Text('60%',
+                                    Text('${(nrday * 100.00 / 45).round()}%',
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600,
@@ -199,7 +200,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                     ? 'Wait until tomorrow'
                                     : 'Day ${nrday + 1}',
                                 style: TextStyle(
-                                    fontSize: verticalBlock * 4.5,
+                                    fontSize: verticalBlock * 4,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700)),
                             buildTimer(),
@@ -231,7 +232,9 @@ class _TimerScreenState extends State<TimerScreen> {
                                     height: verticalBlock,
                                   ),
                                   Text(
-                                      "You've finished day ${snapshot.data!.docs[0]['nrday'] + 1}",
+                                      nrday == 44
+                                          ? "You've finished building the habit"
+                                          : "You've finished day ${nrday + 1}",
                                       style: TextStyle(
                                           fontSize: verticalBlock * 3,
                                           color: Colors.white,
@@ -242,8 +245,10 @@ class _TimerScreenState extends State<TimerScreen> {
                                 height: verticalBlock * 5,
                               ),
                               TextButton(
-                                onPressed: () => updateDay(
-                                    snapshot.data!.docs[0]['nrday'] + 1),
+                                onPressed: () => nrday == 44
+                                    ? delete()
+                                    : updateDay(
+                                        snapshot.data!.docs[0]['nrday'] + 1),
                                 style: buttonStyle(Colors.white),
                                 child:
                                     Text('Ok', style: buttonTextStyle(blue, 5)),
