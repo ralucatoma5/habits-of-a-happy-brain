@@ -21,14 +21,14 @@ class TimerScreen extends StatefulWidget {
 class _TimerScreenState extends State<TimerScreen> {
   final now = DateTime.now();
 
-  Duration duration = const Duration(seconds: 10);
+  Duration duration = const Duration(minutes: 10);
   Timer? timer;
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
   final refh = FirebaseFirestore.instance
       .collection('habit')
       .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email);
-  void resetTimer() => setState(() => duration = const Duration(seconds: 10));
+  void resetTimer() => setState(() => duration = const Duration(minutes: 10));
 
   void startTimer({bool reset = true}) {
     if (reset) resetTimer();
@@ -95,6 +95,37 @@ class _TimerScreenState extends State<TimerScreen> {
                 ));
   }
 
+  Future<void> stopHabit(BuildContext context) async {
+    Platform.isAndroid
+        ? showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text(
+                      "You missed at least a day of your habit, so you have to start over"),
+                  actions: [
+                    TextButton(
+                      onPressed: delete,
+                      child: const Text("Ok"),
+                    ),
+                  ],
+                ))
+        : showCupertinoDialog(
+            context: context,
+            builder: (context) => CupertinoAlertDialog(
+                  title: const Text(
+                      "You missed at least a day of your habit, so you have to start over"),
+                  actions: [
+                    CupertinoDialogAction(
+                      child: const Text("OK"),
+                      onPressed: () {
+                        delete();
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ));
+  }
+
   Future updateDay(int nrday) async {
     resetTimer();
     final _collectionRef = FirebaseFirestore.instance.collection('habit');
@@ -114,9 +145,8 @@ class _TimerScreenState extends State<TimerScreen> {
                 DateTime time = DateTime.parse(
                     snapshot.data!.docs[0]['time'].toDate().toString());
                 final initialDay = DateTime(time.year, time.month, time.day);
-                final lastDay = DateTime(time.year, time.month, time.day + 45);
-                //int nrday = snapshot.data!.docs[0]['nrday'].toInt();
-                int nrday = 44;
+                int nrday = snapshot.data!.docs[0]['nrday'].toInt();
+
                 final today = DateTime(time.year, time.month, time.day + nrday);
                 return duration.inSeconds != 0
                     ? Padding(
@@ -194,9 +224,8 @@ class _TimerScreenState extends State<TimerScreen> {
                             ),
                             Text(
                                 today ==
-                                            DateTime(now.year, now.month,
-                                                now.day + 1) ||
-                                        lastDay == today
+                                        DateTime(
+                                            now.year, now.month, now.day + 1)
                                     ? 'Wait until tomorrow'
                                     : 'Day ${nrday + 1}',
                                 style: TextStyle(
@@ -204,7 +233,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700)),
                             buildTimer(),
-                            buildButtons(today, lastDay),
+                            buildButtons(today),
                           ],
                         ),
                       )
@@ -264,7 +293,7 @@ class _TimerScreenState extends State<TimerScreen> {
             }));
   }
 
-  Widget buildButtons(today, lastDay) {
+  Widget buildButtons(today) {
     final isRunning = timer == null ? false : timer!.isActive;
     final isCompleted = duration.inSeconds == 0 || duration.inMinutes == 10;
 
@@ -297,12 +326,13 @@ class _TimerScreenState extends State<TimerScreen> {
         : TextButton(
             style: buttonStyle(Colors.white),
             child: Text('Start timer', style: buttonTextStyle(blue, 5)),
-            onPressed: today == DateTime(now.year, now.month, now.day + 1) ||
-                    lastDay == today
+            onPressed: today == DateTime(now.year, now.month, now.day + 11)
                 ? () {}
-                : () {
-                    startTimer();
-                  });
+                : today == DateTime(now.year, now.month, now.day + 10)
+                    ? () {
+                        startTimer();
+                      }
+                    : () => stopHabit(context));
   }
 
   Widget buildTimer() => SizedBox(
