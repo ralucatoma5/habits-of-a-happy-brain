@@ -38,7 +38,8 @@ class HabitScreen extends StatelessWidget {
       'summary': summary,
       'type': type,
       'id': FirebaseAuth.instance.currentUser!.email,
-      'time': DateTime.now()
+      'time': DateTime.now(),
+      'nrday': 0
     });
   }
 

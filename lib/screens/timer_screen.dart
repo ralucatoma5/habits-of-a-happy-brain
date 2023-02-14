@@ -19,10 +19,7 @@ class TimerScreen extends StatefulWidget {
 }
 
 class _TimerScreenState extends State<TimerScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  final now = DateTime.now();
 
   Duration duration = const Duration(minutes: 10);
   Timer? timer;
@@ -98,6 +95,14 @@ class _TimerScreenState extends State<TimerScreen> {
                 ));
   }
 
+  Future updateDay(int nrday) async {
+    resetTimer();
+    final _collectionRef = FirebaseFirestore.instance.collection('habit');
+    return _collectionRef
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .update({'nrday': nrday});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,85 +111,147 @@ class _TimerScreenState extends State<TimerScreen> {
             stream: refh.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasData) {
-                return Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
+                DateTime time = DateTime.parse(
+                    snapshot.data!.docs[0]['time'].toDate().toString());
+                final initialDay = DateTime(time.year, time.month, time.day);
+                final lastDay = DateTime(time.year, time.month, time.day + 45);
+                int nrday = snapshot.data!.docs[0]['nrday'].toInt();
+                final today = DateTime(time.year, time.month, time.day + nrday);
+                return duration.inSeconds != 0
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: horizontalBlock * 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: horizontalBlock * 45,
+                                      child: Text(
+                                          snapshot.data!.docs[0]['name'],
+                                          style: TextStyle(
+                                              fontSize: verticalBlock * 3,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700)),
+                                    ),
+                                    Text('60%',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: verticalBlock * 2.3)),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: verticalBlock * 3,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      child: Text('About the habit',
+                                          style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            color: pink,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: verticalBlock * 2.4,
+                                          )),
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => HabitScreen(
+                                                  index: 4,
+                                                  summary: snapshot
+                                                      .data!.docs[0]['summary'],
+                                                  description: snapshot.data!
+                                                      .docs[0]['description'],
+                                                  name: snapshot.data!.docs[0]
+                                                      ['name'],
+                                                  type: snapshot.data!.docs[0]
+                                                      ['type'])),
+                                        );
+                                      },
+                                    ),
+                                    IconButton(
+                                        onPressed: () => deleteHabit(context),
+                                        icon: Icon(
+                                          Icons.delete_outline_rounded,
+                                          size: verticalBlock * 4.5,
+                                          color: pink,
+                                        ))
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Text(
+                                today ==
+                                            DateTime(now.year, now.month,
+                                                now.day + 1) ||
+                                        lastDay == today
+                                    ? 'Wait until tomorrow'
+                                    : 'Day ${nrday + 1}',
+                                style: TextStyle(
+                                    fontSize: verticalBlock * 4.5,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700)),
+                            buildTimer(),
+                            buildButtons(today, lastDay),
+                          ],
+                        ),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               SizedBox(
-                                width: horizontalBlock * 45,
-                                child: Text(snapshot.data!.docs[0]['name'],
-                                    style: TextStyle(
-                                        fontSize: verticalBlock * 3,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700)),
+                                height: verticalBlock * 5,
                               ),
-                              Text('60%',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: verticalBlock * 2.3)),
-                            ],
-                          ),
-                          SizedBox(
-                            height: verticalBlock * 3,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                child: Text('About the habit',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: pink,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: verticalBlock * 2.4,
-                                    )),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HabitScreen(
-                                            index: 4,
-                                            summary: snapshot.data!.docs[0]
-                                                ['summary'],
-                                            description: snapshot.data!.docs[0]
-                                                ['description'],
-                                            name: snapshot.data!.docs[0]
-                                                ['name'],
-                                            type: snapshot.data!.docs[0]
-                                                ['type'])),
-                                  );
-                                },
+                              Image.asset(
+                                'assets/images/congrats.png',
+                                height: verticalBlock * 20,
                               ),
-                              IconButton(
-                                  onPressed: () => deleteHabit(context),
-                                  icon: Icon(
-                                    Icons.delete_outline_rounded,
-                                    size: verticalBlock * 4.5,
-                                    color: pink,
-                                  ))
+                              Column(
+                                children: [
+                                  Text('Congratulations!',
+                                      style: TextStyle(
+                                          fontSize: verticalBlock * 4.5,
+                                          color: pink,
+                                          fontWeight: FontWeight.w700)),
+                                  SizedBox(
+                                    height: verticalBlock,
+                                  ),
+                                  Text(
+                                      "You've finished day ${snapshot.data!.docs[0]['nrday'] + 1}",
+                                      style: TextStyle(
+                                          fontSize: verticalBlock * 3,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700)),
+                                ],
+                              ),
+                              SizedBox(
+                                height: verticalBlock * 5,
+                              ),
+                              TextButton(
+                                onPressed: () => updateDay(
+                                    snapshot.data!.docs[0]['nrday'] + 1),
+                                style: buttonStyle(Colors.white),
+                                child:
+                                    Text('Ok', style: buttonTextStyle(blue, 5)),
+                              ),
                             ],
                           ),
                         ],
-                      ),
-                      Text('Day 3',
-                          style: TextStyle(
-                              fontSize: verticalBlock * 4.5,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700)),
-                      buildTimer(),
-                      buildButtons()
-                    ],
-                  ),
-                );
+                      );
               }
               return const Center(
                 child: CircularProgressIndicator(),
@@ -192,10 +259,10 @@ class _TimerScreenState extends State<TimerScreen> {
             }));
   }
 
-  Widget buildButtons() {
+  Widget buildButtons(today, lastDay) {
     final isRunning = timer == null ? false : timer!.isActive;
     final isCompleted = duration.inSeconds == 0 || duration.inMinutes == 10;
-    //if (duration.inSeconds == 0) print('completed');
+
     return isRunning || !isCompleted
         ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -225,9 +292,12 @@ class _TimerScreenState extends State<TimerScreen> {
         : TextButton(
             style: buttonStyle(Colors.white),
             child: Text('Start timer', style: buttonTextStyle(blue, 5)),
-            onPressed: () {
-              startTimer();
-            });
+            onPressed: today == DateTime(now.year, now.month, now.day + 1) ||
+                    lastDay == today
+                ? () {}
+                : () {
+                    startTimer();
+                  });
   }
 
   Widget buildTimer() => SizedBox(
@@ -238,9 +308,7 @@ class _TimerScreenState extends State<TimerScreen> {
           children: [
             CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation(pink),
-              value: duration.inSeconds == 0
-                  ? 3600 / 600
-                  : duration.inSeconds / 600,
+              value: duration.inSeconds / 600,
               backgroundColor: Color.fromARGB(255, 25, 95, 139),
             ),
             Center(child: buildTime())
@@ -252,10 +320,7 @@ class _TimerScreenState extends State<TimerScreen> {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return duration.inSeconds == 0
-        ? Text('10:00',
-            style: TextStyle(fontSize: verticalBlock * 5, color: Colors.white))
-        : Text('$minutes:$seconds',
-            style: TextStyle(fontSize: verticalBlock * 5, color: Colors.white));
+    return Text('$minutes:$seconds',
+        style: TextStyle(fontSize: verticalBlock * 5, color: Colors.white));
   }
 }
