@@ -205,13 +205,14 @@ class _NotesScreenState extends State<NotesScreen> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             HabitScreen(
-                                                                index: 4,
-                                                                summary:
-                                                                    content,
-                                                                description:
-                                                                    description,
-                                                                name: name,
-                                                                type: type)),
+                                                              index: 4,
+                                                              summary: content,
+                                                              description:
+                                                                  description,
+                                                              name: name,
+                                                              type: type,
+                                                              abtscrn: true,
+                                                            )),
                                                   );
                                                 },
                                               ),
@@ -266,9 +267,11 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                 context,
                                                                 MaterialPageRoute(
                                                                     builder: (context) => AddNote(
+                                                                        delete:
+                                                                            delete,
                                                                         content:
                                                                             content,
-                                                                        ind: snapshot
+                                                                        nrd: snapshot
                                                                             .data!
                                                                             .docs
                                                                             .length)),

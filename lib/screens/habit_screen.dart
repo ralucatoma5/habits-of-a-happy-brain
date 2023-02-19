@@ -14,13 +14,15 @@ class HabitScreen extends StatelessWidget {
   final String description;
   final String name;
   final String type;
+  final bool abtscrn;
   HabitScreen(
       {Key? key,
       required this.index,
       required this.summary,
       required this.description,
       required this.name,
-      required this.type})
+      required this.type,
+      required this.abtscrn})
       : super(key: key);
 
   final verticalBlock = SizeConfig.safeBlockVertical!;
@@ -134,47 +136,49 @@ class HabitScreen extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(5),
-                topRight: Radius.circular(5),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 3,
-                  blurRadius: 4,
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () => addHabit(context),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: verticalBlock * 3,
-                          vertical: verticalBlock * 2),
-                      decoration: BoxDecoration(
-                        color: blue,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Text(
-                        'Add to your habit',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: verticalBlock * 2,
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ),
+        bottomNavigationBar: abtscrn == false
+            ? Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    topRight: Radius.circular(5),
                   ),
-                ],
-              ),
-            )));
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 3,
+                      blurRadius: 4,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () => addHabit(context),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: verticalBlock * 3,
+                              vertical: verticalBlock * 2),
+                          decoration: BoxDecoration(
+                            color: blue,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Text(
+                            'Add to your habit',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: verticalBlock * 2,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ))
+            : null);
   }
 }

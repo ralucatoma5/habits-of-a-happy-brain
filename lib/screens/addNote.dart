@@ -3,13 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:habits/screens/congrats_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../const.dart';
+import 'about_screen.dart';
 
 class AddNote extends StatelessWidget {
-  int ind;
+  int nrd;
+  final Function()? delete;
   String content;
-  AddNote({super.key, required this.ind, required this.content});
+  AddNote({super.key, required this.nrd, required this.content, this.delete});
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
   final verticalBlock = SizeConfig.safeBlockVertical!;
@@ -31,10 +35,29 @@ class AddNote extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () {
-                ref.doc((45 - ind).toString()).set({
+                ref.doc((45 - nrd).toString()).set({
                   'title': titleController.text,
                   'content': contentController.text
-                }).whenComplete(() => Navigator.pop(context));
+                }).whenComplete(() => Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade,
+                        child: Scaffold(
+                          body: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/img2.png"),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            child: CongratsScreen(
+                              type: 'write',
+                              nrday: nrd,
+                              updateDay: (int t) {},
+                              delete: () {},
+                            ),
+                          ),
+                        ))));
               },
               child: Padding(
                 padding: EdgeInsets.only(right: horizontalBlock * 2),

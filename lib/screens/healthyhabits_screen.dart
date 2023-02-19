@@ -102,6 +102,7 @@ class HealthyHabits extends StatelessWidget {
                                   summary: snapshot.data!.docs[ind]
                                       ['habits_summary'][index],
                                   type: snapshot.data!.docs[ind]['type'][index],
+                                  abtscrn: false,
                                 ),
                               ),
                             );
@@ -172,7 +173,7 @@ class HealthyHabits extends StatelessWidget {
           }
         }
 
-        return const Center();
+        return Center(child: CircularProgressIndicator());
       },
     );
   }

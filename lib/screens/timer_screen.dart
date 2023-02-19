@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:habits/screens/congrats_screen.dart';
 import 'package:habits/screens/habit_screen.dart';
 
 import '../const.dart';
@@ -198,16 +199,19 @@ class _TimerScreenState extends State<TimerScreen> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => HabitScreen(
-                                                  index: 4,
-                                                  summary: snapshot
-                                                      .data!.docs[0]['summary'],
-                                                  description: snapshot.data!
-                                                      .docs[0]['description'],
-                                                  name: snapshot.data!.docs[0]
-                                                      ['name'],
-                                                  type: snapshot.data!.docs[0]
-                                                      ['type'])),
+                                            builder: (context) => HabitScreen(
+                                              index: 4,
+                                              summary: snapshot.data!.docs[0]
+                                                  ['summary'],
+                                              description: snapshot
+                                                  .data!.docs[0]['description'],
+                                              name: snapshot.data!.docs[0]
+                                                  ['name'],
+                                              type: snapshot.data!.docs[0]
+                                                  ['type'],
+                                              abtscrn: true,
+                                            ),
+                                          ),
                                         );
                                       },
                                     ),
@@ -237,55 +241,11 @@ class _TimerScreenState extends State<TimerScreen> {
                           ],
                         ),
                       )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(
-                                height: verticalBlock * 5,
-                              ),
-                              Image.asset(
-                                'assets/images/congrats.png',
-                                height: verticalBlock * 20,
-                              ),
-                              Column(
-                                children: [
-                                  Text('Congratulations!',
-                                      style: TextStyle(
-                                          fontSize: verticalBlock * 4.5,
-                                          color: pink,
-                                          fontWeight: FontWeight.w700)),
-                                  SizedBox(
-                                    height: verticalBlock,
-                                  ),
-                                  Text(
-                                      nrday == 44
-                                          ? "You've finished building the habit"
-                                          : "You've finished day ${nrday + 1}",
-                                      style: TextStyle(
-                                          fontSize: verticalBlock * 3,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700)),
-                                ],
-                              ),
-                              SizedBox(
-                                height: verticalBlock * 5,
-                              ),
-                              TextButton(
-                                onPressed: () => nrday == 44
-                                    ? delete()
-                                    : updateDay(
-                                        snapshot.data!.docs[0]['nrday'] + 1),
-                                style: buttonStyle(Colors.white),
-                                child:
-                                    Text('Ok', style: buttonTextStyle(blue, 5)),
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
+                    : CongratsScreen(
+                        nrday: nrday,
+                        delete: delete,
+                        updateDay: updateDay,
+                        type: 'timer');
               }
               return const Center(
                 child: CircularProgressIndicator(),
@@ -326,9 +286,9 @@ class _TimerScreenState extends State<TimerScreen> {
         : TextButton(
             style: buttonStyle(Colors.white),
             child: Text('Start timer', style: buttonTextStyle(blue, 5)),
-            onPressed: today == DateTime(now.year, now.month, now.day + 11)
+            onPressed: today == DateTime(now.year, now.month, now.day + 1)
                 ? () {}
-                : today == DateTime(now.year, now.month, now.day + 10)
+                : today == DateTime(now.year, now.month, now.day)
                     ? () {
                         startTimer();
                       }

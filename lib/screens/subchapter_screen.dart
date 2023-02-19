@@ -59,7 +59,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                         fontSize:
                             wordNr(widget.document['subtitles'][widget.ind]) < 3
                                 ? verticalBlock * 3.8
-                                : verticalBlock * 3,
+                                : verticalBlock * 2.8,
                         fontWeight: FontWeight.w800,
                       )),
                 )),
@@ -67,7 +67,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
           backgroundColor: Colors.white,
           toolbarHeight: wordNr(widget.document['subtitles'][widget.ind]) < 3
               ? verticalBlock * 9
-              : verticalBlock * 12,
+              : verticalBlock * 14,
           leading: IconButton(
             padding: EdgeInsets.symmetric(
                 horizontal: horizontalBlock * 4, vertical: verticalBlock * 2),
@@ -87,7 +87,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
           leadingWidth: verticalBlock * 3,
           expandedHeight: wordNr(widget.document['subtitles'][widget.ind]) < 3
               ? verticalBlock * 10
-              : verticalBlock * 13,
+              : verticalBlock * 15,
           pinned: true,
         ),
         SliverList(
