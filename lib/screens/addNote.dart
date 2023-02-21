@@ -41,23 +41,17 @@ class AddNote extends StatelessWidget {
                 }).whenComplete(() => Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.fade,
-                        child: Scaffold(
-                          body: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/img2.png"),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            child: CongratsScreen(
-                              type: 'write',
-                              nrday: nrd,
-                              updateDay: (int t) {},
-                              delete: () {},
-                            ),
-                          ),
-                        ))));
+                      type: PageTransitionType.fade,
+                      child: Scaffold(
+                        backgroundColor: blue,
+                        body: CongratsScreen(
+                          type: 'write',
+                          nrday: nrd,
+                          updateDay: (int t) {},
+                          delete: () {},
+                        ),
+                      ),
+                    )));
               },
               child: Padding(
                 padding: EdgeInsets.only(right: horizontalBlock * 2),

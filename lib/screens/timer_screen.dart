@@ -209,7 +209,6 @@ class _TimerScreenState extends State<TimerScreen> {
                                                   ['name'],
                                               type: snapshot.data!.docs[0]
                                                   ['type'],
-                                              abtscrn: true,
                                             ),
                                           ),
                                         );

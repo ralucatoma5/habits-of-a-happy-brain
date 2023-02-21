@@ -9,7 +9,7 @@ class HealthyHabits extends StatelessWidget {
   final QueryDocumentSnapshot document;
   final int ind;
   HealthyHabits({Key? key, required this.document, required this.ind})
-      : super(key: key) {}
+      : super(key: key);
 
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
@@ -57,7 +57,7 @@ class HealthyHabits extends StatelessWidget {
                       )),
                 ),
                 backgroundColor: Colors.white,
-                toolbarHeight: verticalBlock * 10,
+                toolbarHeight: verticalBlock * 12,
                 leading: IconButton(
                   padding: EdgeInsets.symmetric(
                       horizontal: horizontalBlock * 4,
@@ -102,7 +102,6 @@ class HealthyHabits extends StatelessWidget {
                                   summary: snapshot.data!.docs[ind]
                                       ['habits_summary'][index],
                                   type: snapshot.data!.docs[ind]['type'][index],
-                                  abtscrn: false,
                                 ),
                               ),
                             );
@@ -173,7 +172,7 @@ class HealthyHabits extends StatelessWidget {
           }
         }
 
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }

@@ -40,7 +40,7 @@ class CongratsScreen extends StatelessWidget {
                 Text('Congratulations!',
                     style: TextStyle(
                         fontSize: verticalBlock * 4.5,
-                        color: type == 'write' ? Colors.white : pink,
+                        color: pink,
                         fontWeight: FontWeight.w700)),
                 SizedBox(
                   height: verticalBlock * 1.5,

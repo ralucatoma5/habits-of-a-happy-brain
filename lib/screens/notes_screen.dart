@@ -211,7 +211,6 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                   description,
                                                               name: name,
                                                               type: type,
-                                                              abtscrn: true,
                                                             )),
                                                   );
                                                 },
