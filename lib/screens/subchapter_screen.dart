@@ -112,7 +112,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: widget
-                            .document['exemple']['exemple${widget.ind}'].length,
+                            .document['example']['example${widget.ind}'].length,
                         itemBuilder: (context, index) {
                           return ListTile(
                               visualDensity: const VisualDensity(
@@ -126,8 +126,8 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                                     shape: BoxShape.circle, color: blue),
                               ),
                               title: Text(
-                                  widget.document['exemple']
-                                      ['exemple${widget.ind}'][index],
+                                  widget.document['example']
+                                      ['example${widget.ind}'][index],
                                   style: readingText));
                         }),
               ),
