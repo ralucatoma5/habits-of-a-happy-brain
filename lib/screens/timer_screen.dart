@@ -43,6 +43,20 @@ class _TimerScreenState extends State<TimerScreen> {
             : stopTimer(reset: false));
   }
 
+  @override
+  void initState() {
+    super.initState();
+    if (mounted) {
+      timer = Timer.periodic(Duration(seconds: 0), (_) => stopTimer());
+    }
+  }
+
+  @override
+  void dispose() {
+    timer!.cancel();
+    super.dispose();
+  }
+
   void stopTimer({bool reset = true}) {
     if (reset) resetTimer();
 

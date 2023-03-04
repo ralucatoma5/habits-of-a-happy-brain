@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:habits/screens/congrats_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../const.dart';
-import 'about_screen.dart';
 
 class AddNote extends StatelessWidget {
   int nrd;

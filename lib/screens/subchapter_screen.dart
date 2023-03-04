@@ -65,7 +65,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                 )),
           ),
           backgroundColor: Colors.white,
-          toolbarHeight: wordNr(widget.document['subtitles'][widget.ind]) < 3
+          toolbarHeight: wordNr(widget.document['subtitles'][widget.ind]) < 2
               ? verticalBlock * 9
               : verticalBlock * 14,
           leading: IconButton(
@@ -85,7 +85,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
           ),
           centerTitle: false,
           leadingWidth: verticalBlock * 3,
-          expandedHeight: wordNr(widget.document['subtitles'][widget.ind]) < 3
+          expandedHeight: wordNr(widget.document['subtitles'][widget.ind]) < 2
               ? verticalBlock * 10
               : verticalBlock * 15,
           pinned: true,

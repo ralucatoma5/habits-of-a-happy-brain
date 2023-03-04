@@ -279,7 +279,8 @@ class HabitScreen extends StatelessWidget {
                   : null);
         } else {
           // Show a loading widget
-          return CircularProgressIndicator();
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
         }
       },
     );

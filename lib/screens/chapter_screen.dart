@@ -100,26 +100,6 @@ class ChapterScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: verticalBlock * 3,
-                        vertical: verticalBlock * 3),
-                    decoration: BoxDecoration(
-                      color: blue,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                      ),
-                    ),
-                    child: Text(
-                      'Finished Chapter',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: verticalBlock * 2,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ))
             ],
           ),
         ),
@@ -180,7 +160,7 @@ class ChapterScreen extends StatelessWidget {
                               color: blue,
                               fontSize:
                                   wordNr(document['subtitles'][index]) == 1
-                                      ? verticalBlock * 3
+                                      ? verticalBlock * 2.5
                                       : verticalBlock * 2,
                               fontWeight: FontWeight.w800),
                         ),
