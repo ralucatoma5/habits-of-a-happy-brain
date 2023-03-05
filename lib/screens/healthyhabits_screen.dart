@@ -43,21 +43,21 @@ class HealthyHabits extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.only(
                             top: safeareaVertical * 8,
-                            left: 0,
-                            right: horizontalBlock * 4),
+                            left: horizontalBlock * 2,
+                            right: horizontalBlock * 6),
                         child: Text(snapshot.data!.docs[ind]['name'],
                             style: TextStyle(
                               color: blue,
                               fontSize:
                                   wordNr(snapshot.data!.docs[ind]['name']) < 3
-                                      ? verticalBlock * 3.8
+                                      ? verticalBlock * 3.6
                                       : verticalBlock * 3.2,
                               fontWeight: FontWeight.w800,
                             )),
                       )),
                 ),
                 backgroundColor: Colors.white,
-                toolbarHeight: verticalBlock * 12,
+                toolbarHeight: verticalBlock * 15,
                 leading: IconButton(
                   padding: EdgeInsets.symmetric(
                       horizontal: horizontalBlock * 4,
@@ -72,7 +72,7 @@ class HealthyHabits extends StatelessWidget {
                 leadingWidth: verticalBlock * 3,
                 expandedHeight: wordNr(snapshot.data!.docs[ind]['name']) < 3
                     ? verticalBlock * 8
-                    : verticalBlock * 15,
+                    : verticalBlock * 17,
                 pinned: true,
               ),
               SliverList(
@@ -84,8 +84,8 @@ class HealthyHabits extends StatelessWidget {
                       physics: const ScrollPhysics(),
                       padding: const EdgeInsets.all(15),
                       crossAxisCount: 2,
-                      mainAxisSpacing: 30,
-                      crossAxisSpacing: 20,
+                      mainAxisSpacing: verticalBlock * 4,
+                      crossAxisSpacing: horizontalBlock * 4,
                       itemCount: 4,
                       itemBuilder: (context, index) {
                         return GestureDetector(
@@ -164,7 +164,7 @@ class HealthyHabits extends StatelessWidget {
                       },
                       staggeredTileBuilder: (index) {
                         return StaggeredTile.count(
-                            1, index == 1 || index == 3 ? 1.35 : 1.55);
+                            1, index == 1 || index == 3 ? 1.30 : 1.40);
                       },
                     ))
               ]))

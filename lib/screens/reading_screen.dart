@@ -26,15 +26,20 @@ class _ReadingScreenState extends State<ReadingScreen> {
         SliverAppBar(
           automaticallyImplyLeading: false,
           elevation: 1,
+          expandedHeight: verticalBlock * 42,
           flexibleSpace: FlexibleSpaceBar(
             title: LayoutBuilder(builder: (context, constraints) {
               return constraints.maxHeight > verticalBlock * 15
                   ? const Text('')
-                  : Text('Habits of a Happy Brain',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: verticalBlock * 3.3,
-                          fontWeight: FontWeight.w800));
+                  : Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: verticalBlock * 2),
+                      child: Text('Habits of a Happy Brain',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: verticalBlock * 3.3,
+                              fontWeight: FontWeight.w800)),
+                    );
             }),
             background: Column(children: [
               Stack(
@@ -137,8 +142,8 @@ class _ReadingScreenState extends State<ReadingScreen> {
               ),
             ]),
           ),
+          toolbarHeight: verticalBlock * 10,
           pinned: true,
-          expandedHeight: verticalBlock * 40,
           backgroundColor: Colors.white,
         ),
         SliverList(
@@ -153,7 +158,8 @@ class _ReadingScreenState extends State<ReadingScreen> {
                     QueryDocumentSnapshot document = widget.list[index];
 
                     return Padding(
-                      padding: EdgeInsets.only(bottom: verticalBlock * 3.5),
+                      padding:
+                          EdgeInsets.symmetric(vertical: verticalBlock * 2.5),
                       child: SizedBox(
                         width: double.infinity,
                         height: verticalBlock * 32,

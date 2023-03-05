@@ -72,6 +72,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   decoration: const InputDecoration(
                     labelText: "Email",
                   ),
+                  style: TextStyle(fontSize: verticalBlock * 2),
                 ),
               ),
               SizedBox(
@@ -85,6 +86,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   decoration: const InputDecoration(
                     labelText: "Password",
                   ),
+                  style: TextStyle(fontSize: verticalBlock * 2),
                   obscureText: true,
                 ),
               ),
@@ -100,7 +102,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 fontSize: verticalBlock * 2)),
                       ),
                     )
-                  : Text(''),
+                  : const Text(''),
               GestureDetector(
                 onTap: () => Navigator.push(
                   context,

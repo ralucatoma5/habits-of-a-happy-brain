@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/screens/habit_screen.dart';
 import '../const.dart';
+import '../habitFunctions.dart';
 import 'addNote.dart';
 import 'editNote.dart';
 import 'home_screen.dart';
@@ -33,91 +34,6 @@ class _NotesScreenState extends State<NotesScreen> {
       .collection('habit')
       .doc(FirebaseAuth.instance.currentUser!.email)
       .collection('notes');
-
-  Future<void> delete() async {
-    CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection('habit');
-    _collectionRef.doc(FirebaseAuth.instance.currentUser!.email).delete();
-
-    final collectionhabit = FirebaseFirestore.instance
-        .collection('habit')
-        .doc(FirebaseAuth.instance.currentUser!.email)
-        .collection('notes');
-    var snapshots = await collectionhabit.get();
-    for (var doc in snapshots.docs) {
-      await doc.reference.delete();
-    }
-  }
-
-  Future<void> deleteHabit(BuildContext context) async {
-    Platform.isAndroid
-        ? showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: const Text(
-                      "Are you sure you want to stop building this habit"),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text("No"),
-                    ),
-                    TextButton(
-                      onPressed: delete,
-                      child: const Text("Yes"),
-                    ),
-                  ],
-                ))
-        : showCupertinoDialog(
-            context: context,
-            builder: (context) => CupertinoAlertDialog(
-                  title: const Text(
-                      "Are you sure you want to stop building this habit"),
-                  actions: [
-                    CupertinoDialogAction(
-                      child: const Text("No"),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    CupertinoDialogAction(
-                      child: const Text("Yes"),
-                      onPressed: () {
-                        delete();
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ));
-  }
-
-  Future<void> stopHabit(BuildContext context) async {
-    Platform.isAndroid
-        ? showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: const Text(
-                      "You missed at least a day of your habit, so you have to start over"),
-                  actions: [
-                    TextButton(
-                      onPressed: delete,
-                      child: const Text("Ok"),
-                    ),
-                  ],
-                ))
-        : showCupertinoDialog(
-            context: context,
-            builder: (context) => CupertinoAlertDialog(
-                  title: const Text(
-                      "You missed at least a day of your habit, so you have to start over"),
-                  actions: [
-                    CupertinoDialogAction(
-                      child: const Text("OK"),
-                      onPressed: () {
-                        delete();
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +75,8 @@ class _NotesScreenState extends State<NotesScreen> {
                                             fontWeight: FontWeight.w700)),
                                   ),
                                   IconButton(
-                                      onPressed: () => deleteHabit(context),
+                                      onPressed: () =>
+                                          deleteHabit(context, 'notes'),
                                       icon: Icon(
                                         Icons.delete_outline_rounded,
                                         size: verticalBlock * 4.5,
@@ -267,7 +184,7 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                 MaterialPageRoute(
                                                                     builder: (context) => AddNote(
                                                                         delete:
-                                                                            delete,
+                                                                            deleteNotes,
                                                                         content:
                                                                             content,
                                                                         nrd: snapshot
@@ -277,7 +194,7 @@ class _NotesScreenState extends State<NotesScreen> {
                                                               );
                                                             }
                                                           : () => stopHabit(
-                                                              context),
+                                                              context, 'notes'),
                                                   child: Container(
                                                     height: verticalBlock * 20,
                                                     width: horizontalBlock * 80,

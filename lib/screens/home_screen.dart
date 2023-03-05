@@ -68,18 +68,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               activeIcon: Icon(
                 Icons.menu_book,
-                size: horizonalBlock * 9,
+                size: horizonalBlock * 8,
               ),
               label: "",
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
                 const AssetImage('assets/images/habit_icon.png'),
-                size: horizonalBlock * 7,
+                size: horizonalBlock * 6,
               ),
               activeIcon: ImageIcon(
                 const AssetImage('assets/images/habit_icon.png'),
-                size: horizonalBlock * 11,
+                size: horizonalBlock * 9,
               ),
               label: "",
             ),

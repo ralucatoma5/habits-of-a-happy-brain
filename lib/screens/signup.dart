@@ -64,7 +64,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
                     child: TextFormField(
                       controller: emailController,
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Colors.white, fontSize: verticalBlock * 2),
                       decoration: const InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: pink),
@@ -90,7 +91,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
                     child: TextFormField(
                       controller: passwordController,
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Colors.white, fontSize: verticalBlock * 2),
                       decoration: const InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: pink),
@@ -115,7 +117,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     margin:
                         EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
                     child: TextFormField(
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Colors.white, fontSize: verticalBlock * 2),
                       decoration: const InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: pink),

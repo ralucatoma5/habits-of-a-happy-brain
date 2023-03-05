@@ -25,11 +25,12 @@ class ChapterScreen extends StatelessWidget {
         body: SingleChildScrollView(
             child: Stack(children: [
       Positioned(
-          top: SizeConfig.safeBlockVertical! * 6.5,
+          top: SizeConfig.safeBlockVertical! * 8,
           left: SizeConfig.safeBlockHorizontal! * 5,
           child: IconButton(
             icon: Icon(
               Icons.adaptive.arrow_back,
+              size: verticalBlock * 3.5,
             ),
             onPressed: () {
               Navigator.of(context).push(PageTransition(
@@ -41,7 +42,7 @@ class ChapterScreen extends StatelessWidget {
           )),
       Padding(
         padding: EdgeInsets.only(
-            top: verticalBlock * 22, left: horizontalBlock * 15),
+            top: verticalBlock * 24, left: horizontalBlock * 15),
         child: Container(
           width: horizontalBlock * 85,
           color: const Color(0xffF7F7F7),
@@ -105,7 +106,7 @@ class ChapterScreen extends StatelessWidget {
         ),
       ),
       Positioned(
-          top: verticalBlock * 15,
+          top: verticalBlock * 17,
           left: 0,
           child: Hero(
             tag: screenIndex,
@@ -127,7 +128,7 @@ class ChapterScreen extends StatelessWidget {
             ),
           )),
       Positioned(
-        top: verticalBlock * 50,
+        top: verticalBlock * 52,
         right: 0,
         left: 0,
         child: SizedBox(

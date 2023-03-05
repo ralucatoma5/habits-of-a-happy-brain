@@ -17,21 +17,21 @@ class BackgroundSignIn extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-              top: -verticalBlock * 14,
-              left: -horizontalBlock * 15,
-              width: size.width,
+              top: -verticalBlock * 16,
+              left: -verticalBlock * 5,
+              width: verticalBlock * 57,
               child: Container(
-                  height: verticalBlock * 60,
+                  height: verticalBlock * 57,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: gradientBluePink,
                   ))),
           Positioned(
-            top: -verticalBlock * 4,
-            left: horizontalBlock * 8,
-            width: verticalBlock * 41,
+            top: -verticalBlock * 8,
+            left: verticalBlock * 7,
+            width: verticalBlock * 46,
             child: Container(
-              height: verticalBlock * 41,
+              height: verticalBlock * 47,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: GradientBoxBorder(
@@ -43,7 +43,7 @@ class BackgroundSignIn extends StatelessWidget {
           ),
           Positioned(
               top: -verticalBlock * 2,
-              left: -horizontalBlock * 1.5,
+              left: -verticalBlock * 2,
               width: verticalBlock * 16,
               height: verticalBlock * 16,
               child: Container(
@@ -53,7 +53,7 @@ class BackgroundSignIn extends StatelessWidget {
               ))),
           Positioned(
             top: verticalBlock * 20,
-            left: horizontalBlock,
+            left: verticalBlock * 4,
             width: verticalBlock * 7,
             height: verticalBlock * 7,
             child: Container(
@@ -63,8 +63,8 @@ class BackgroundSignIn extends StatelessWidget {
             )),
           ),
           Positioned(
-            top: verticalBlock * 10,
-            left: horizontalBlock * 65,
+            top: verticalBlock * 5,
+            left: horizontalBlock * 66,
             width: verticalBlock * 5,
             height: verticalBlock * 5,
             child: Container(

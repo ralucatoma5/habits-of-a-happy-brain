@@ -11,7 +11,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../const.dart';
 
-class HabitScreen extends StatelessWidget {
+class HabitScreen extends StatefulWidget {
   final index;
   final String summary;
   final String description;
@@ -27,21 +27,31 @@ class HabitScreen extends StatelessWidget {
       required this.type})
       : super(key: key);
 
+  @override
+  State<HabitScreen> createState() => _HabitScreenState();
+}
+
+class _HabitScreenState extends State<HabitScreen> {
   final verticalBlock = SizeConfig.safeBlockVertical!;
 
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
+
   var now = DateTime.now();
+
   var formatter = DateFormat('dd');
+
   bool currentHabit = false;
+
   bool existHabit = false;
+
   Future addToHabit() async {
     CollectionReference _collectionRef =
         FirebaseFirestore.instance.collection("habit");
     return _collectionRef.doc(FirebaseAuth.instance.currentUser!.email).set({
-      'name': name,
-      'description': description,
-      'summary': summary,
-      'type': type,
+      'name': widget.name,
+      'description': widget.description,
+      'summary': widget.summary,
+      'type': widget.type,
       'id': FirebaseAuth.instance.currentUser!.email,
       'time': DateTime.now(),
       'nrday': 0
@@ -93,10 +103,10 @@ class HabitScreen extends StatelessWidget {
           .get(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final querySnaphost = snapshot.data; // Get query snapshot
+          final querySnaphost = snapshot.data;
           if (querySnaphost!.docs.isNotEmpty) {
             // document exists
-            currentHabit = snapshot.data!.docs[0]['name'] == name;
+            currentHabit = snapshot.data!.docs[0]['name'] == widget.name;
             existHabit = true;
           } else {
             // document does not exist
@@ -110,15 +120,29 @@ class HabitScreen extends StatelessWidget {
                       width: verticalBlock * 100,
                       child: Stack(alignment: Alignment.center, children: [
                         Positioned(
-                            top: SizeConfig.safeBlockVertical! * 6.5,
+                            top: SizeConfig.safeBlockVertical! * 7,
                             left: SizeConfig.safeBlockHorizontal! * 5,
                             child: IconButton(
                               icon: Icon(
                                 Icons.adaptive.arrow_back,
+                                size: verticalBlock * 3.5,
                               ),
                               onPressed: () {
                                 Navigator.pop(context);
                               },
+                            )),
+                        Positioned(
+                            top: SizeConfig.safeBlockVertical! * 7,
+                            left: SizeConfig.safeBlockHorizontal! * 12,
+                            child: Container(
+                              width: horizontalBlock * 65,
+                              child: Text(
+                                widget.name,
+                                style: TextStyle(
+                                    fontSize: verticalBlock * 3.5,
+                                    height: 1.4,
+                                    fontWeight: FontWeight.w800),
+                              ),
                             )),
                         Positioned(
                             top: verticalBlock * -2,
@@ -128,36 +152,25 @@ class HabitScreen extends StatelessWidget {
                               width: verticalBlock * 23,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: circleColor(index).withOpacity(0.75),
+                                color:
+                                    circleColor(widget.index).withOpacity(0.75),
                               ),
                             )),
-                        Container(
-                          padding: EdgeInsets.only(top: verticalBlock * 5),
-                          width: horizontalBlock * 65,
-                          child: Text(
-                            name,
-                            style: TextStyle(
-                                fontSize: verticalBlock * 3.5,
-                                height: 1.4,
-                                fontWeight: FontWeight.w800),
-                          ),
-                        )
                       ]),
                     ),
                     ListTile(
                       visualDensity:
                           const VisualDensity(horizontal: 0, vertical: -4),
-                      leading: type == 'write'
+                      leading: widget.type == 'write'
                           ? Image.asset(
                               'assets/images/write-blueIcon.png',
                               height: verticalBlock * 5,
                             )
                           : Icon(Icons.timer_outlined,
                               color: blue, size: verticalBlock * 5),
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: verticalBlock * 2,
-                          horizontal: horizontalBlock * 7),
-                      title: Text(summary,
+                      contentPadding: EdgeInsets.only(
+                          bottom: verticalBlock * 2, left: 40, right: 40),
+                      title: Text(widget.summary,
                           style: TextStyle(
                               fontSize: verticalBlock * 2.7,
                               height: 1.4,
@@ -166,10 +179,9 @@ class HabitScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: horizontalBlock * 9,
-                          vertical: verticalBlock * 2),
+                          horizontal: 40, vertical: verticalBlock * 2),
                       child: Text(
-                        description,
+                        widget.description,
                         style: readingText,
                       ),
                     ),
@@ -246,14 +258,18 @@ class HabitScreen extends StatelessWidget {
                                                               'write'
                                                           ? delete()
                                                           : deleteTimerHabit();
-                                                      addHabit(context);
+                                                      setState(() {
+                                                        addHabit(context);
+                                                      });
                                                       Navigator.pop(context);
                                                     },
                                                   ),
                                                 ],
                                               ));
                                 } else {
-                                  addHabit(context);
+                                  setState(() {
+                                    addHabit(context);
+                                  });
                                 }
                               },
                               child: Container(

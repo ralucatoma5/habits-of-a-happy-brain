@@ -10,6 +10,7 @@ import 'package:habits/screens/habit_screen.dart';
 
 import '../const.dart';
 
+import '../habitFunctions.dart';
 import 'home_screen.dart';
 
 class TimerScreen extends StatefulWidget {
@@ -63,82 +64,6 @@ class _TimerScreenState extends State<TimerScreen> {
     setState(() {
       timer?.cancel();
     });
-  }
-
-  Future<void> delete() async {
-    CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection('habit');
-    _collectionRef.doc(FirebaseAuth.instance.currentUser!.email).delete();
-  }
-
-  Future<void> deleteHabit(BuildContext context) async {
-    Platform.isAndroid
-        ? showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: const Text(
-                      "Are you sure you want to stop building this habit"),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text("No"),
-                    ),
-                    TextButton(
-                      onPressed: delete,
-                      child: const Text("Yes"),
-                    ),
-                  ],
-                ))
-        : showCupertinoDialog(
-            context: context,
-            builder: (context) => CupertinoAlertDialog(
-                  title: const Text(
-                      "Are you sure you want to stop building this habit"),
-                  actions: [
-                    CupertinoDialogAction(
-                      child: const Text("No"),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    CupertinoDialogAction(
-                      child: const Text("Yes"),
-                      onPressed: () {
-                        delete();
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ));
-  }
-
-  Future<void> stopHabit(BuildContext context) async {
-    Platform.isAndroid
-        ? showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: const Text(
-                      "You missed at least a day of your habit, so you have to start over"),
-                  actions: [
-                    TextButton(
-                      onPressed: delete,
-                      child: const Text("Ok"),
-                    ),
-                  ],
-                ))
-        : showCupertinoDialog(
-            context: context,
-            builder: (context) => CupertinoAlertDialog(
-                  title: const Text(
-                      "You missed at least a day of your habit, so you have to start over"),
-                  actions: [
-                    CupertinoDialogAction(
-                      child: const Text("OK"),
-                      onPressed: () {
-                        delete();
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ));
   }
 
   Future updateDay(int nrday) async {
@@ -229,7 +154,8 @@ class _TimerScreenState extends State<TimerScreen> {
                                       },
                                     ),
                                     IconButton(
-                                        onPressed: () => deleteHabit(context),
+                                        onPressed: () =>
+                                            deleteHabit(context, 'timer'),
                                         icon: Icon(
                                           Icons.delete_outline_rounded,
                                           size: verticalBlock * 4.5,
@@ -256,7 +182,7 @@ class _TimerScreenState extends State<TimerScreen> {
                       )
                     : CongratsScreen(
                         nrday: nrday,
-                        delete: delete,
+                        delete: deleteTimer,
                         updateDay: updateDay,
                         type: 'timer');
               }
@@ -305,7 +231,7 @@ class _TimerScreenState extends State<TimerScreen> {
                     ? () {
                         startTimer();
                       }
-                    : () => stopHabit(context));
+                    : () => stopHabit(context, 'timer'));
   }
 
   Widget buildTimer() => SizedBox(
