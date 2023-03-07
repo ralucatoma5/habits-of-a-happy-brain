@@ -153,7 +153,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
                   physics: const ScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: widget.list.length,
-                  padding: EdgeInsets.all(verticalBlock),
+                  padding: EdgeInsets.only(bottom: verticalBlock),
                   itemBuilder: (context, index) {
                     QueryDocumentSnapshot document = widget.list[index];
 

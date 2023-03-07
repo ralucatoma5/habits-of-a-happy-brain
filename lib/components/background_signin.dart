@@ -11,7 +11,7 @@ class BackgroundSignIn extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     final verticalBlock = SizeConfig.safeBlockVertical!;
     final horizontalBlock = SizeConfig.safeBlockHorizontal!;
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: size.height,
       child: Stack(

@@ -113,80 +113,86 @@ class _HabitScreenState extends State<HabitScreen> {
           }
           return Scaffold(
               body: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: verticalBlock * 23,
-                      width: verticalBlock * 100,
-                      child: Stack(alignment: Alignment.center, children: [
-                        Positioned(
-                            top: SizeConfig.safeBlockVertical! * 7,
-                            left: SizeConfig.safeBlockHorizontal! * 5,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.adaptive.arrow_back,
-                                size: verticalBlock * 3.5,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            )),
-                        Positioned(
-                            top: SizeConfig.safeBlockVertical! * 7,
-                            left: SizeConfig.safeBlockHorizontal! * 12,
-                            child: Container(
-                              width: horizontalBlock * 65,
-                              child: Text(
-                                widget.name,
-                                style: TextStyle(
-                                    fontSize: verticalBlock * 3.5,
-                                    height: 1.4,
-                                    fontWeight: FontWeight.w800),
-                              ),
-                            )),
-                        Positioned(
-                            top: verticalBlock * -2,
-                            right: horizontalBlock * -7,
-                            child: Container(
-                              height: verticalBlock * 23,
-                              width: verticalBlock * 23,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color:
-                                    circleColor(widget.index).withOpacity(0.75),
-                              ),
-                            )),
-                      ]),
-                    ),
-                    ListTile(
-                      visualDensity:
-                          const VisualDensity(horizontal: 0, vertical: -4),
-                      leading: widget.type == 'write'
-                          ? Image.asset(
-                              'assets/images/write-blueIcon.png',
-                              height: verticalBlock * 5,
-                            )
-                          : Icon(Icons.timer_outlined,
-                              color: blue, size: verticalBlock * 5),
-                      contentPadding: EdgeInsets.only(
-                          bottom: verticalBlock * 2, left: 40, right: 40),
-                      title: Text(widget.summary,
-                          style: TextStyle(
-                              fontSize: verticalBlock * 2.7,
-                              height: 1.4,
-                              fontWeight: FontWeight.w800,
-                              color: blue)),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 40, vertical: verticalBlock * 2),
-                      child: Text(
-                        widget.description,
-                        style: readingText,
+                child: Stack(alignment: Alignment.center, children: [
+                  Positioned(
+                      top: verticalBlock * -2,
+                      right: horizontalBlock * -7,
+                      child: Container(
+                        height: verticalBlock * 23,
+                        width: verticalBlock * 23,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: circleColor(widget.index).withOpacity(0.5),
+                        ),
+                      )),
+                  Positioned(
+                    top: verticalBlock * 8,
+                    left: horizontalBlock * 5,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.adaptive.arrow_back,
+                        size: verticalBlock * 3.5,
                       ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: verticalBlock * 8,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: SizeConfig.safeBlockHorizontal! * 17),
+                          child: SizedBox(
+                            width: horizontalBlock * 65,
+                            child: Text(
+                              widget.name,
+                              style: TextStyle(
+                                  fontSize: verticalBlock * 3.6,
+                                  height: 1.4,
+                                  fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                          visualDensity:
+                              const VisualDensity(horizontal: 0, vertical: -4),
+                          leading: widget.type == 'write'
+                              ? Image.asset(
+                                  'assets/images/write-blueIcon.png',
+                                  height: verticalBlock * 5,
+                                )
+                              : Icon(Icons.timer_outlined,
+                                  color: blue, size: verticalBlock * 5),
+                          contentPadding: EdgeInsets.only(
+                              bottom: verticalBlock,
+                              left: 40,
+                              right: 40,
+                              top: verticalBlock * 4),
+                          title: Text(widget.summary,
+                              style: TextStyle(
+                                  fontSize: verticalBlock * 2.7,
+                                  height: 1.4,
+                                  fontWeight: FontWeight.w800,
+                                  color: blue)),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 40, vertical: verticalBlock * 2),
+                          child: Text(
+                            widget.description,
+                            style: readingText,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ]),
               ),
               bottomNavigationBar: currentHabit == false
                   ? Container(
@@ -294,7 +300,6 @@ class _HabitScreenState extends State<HabitScreen> {
                       ))
                   : null);
         } else {
-          // Show a loading widget
           return const Scaffold(
               body: Center(child: CircularProgressIndicator()));
         }

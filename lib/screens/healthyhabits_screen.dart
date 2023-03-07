@@ -41,38 +41,33 @@ class HealthyHabits extends StatelessWidget {
                         maxWidth: horizontalBlock * 70,
                       ),
                       child: Padding(
-                        padding: EdgeInsets.only(
-                            top: safeareaVertical * 8,
-                            left: horizontalBlock * 2,
-                            right: horizontalBlock * 6),
+                        padding: EdgeInsets.only(right: horizontalBlock * 6),
                         child: Text(snapshot.data!.docs[ind]['name'],
                             style: TextStyle(
                               color: blue,
                               fontSize:
                                   wordNr(snapshot.data!.docs[ind]['name']) < 3
-                                      ? verticalBlock * 3.6
-                                      : verticalBlock * 3.2,
+                                      ? verticalBlock * 3.4
+                                      : verticalBlock * 3.1,
                               fontWeight: FontWeight.w800,
                             )),
                       )),
                 ),
                 backgroundColor: Colors.white,
-                toolbarHeight: verticalBlock * 15,
+                toolbarHeight: verticalBlock * 13,
                 leading: IconButton(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: horizontalBlock * 4,
-                      vertical: verticalBlock * 2),
+                  padding: EdgeInsets.only(
+                      left: horizontalBlock * 5, top: verticalBlock * 2),
                   onPressed: () {
                     Navigator.pop(context);
                   },
                   icon: Icon(Icons.adaptive.arrow_back,
-                      size: verticalBlock * 3, color: blue),
+                      size: verticalBlock * 4, color: blue),
                 ),
                 centerTitle: false,
-                leadingWidth: verticalBlock * 3,
                 expandedHeight: wordNr(snapshot.data!.docs[ind]['name']) < 3
                     ? verticalBlock * 8
-                    : verticalBlock * 17,
+                    : verticalBlock * 15,
                 pinned: true,
               ),
               SliverList(
@@ -151,7 +146,7 @@ class HealthyHabits extends StatelessWidget {
                                           [index],
                                       style: TextStyle(
                                         color: blue,
-                                        fontSize: verticalBlock * 2.8,
+                                        fontSize: verticalBlock * 2.5,
                                         fontWeight: FontWeight.w800,
                                       ),
                                     ),
@@ -164,7 +159,7 @@ class HealthyHabits extends StatelessWidget {
                       },
                       staggeredTileBuilder: (index) {
                         return StaggeredTile.count(
-                            1, index == 1 || index == 3 ? 1.30 : 1.40);
+                            1, index == 1 || index == 3 ? 1.40 : 1.30);
                       },
                     ))
               ]))
