@@ -231,7 +231,7 @@ class _TimerScreenState extends State<TimerScreen> {
                     ? () {
                         startTimer();
                       }
-                    : () => stopHabit(context, 'timer'));
+                    : () => startOverHabit(context, 'timer'));
   }
 
   Widget buildTimer() => SizedBox(

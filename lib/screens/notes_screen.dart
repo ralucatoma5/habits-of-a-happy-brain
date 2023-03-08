@@ -48,8 +48,7 @@ class _NotesScreenState extends State<NotesScreen> {
                             snapshot.data!.docs[0]['time'].toDate().toString());
                         final initialDay =
                             DateTime(time.year, time.month, time.day);
-                        final lastDay =
-                            DateTime(time.year, time.month, time.day + 45);
+
                         String name = snapshot.data!.docs[0]['name'];
                         String type = snapshot.data!.docs[0]['type'];
                         String description =
@@ -57,7 +56,7 @@ class _NotesScreenState extends State<NotesScreen> {
                         String content = snapshot.data!.docs[0]['summary'];
                         return Padding(
                           padding: EdgeInsets.symmetric(
-                              vertical: verticalBlock * 4,
+                              vertical: verticalBlock * 5,
                               horizontal: horizontalBlock * 10),
                           child: Column(
                             children: [
@@ -70,7 +69,7 @@ class _NotesScreenState extends State<NotesScreen> {
                                     width: horizontalBlock * 50,
                                     child: Text(snapshot.data!.docs[0]['name'],
                                         style: TextStyle(
-                                            fontSize: verticalBlock * 3,
+                                            fontSize: verticalBlock * 3.3,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700)),
                                   ),
@@ -166,12 +165,10 @@ class _NotesScreenState extends State<NotesScreen> {
                                               children: [
                                                 GestureDetector(
                                                   onTap: today ==
-                                                              DateTime(
-                                                                  now.year,
-                                                                  now.month,
-                                                                  now.day +
-                                                                      1) ||
-                                                          lastDay == today
+                                                          DateTime(
+                                                              now.year,
+                                                              now.month,
+                                                              now.day + 1)
                                                       ? () {}
                                                       : today ==
                                                               DateTime(
@@ -183,8 +180,6 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                 context,
                                                                 MaterialPageRoute(
                                                                     builder: (context) => AddNote(
-                                                                        delete:
-                                                                            deleteNotes,
                                                                         content:
                                                                             content,
                                                                         nrd: snapshot
@@ -193,8 +188,10 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                             .length)),
                                                               );
                                                             }
-                                                          : () => stopHabit(
-                                                              context, 'notes'),
+                                                          : () =>
+                                                              startOverHabit(
+                                                                  context,
+                                                                  'notes'),
                                                   child: Container(
                                                     height: verticalBlock * 20,
                                                     width: horizontalBlock * 80,
@@ -232,9 +229,7 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                   now.month,
                                                                   now.day + 1)
                                                           ? 'Wait until tomorrow'
-                                                          : lastDay == today
-                                                              ? 'You have finished building your habit. Start a new one!'
-                                                              : 'Start Day ${snapshot.data!.docs.length + 1}',
+                                                          : 'Start Day ${snapshot.data!.docs.length + 1}',
                                                       style: TextStyle(
                                                           color: Colors.white,
                                                           fontWeight:

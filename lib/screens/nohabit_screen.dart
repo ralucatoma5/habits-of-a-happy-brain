@@ -32,7 +32,7 @@ class NoHabitScreen extends StatelessWidget {
             'Finish reading the chapters and build a new habit',
             style: TextStyle(
                 fontSize: verticalBlock * 2.5,
-                color: Color.fromARGB(255, 123, 122, 122)),
+                color: const Color.fromARGB(255, 123, 122, 122)),
             textAlign: TextAlign.center,
           )
         ],

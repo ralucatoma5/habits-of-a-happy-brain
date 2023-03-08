@@ -20,6 +20,25 @@ Future<void> deleteNotes() async {
   }
 }
 
+Future<void> startOverNotes() async {
+  final collectionhabit = FirebaseFirestore.instance
+      .collection('habit')
+      .doc(FirebaseAuth.instance.currentUser!.email)
+      .collection('notes');
+  var snapshots = await collectionhabit.get();
+  for (var doc in snapshots.docs) {
+    await doc.reference.delete();
+  }
+}
+
+Future<void> startOverTimer() async {
+  CollectionReference _collectionRef =
+      FirebaseFirestore.instance.collection('habit');
+  _collectionRef
+      .doc(FirebaseAuth.instance.currentUser!.email)
+      .update({'nrday': 0});
+}
+
 Future<void> deleteTimer() async {
   CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('habit');
@@ -66,7 +85,7 @@ Future<void> deleteHabit(BuildContext context, String type) async {
               ));
 }
 
-Future<void> stopHabit(BuildContext context, String type) async {
+Future<void> startOverHabit(BuildContext context, String type) async {
   Platform.isAndroid
       ? showDialog(
           context: context,
@@ -76,7 +95,7 @@ Future<void> stopHabit(BuildContext context, String type) async {
                 actions: [
                   TextButton(
                     onPressed: () =>
-                        type == 'notes' ? deleteNotes() : deleteTimer(),
+                        type == 'notes' ? startOverNotes() : startOverTimer(),
                     child: const Text("Ok"),
                   ),
                 ],
@@ -90,7 +109,7 @@ Future<void> stopHabit(BuildContext context, String type) async {
                   CupertinoDialogAction(
                     child: const Text("OK"),
                     onPressed: () {
-                      type == 'notes' ? deleteNotes() : deleteTimer();
+                      type == 'notes' ? startOverNotes() : startOverTimer();
                       Navigator.pop(context);
                     },
                   ),

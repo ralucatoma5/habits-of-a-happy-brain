@@ -106,7 +106,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                   bottom: verticalBlock * 6,
                 ),
                 child: widget.screenIndex == 4 || widget.screenIndex == 0
-                    ? SizedBox(height: verticalBlock * 3)
+                    ? SizedBox(height: verticalBlock * 1)
                     : ListView.builder(
                         padding: EdgeInsets.zero,
                         physics: const ScrollPhysics(),
@@ -132,9 +132,13 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                         }),
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: verticalBlock * 5),
+                padding: EdgeInsets.only(
+                  bottom: verticalBlock * 8,
+                  right: horizontalBlock * 8,
+                  left: horizontalBlock * 8,
+                ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     widget.ind > 0
                         ? SizedBox(

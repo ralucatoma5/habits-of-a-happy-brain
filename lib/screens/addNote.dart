@@ -9,9 +9,9 @@ import '../const.dart';
 
 class AddNote extends StatelessWidget {
   int nrd;
-  final Function()? delete;
+
   String content;
-  AddNote({super.key, required this.nrd, required this.content, this.delete});
+  AddNote({super.key, required this.nrd, required this.content});
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
   final verticalBlock = SizeConfig.safeBlockVertical!;
@@ -42,11 +42,13 @@ class AddNote extends StatelessWidget {
                       type: PageTransitionType.fade,
                       child: Scaffold(
                         backgroundColor: blue,
-                        body: CongratsScreen(
-                          type: 'write',
-                          nrday: nrd,
-                          updateDay: (int t) {},
-                          delete: () {},
+                        body: Scaffold(
+                          body: CongratsScreen(
+                            type: 'write',
+                            nrday: nrd,
+                            updateDay: (int t) {},
+                            delete: () {},
+                          ),
                         ),
                       ),
                     )));

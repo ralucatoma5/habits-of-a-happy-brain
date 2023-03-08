@@ -17,21 +17,21 @@ class BackgroundSignIn extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-              top: -verticalBlock * 16,
-              left: -verticalBlock * 5,
-              width: verticalBlock * 57,
+              top: -verticalBlock * 14,
+              left: -verticalBlock * 7,
+              width: verticalBlock * 53,
               child: Container(
-                  height: verticalBlock * 57,
+                  height: verticalBlock * 53,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: gradientBluePink,
                   ))),
           Positioned(
-            top: -verticalBlock * 8,
-            left: verticalBlock * 7,
-            width: verticalBlock * 46,
+            top: -verticalBlock * 7,
+            left: verticalBlock * 4,
+            width: verticalBlock * 43,
             child: Container(
-              height: verticalBlock * 47,
+              height: verticalBlock * 43,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: GradientBoxBorder(
@@ -53,7 +53,7 @@ class BackgroundSignIn extends StatelessWidget {
               ))),
           Positioned(
             top: verticalBlock * 20,
-            left: verticalBlock * 4,
+            left: verticalBlock * 3,
             width: verticalBlock * 7,
             height: verticalBlock * 7,
             child: Container(

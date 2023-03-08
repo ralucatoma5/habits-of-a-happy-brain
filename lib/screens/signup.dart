@@ -151,7 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         )
                       : Text(''),
-                  SizedBox(height: verticalBlock * 10),
+                  SizedBox(height: verticalBlock * 6),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

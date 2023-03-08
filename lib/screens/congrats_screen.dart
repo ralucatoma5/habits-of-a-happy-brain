@@ -32,7 +32,9 @@ class CongratsScreen extends StatelessWidget {
               height: verticalBlock * 5,
             ),
             Image.asset(
-              'assets/images/congrats.png',
+              type == 'write'
+                  ? 'assets/images/congrats-blue.png'
+                  : 'assets/images/congrats.png',
               height: verticalBlock * 20,
             ),
             Column(
@@ -40,10 +42,10 @@ class CongratsScreen extends StatelessWidget {
                 Text('Congratulations!',
                     style: TextStyle(
                         fontSize: verticalBlock * 4.5,
-                        color: pink,
+                        color: type == 'write' ? blue : pink,
                         fontWeight: FontWeight.w700)),
                 SizedBox(
-                  height: verticalBlock * 1.5,
+                  height: verticalBlock * 2.5,
                 ),
                 Text(
                     nrday == 44
@@ -51,7 +53,9 @@ class CongratsScreen extends StatelessWidget {
                         : "You've finished day ${nrday + 1}",
                     style: TextStyle(
                         fontSize: verticalBlock * 3,
-                        color: Colors.white,
+                        color: type == 'write'
+                            ? const Color.fromARGB(255, 142, 141, 141)
+                            : Colors.white,
                         fontWeight: FontWeight.w700)),
               ],
             ),
@@ -70,8 +74,10 @@ class CongratsScreen extends StatelessWidget {
                             child: Scaffold(body: HomeScreen())),
                       ),
                     },
-              style: buttonStyle(Colors.white),
-              child: Text('Ok', style: buttonTextStyle(blue, 5)),
+              style: buttonStyle(type == 'write' ? blue : Colors.white),
+              child: Text('Ok',
+                  style: buttonTextStyle(
+                      type == 'write' ? Colors.white : blue, 6)),
             ),
           ],
         ),

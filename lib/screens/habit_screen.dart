@@ -115,18 +115,18 @@ class _HabitScreenState extends State<HabitScreen> {
               body: SingleChildScrollView(
                 child: Stack(alignment: Alignment.center, children: [
                   Positioned(
-                      top: verticalBlock * -2,
-                      right: horizontalBlock * -7,
+                      top: verticalBlock * -3,
+                      right: horizontalBlock * -8,
                       child: Container(
-                        height: verticalBlock * 23,
-                        width: verticalBlock * 23,
+                        height: verticalBlock * 25,
+                        width: verticalBlock * 25,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: circleColor(widget.index).withOpacity(0.5),
                         ),
                       )),
                   Positioned(
-                    top: verticalBlock * 8,
+                    top: verticalBlock * 9,
                     left: horizontalBlock * 5,
                     child: IconButton(
                       icon: Icon(
@@ -140,7 +140,7 @@ class _HabitScreenState extends State<HabitScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                      top: verticalBlock * 8,
+                      top: verticalBlock * 9,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,7 +173,7 @@ class _HabitScreenState extends State<HabitScreen> {
                               bottom: verticalBlock,
                               left: 40,
                               right: 40,
-                              top: verticalBlock * 4),
+                              top: verticalBlock * 6),
                           title: Text(widget.summary,
                               style: TextStyle(
                                   fontSize: verticalBlock * 2.7,
