@@ -28,6 +28,11 @@ Future<void> startOverNotes() async {
   var snapshots = await collectionhabit.get();
   for (var doc in snapshots.docs) {
     await doc.reference.delete();
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('habit');
+    _collectionRef
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .update({'nrday': 0, 'time': DateTime.now()});
   }
 }
 
@@ -36,7 +41,7 @@ Future<void> startOverTimer() async {
       FirebaseFirestore.instance.collection('habit');
   _collectionRef
       .doc(FirebaseAuth.instance.currentUser!.email)
-      .update({'nrday': 0});
+      .update({'nrday': 0, 'time': DateTime.now()});
 }
 
 Future<void> deleteTimer() async {
