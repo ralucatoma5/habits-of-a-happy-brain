@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/habitFunctions.dart';
+import 'package:habits/widgets/hideButtomNavBar_widget.dart';
 import 'package:intl/intl.dart';
 
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -13,7 +14,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../const.dart';
 
 class HabitScreen extends StatefulWidget {
-  final index;
+  final int index;
   final String summary;
   final String description;
   final String name;
@@ -46,6 +47,19 @@ class _HabitScreenState extends State<HabitScreen> {
   bool currentHabit = false;
 
   bool existHabit = false;
+
+  late ScrollController controller;
+  @override
+  void initState() {
+    controller = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   Future addToHabit() async {
     CollectionReference collectionRef =
@@ -95,6 +109,7 @@ class _HabitScreenState extends State<HabitScreen> {
           }
           return Scaffold(
               body: SingleChildScrollView(
+                controller: controller,
                 child: Stack(alignment: Alignment.center, children: [
                   Positioned(
                       top: verticalBlock * -3,
@@ -177,158 +192,175 @@ class _HabitScreenState extends State<HabitScreen> {
                 ]),
               ),
               bottomNavigationBar: currentHabit == false
-                  ? Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 3,
-                            blurRadius: 4,
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 15, bottom: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                if (existHabit) {
-                                  Platform.isAndroid
-                                      ? showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                                title: const Text(
-                                                    "You are already building a habit. Do you want to replace it?"),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                    child: const Text("No"),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      snapshot.data!.docs[0]
-                                                                  ['type'] ==
-                                                              'write'
-                                                          ? deleteNotes()
-                                                          : deleteTimer();
-                                                      setState(() {
-                                                        addHabit(context);
-                                                      });
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text("Yes"),
-                                                  ),
-                                                ],
-                                              ))
-                                      : showCupertinoDialog(
-                                          context: context,
-                                          builder: (context) =>
-                                              CupertinoAlertDialog(
-                                                title: const Text(
-                                                    "You are already building a habit. Do you want to replace it?"),
-                                                actions: [
-                                                  CupertinoDialogAction(
-                                                    child: const Text("No"),
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                  ),
-                                                  CupertinoDialogAction(
-                                                    child: const Text("Yes"),
-                                                    onPressed: () {
-                                                      snapshot.data!.docs[0]
-                                                                  ['type'] ==
-                                                              'write'
-                                                          ? deleteNotes()
-                                                          : deleteTimer();
-                                                      setState(() {
-                                                        addHabit(context);
-                                                      });
-                                                      Navigator.pop(context);
-                                                    },
-                                                  ),
-                                                ],
-                                              ));
-                                } else if (widget.finishedHabit == true) {
-                                  Platform.isAndroid
-                                      ? showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                                title: const Text(
-                                                    "You already did this habit. Do you want to do it again?"),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                    child: const Text("No"),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        addHabit(context);
-                                                      });
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text("Yes"),
-                                                  ),
-                                                ],
-                                              ))
-                                      : showCupertinoDialog(
-                                          context: context,
-                                          builder: (context) =>
-                                              CupertinoAlertDialog(
-                                                title: const Text(
-                                                    "You already did this habit. Do you want to do it again?"),
-                                                actions: [
-                                                  CupertinoDialogAction(
-                                                    child: const Text("No"),
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                  ),
-                                                  CupertinoDialogAction(
-                                                    child: const Text("Yes"),
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        addHabit(context);
-                                                      });
-                                                      Navigator.pop(context);
-                                                    },
-                                                  ),
-                                                ],
-                                              ));
-                                } else {
-                                  setState(() {
-                                    addHabit(context);
-                                  });
-                                }
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: verticalBlock * 3,
-                                    vertical: verticalBlock * 2),
-                                decoration: BoxDecoration(
-                                  color: blue,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Text(
-                                  'Add to your habit',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: verticalBlock * 2,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                              ),
+                  ? HideBottomNavBar(
+                      controller: controller,
+                      child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5),
                             ),
-                          ],
-                        ),
-                      ))
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 3,
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, bottom: 30),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    if (existHabit) {
+                                      Platform.isAndroid
+                                          ? showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                    title: const Text(
+                                                        "You are already building a habit. Do you want to replace it?"),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                        child: const Text("No"),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          snapshot.data!.docs[0]
+                                                                      [
+                                                                      'type'] ==
+                                                                  'write'
+                                                              ? deleteNotes()
+                                                              : deleteTimer();
+                                                          setState(() {
+                                                            addHabit(context);
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child:
+                                                            const Text("Yes"),
+                                                      ),
+                                                    ],
+                                                  ))
+                                          : showCupertinoDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  CupertinoAlertDialog(
+                                                    title: const Text(
+                                                        "You are already building a habit. Do you want to replace it?"),
+                                                    actions: [
+                                                      CupertinoDialogAction(
+                                                        child: const Text("No"),
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                      ),
+                                                      CupertinoDialogAction(
+                                                        child:
+                                                            const Text("Yes"),
+                                                        onPressed: () {
+                                                          snapshot.data!.docs[0]
+                                                                      [
+                                                                      'type'] ==
+                                                                  'write'
+                                                              ? deleteNotes()
+                                                              : deleteTimer();
+                                                          setState(() {
+                                                            addHabit(context);
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ));
+                                    } else if (widget.finishedHabit == true) {
+                                      Platform.isAndroid
+                                          ? showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                    title: const Text(
+                                                        "You already did this habit. Do you want to do it again?"),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                        child: const Text("No"),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            addHabit(context);
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child:
+                                                            const Text("Yes"),
+                                                      ),
+                                                    ],
+                                                  ))
+                                          : showCupertinoDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  CupertinoAlertDialog(
+                                                    title: const Text(
+                                                        "You already did this habit. Do you want to do it again?"),
+                                                    actions: [
+                                                      CupertinoDialogAction(
+                                                        child: const Text("No"),
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                      ),
+                                                      CupertinoDialogAction(
+                                                        child:
+                                                            const Text("Yes"),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            addHabit(context);
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ));
+                                    } else {
+                                      setState(() {
+                                        addHabit(context);
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: verticalBlock * 3,
+                                        vertical: verticalBlock * 2),
+                                    decoration: BoxDecoration(
+                                      color: blue,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Text(
+                                      'Add to your habit',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: verticalBlock * 2,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                    )
                   : null);
         } else {
           return const Scaffold(

@@ -8,8 +8,9 @@ import 'about_screen.dart';
 import 'chapter_screen.dart';
 
 class ReadingScreen extends StatefulWidget {
+  final ScrollController controller;
   final List<QueryDocumentSnapshot> list;
-  const ReadingScreen(this.list, {super.key});
+  const ReadingScreen(this.list, {super.key, required this.controller});
 
   @override
   _ReadingScreenState createState() => _ReadingScreenState();
@@ -22,6 +23,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: widget.controller,
       slivers: [
         SliverAppBar(
           automaticallyImplyLeading: false,
