@@ -256,6 +256,53 @@ class _HabitScreenState extends State<HabitScreen> {
                                                   ),
                                                 ],
                                               ));
+                                } else if (widget.finishedHabit == true) {
+                                  Platform.isAndroid
+                                      ? showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                                title: const Text(
+                                                    "You already did this habit. Do you want to do it again?"),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: const Text("No"),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        addHabit(context);
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text("Yes"),
+                                                  ),
+                                                ],
+                                              ))
+                                      : showCupertinoDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              CupertinoAlertDialog(
+                                                title: const Text(
+                                                    "You already did this habit. Do you want to do it again?"),
+                                                actions: [
+                                                  CupertinoDialogAction(
+                                                    child: const Text("No"),
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                  ),
+                                                  CupertinoDialogAction(
+                                                    child: const Text("Yes"),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        addHabit(context);
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ],
+                                              ));
                                 } else {
                                   setState(() {
                                     addHabit(context);
