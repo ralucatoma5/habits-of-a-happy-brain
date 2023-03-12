@@ -25,6 +25,12 @@ class _NotesScreenState extends State<NotesScreen> {
   final verticalBlock = SizeConfig.safeBlockVertical!;
 
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
+  Future updateDay(int nrday) async {
+    final collectionRef = FirebaseFirestore.instance.collection('habit');
+    return collectionRef
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .update({'nrday': nrday});
+  }
 
   final refh = FirebaseFirestore.instance
       .collection('habit')
@@ -51,6 +57,7 @@ class _NotesScreenState extends State<NotesScreen> {
 
                         String name = snapshot.data!.docs[0]['name'];
                         String type = snapshot.data!.docs[0]['type'];
+                        int nrday = snapshot.data!.docs[0]['nrday'];
                         String description =
                             snapshot.data!.docs[0]['description'];
                         String content = snapshot.data!.docs[0]['summary'];
@@ -87,11 +94,8 @@ class _NotesScreenState extends State<NotesScreen> {
                                   builder: (context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasData) {
-                                      final today = DateTime(
-                                          time.year,
-                                          time.month,
-                                          time.day +
-                                              snapshot.data!.docs.length);
+                                      final today = DateTime(time.year,
+                                          time.month, time.day + nrday);
 
                                       return Column(
                                         children: [
@@ -127,6 +131,8 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                   description,
                                                               name: name,
                                                               type: type,
+                                                              finishedHabit:
+                                                                  false,
                                                             )),
                                                   );
                                                 },
@@ -150,7 +156,7 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                 0xffD8D7D7)),
                                                     Center(
                                                       child: Text(
-                                                          '${(snapshot.data!.docs.length * 100.00 / 45).round()}%'),
+                                                          '${(nrday * 100.00 / 45).round()}%'),
                                                     )
                                                   ],
                                                 ),
@@ -180,12 +186,14 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                 context,
                                                                 MaterialPageRoute(
                                                                     builder: (context) => AddNote(
+                                                                        updateDay:
+                                                                            updateDay,
+                                                                        name:
+                                                                            name,
                                                                         content:
                                                                             content,
-                                                                        nrd: snapshot
-                                                                            .data!
-                                                                            .docs
-                                                                            .length)),
+                                                                        nrd:
+                                                                            nrday)),
                                                               );
                                                             }
                                                           : () =>
@@ -211,7 +219,7 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                       .circular(
                                                                           5)),
                                                       child: Image.asset(
-                                                        'assets/images/img${snapshot.data!.docs.length % 3}.png',
+                                                        'assets/images/img${nrday % 3}.png',
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ),
@@ -229,7 +237,7 @@ class _NotesScreenState extends State<NotesScreen> {
                                                                   now.month,
                                                                   now.day + 1)
                                                           ? 'Wait until tomorrow'
-                                                          : 'Start Day ${snapshot.data!.docs.length + 1}',
+                                                          : 'Start Day ${nrday + 1}',
                                                       style: TextStyle(
                                                           color: Colors.white,
                                                           fontWeight:

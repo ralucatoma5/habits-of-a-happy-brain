@@ -41,11 +41,11 @@ int topPosition(int index) {
   if (index == 0)
     return -10;
   else if (index == 1)
-    return 3;
+    return 7;
   else if (index == 3)
     return 0;
   else
-    return 15;
+    return 10;
 }
 
 int leftPosition(int index) {
@@ -54,9 +54,9 @@ int leftPosition(int index) {
   else if (index == 1)
     return 20;
   else if (index == 3)
-    return 20;
+    return -13;
   else
-    return -10;
+    return 20;
 }
 
 int circleHeight(int index) {

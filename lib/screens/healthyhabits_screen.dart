@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -14,6 +15,14 @@ class HealthyHabits extends StatelessWidget {
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
   final safeareaVertical = SizeConfig.safeBlockVertical!;
+
+  bool contains(List<String> list, String name) {
+    for (int i = 0; i < list.length; i++) {
+      if (list[i] == name) return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
@@ -83,24 +92,15 @@ class HealthyHabits extends StatelessWidget {
                       crossAxisSpacing: horizontalBlock * 4,
                       itemCount: 4,
                       itemBuilder: (context, index) {
+                        String name =
+                            snapshot.data!.docs[ind]['habits_name'][index];
+                        String description = snapshot.data!.docs[ind]
+                            ['habits_description'][index];
+                        String summary =
+                            snapshot.data!.docs[ind]['habits_summary'][index];
+                        String type = snapshot.data!.docs[ind]['type'][index];
+                        bool finishedHabit = false;
                         return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HabitScreen(
-                                  index: index,
-                                  name: snapshot.data!.docs[ind]['habits_name']
-                                      [index],
-                                  description: snapshot.data!.docs[ind]
-                                      ['habits_description'][index],
-                                  summary: snapshot.data!.docs[ind]
-                                      ['habits_summary'][index],
-                                  type: snapshot.data!.docs[ind]['type'][index],
-                                ),
-                              ),
-                            );
-                          },
                           child: Container(
                             height: verticalBlock * 30,
                             width: horizontalBlock * 40,
@@ -119,13 +119,13 @@ class HealthyHabits extends StatelessWidget {
                                           verticalBlock * circleHeight(index),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: circleColor(index)
-                                            .withOpacity(0.75),
+                                        color:
+                                            circleColor(index).withOpacity(0.7),
                                       ),
                                     )),
                                 Positioned(
                                   top: verticalBlock * 2,
-                                  right: horizontalBlock * 3,
+                                  left: horizontalBlock * 3,
                                   child: snapshot.data!.docs[ind]['type']
                                               [index] ==
                                           'write'
@@ -135,6 +135,32 @@ class HealthyHabits extends StatelessWidget {
                                         )
                                       : Icon(Icons.timer_outlined,
                                           size: verticalBlock * 5),
+                                ),
+                                FutureBuilder<QuerySnapshot>(
+                                  future: FirebaseFirestore.instance
+                                      .collection('finishedHabits')
+                                      .where('id',
+                                          isEqualTo: FirebaseAuth
+                                              .instance.currentUser!.email)
+                                      .get(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      if (snapshot
+                                          .data!.docs[0]['finishedHabits']
+                                          .contains(name)) {
+                                        finishedHabit = true;
+                                        return Positioned(
+                                          top: verticalBlock * 2,
+                                          right: horizontalBlock * 3,
+                                          child: Icon(
+                                              Icons.check_circle_outline,
+                                              size: verticalBlock * 5,
+                                              color: blue),
+                                        );
+                                      }
+                                    }
+                                    return const SizedBox();
+                                  },
                                 ),
                                 Positioned(
                                   bottom: verticalBlock * 5,
@@ -155,6 +181,20 @@ class HealthyHabits extends StatelessWidget {
                               ],
                             ),
                           ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HabitScreen(
+                                    index: index,
+                                    name: name,
+                                    description: description,
+                                    summary: summary,
+                                    type: type,
+                                    finishedHabit: finishedHabit),
+                              ),
+                            );
+                          },
                         );
                       },
                       staggeredTileBuilder: (index) {
@@ -167,7 +207,7 @@ class HealthyHabits extends StatelessWidget {
           }
         }
 
-        return Scaffold(body: const Center(child: CircularProgressIndicator()));
+        return const Scaffold(body: Center(child: CircularProgressIndicator()));
       },
     );
   }

@@ -9,9 +9,15 @@ import '../const.dart';
 
 class AddNote extends StatelessWidget {
   int nrd;
-
+  final Function(int nrd) updateDay;
+  String name;
   String content;
-  AddNote({super.key, required this.nrd, required this.content});
+  AddNote(
+      {super.key,
+      required this.nrd,
+      required this.content,
+      required this.name,
+      required this.updateDay});
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
   final verticalBlock = SizeConfig.safeBlockVertical!;
@@ -44,10 +50,10 @@ class AddNote extends StatelessWidget {
                         backgroundColor: blue,
                         body: Scaffold(
                           body: CongratsScreen(
+                            name: name,
                             type: 'write',
                             nrday: nrd,
-                            updateDay: (int t) {},
-                            delete: () {},
+                            updateDay: updateDay,
                           ),
                         ),
                       ),

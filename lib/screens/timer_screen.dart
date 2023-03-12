@@ -148,6 +148,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                                   ['name'],
                                               type: snapshot.data!.docs[0]
                                                   ['type'],
+                                              finishedHabit: false,
                                             ),
                                           ),
                                         );
@@ -181,8 +182,8 @@ class _TimerScreenState extends State<TimerScreen> {
                         ),
                       )
                     : CongratsScreen(
+                        name: snapshot.data!.docs[0]['name'],
                         nrday: nrday,
-                        delete: deleteTimer,
                         updateDay: updateDay,
                         type: 'timer');
               }

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:habits/habitFunctions.dart';
 import 'package:intl/intl.dart';
 
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -17,6 +18,7 @@ class HabitScreen extends StatefulWidget {
   final String description;
   final String name;
   final String type;
+  final bool finishedHabit;
 
   HabitScreen(
       {Key? key,
@@ -24,7 +26,8 @@ class HabitScreen extends StatefulWidget {
       required this.summary,
       required this.description,
       required this.name,
-      required this.type})
+      required this.type,
+      required this.finishedHabit})
       : super(key: key);
 
   @override
@@ -45,9 +48,9 @@ class _HabitScreenState extends State<HabitScreen> {
   bool existHabit = false;
 
   Future addToHabit() async {
-    CollectionReference _collectionRef =
+    CollectionReference collectionRef =
         FirebaseFirestore.instance.collection("habit");
-    return _collectionRef.doc(FirebaseAuth.instance.currentUser!.email).set({
+    return collectionRef.doc(FirebaseAuth.instance.currentUser!.email).set({
       'name': widget.name,
       'description': widget.description,
       'summary': widget.summary,
@@ -73,27 +76,6 @@ class _HabitScreenState extends State<HabitScreen> {
         displayDuration: const Duration(milliseconds: 50));
   }
 
-  Future<void> delete() async {
-    CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection('habit');
-    _collectionRef.doc(FirebaseAuth.instance.currentUser!.email).delete();
-
-    final collectionhabit = FirebaseFirestore.instance
-        .collection('habit')
-        .doc(FirebaseAuth.instance.currentUser!.email)
-        .collection('notes');
-    var snapshots = await collectionhabit.get();
-    for (var doc in snapshots.docs) {
-      await doc.reference.delete();
-    }
-  }
-
-  Future<void> deleteTimerHabit() async {
-    CollectionReference collectionRef =
-        FirebaseFirestore.instance.collection('habit');
-    collectionRef.doc(FirebaseAuth.instance.currentUser!.email).delete();
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
@@ -103,8 +85,8 @@ class _HabitScreenState extends State<HabitScreen> {
           .get(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final querySnaphost = snapshot.data;
-          if (querySnaphost!.docs.isNotEmpty) {
+          final querySnaphots = snapshot.data;
+          if (querySnaphots!.docs.isNotEmpty) {
             // document exists
             currentHabit = snapshot.data!.docs[0]['name'] == widget.name;
             existHabit = true;
@@ -235,9 +217,11 @@ class _HabitScreenState extends State<HabitScreen> {
                                                       snapshot.data!.docs[0]
                                                                   ['type'] ==
                                                               'write'
-                                                          ? delete()
-                                                          : deleteTimerHabit();
-                                                      addHabit(context);
+                                                          ? deleteNotes()
+                                                          : deleteTimer();
+                                                      setState(() {
+                                                        addHabit(context);
+                                                      });
                                                       Navigator.pop(context);
                                                     },
                                                     child: const Text("Yes"),
@@ -262,8 +246,8 @@ class _HabitScreenState extends State<HabitScreen> {
                                                       snapshot.data!.docs[0]
                                                                   ['type'] ==
                                                               'write'
-                                                          ? delete()
-                                                          : deleteTimerHabit();
+                                                          ? deleteNotes()
+                                                          : deleteTimer();
                                                       setState(() {
                                                         addHabit(context);
                                                       });
