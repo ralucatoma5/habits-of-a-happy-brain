@@ -77,7 +77,7 @@ class _TimerScreenState extends State<TimerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: blue,
+        backgroundColor: duration.inSeconds != 0 ? blue : Colors.white,
         body: StreamBuilder(
             stream: refh.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {

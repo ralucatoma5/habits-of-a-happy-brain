@@ -35,17 +35,15 @@ class CongratsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Image.asset(
-                type == 'write'
-                    ? 'assets/images/congrats-blue.png'
-                    : 'assets/images/congrats.png',
-                height: verticalBlock * 20,
+                'assets/images/congrats.png',
+                height: verticalBlock * 40,
               ),
               Column(
                 children: [
                   Text('Congratulations!',
                       style: TextStyle(
-                          fontSize: verticalBlock * 4.5,
-                          color: type == 'write' ? blue : pink,
+                          fontSize: verticalBlock * 4.3,
+                          color: Colors.black,
                           fontWeight: FontWeight.w700)),
                   SizedBox(
                     height: verticalBlock * 2.5,
@@ -86,10 +84,8 @@ class CongratsScreen extends StatelessWidget {
                               child: Scaffold(body: HomeScreen())),
                         ),
                       },
-                style: buttonStyle(type == 'write' ? blue : Colors.white),
-                child: Text('Ok',
-                    style: buttonTextStyle(
-                        type == 'write' ? Colors.white : blue, 6)),
+                style: buttonStyle(blue),
+                child: Text('Ok', style: buttonTextStyle(Colors.white, 6)),
               ),
             ],
           ),
