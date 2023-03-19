@@ -143,6 +143,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
                 ],
               ),
             ]),
+            collapseMode: CollapseMode.pin,
           ),
           toolbarHeight: verticalBlock * 10,
           pinned: true,
