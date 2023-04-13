@@ -5,6 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/habitFunctions.dart';
+import 'package:habits/models/currentHabit_model.dart';
+import 'package:habits/models/habit_model.dart';
+import 'package:habits/services/firestoreService.dart';
 import 'package:habits/widgets/hideButtomNavBar_widget.dart';
 import 'package:intl/intl.dart';
 
@@ -15,20 +18,11 @@ import '../const.dart';
 
 class HabitScreen extends StatefulWidget {
   final int index;
-  final String summary;
-  final String description;
-  final String name;
-  final String type;
+  Habit habit;
+
   final bool finishedHabit;
 
-  HabitScreen(
-      {Key? key,
-      required this.index,
-      required this.summary,
-      required this.description,
-      required this.name,
-      required this.type,
-      required this.finishedHabit})
+  HabitScreen({Key? key, required this.index, required this.habit, required this.finishedHabit})
       : super(key: key);
 
   @override
@@ -44,9 +38,10 @@ class _HabitScreenState extends State<HabitScreen> {
 
   var formatter = DateFormat('dd');
 
-  bool currentHabit = false;
+  bool isCurrentHabit = false;
 
   bool existHabit = false;
+  late CurrentHabit currentHabit;
 
   late ScrollController controller;
   @override
@@ -62,13 +57,12 @@ class _HabitScreenState extends State<HabitScreen> {
   }
 
   Future addToHabit() async {
-    CollectionReference collectionRef =
-        FirebaseFirestore.instance.collection("habit");
+    CollectionReference collectionRef = FirebaseFirestore.instance.collection("habit");
     return collectionRef.doc(FirebaseAuth.instance.currentUser!.email).set({
-      'name': widget.name,
-      'description': widget.description,
-      'summary': widget.summary,
-      'type': widget.type,
+      'name': widget.habit.name,
+      'description': widget.habit.description,
+      'summary': widget.habit.summary,
+      'type': widget.habit.type,
       'id': FirebaseAuth.instance.currentUser!.email,
       'time': DateTime.now(),
       'nrday': 0
@@ -92,17 +86,15 @@ class _HabitScreenState extends State<HabitScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot>(
-      future: FirebaseFirestore.instance
-          .collection('habit')
-          .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email)
-          .get(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirestoreService.getCurrentHabit(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final querySnaphots = snapshot.data;
           if (querySnaphots!.docs.isNotEmpty) {
             // document exists
-            currentHabit = snapshot.data!.docs[0]['name'] == widget.name;
+            currentHabit = CurrentHabit.fromJSON(snapshot.data!.docs[0]);
+            isCurrentHabit = currentHabit.name == widget.habit.name;
             existHabit = true;
           } else {
             // document does not exist
@@ -143,35 +135,27 @@ class _HabitScreenState extends State<HabitScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(
-                              left: SizeConfig.safeBlockHorizontal! * 17),
+                          padding: EdgeInsets.only(left: SizeConfig.safeBlockHorizontal! * 17),
                           child: SizedBox(
                             width: horizontalBlock * 65,
                             child: Text(
-                              widget.name,
+                              widget.habit.name,
                               style: TextStyle(
-                                  fontSize: verticalBlock * 3.6,
-                                  height: 1.4,
-                                  fontWeight: FontWeight.w800),
+                                  fontSize: verticalBlock * 3.6, height: 1.4, fontWeight: FontWeight.w800),
                             ),
                           ),
                         ),
                         ListTile(
-                          visualDensity:
-                              const VisualDensity(horizontal: 0, vertical: -4),
-                          leading: widget.type == 'write'
+                          visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                          leading: widget.habit.type == 'write'
                               ? Image.asset(
                                   'assets/images/write-blueIcon.png',
                                   height: verticalBlock * 5,
                                 )
-                              : Icon(Icons.timer_outlined,
-                                  color: blue, size: verticalBlock * 5),
+                              : Icon(Icons.timer_outlined, color: blue, size: verticalBlock * 5),
                           contentPadding: EdgeInsets.only(
-                              bottom: verticalBlock,
-                              left: 40,
-                              right: 40,
-                              top: verticalBlock * 6),
-                          title: Text(widget.summary,
+                              bottom: verticalBlock, left: 40, right: 40, top: verticalBlock * 6),
+                          title: Text(widget.habit.summary,
                               style: TextStyle(
                                   fontSize: verticalBlock * 2.7,
                                   height: 1.4,
@@ -179,10 +163,9 @@ class _HabitScreenState extends State<HabitScreen> {
                                   color: blue)),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 40, vertical: verticalBlock * 2),
+                          padding: EdgeInsets.symmetric(horizontal: 40, vertical: verticalBlock * 2),
                           child: Text(
-                            widget.description,
+                            widget.habit.description,
                             style: readingText,
                           ),
                         ),
@@ -191,7 +174,7 @@ class _HabitScreenState extends State<HabitScreen> {
                   ),
                 ]),
               ),
-              bottomNavigationBar: currentHabit == false
+              bottomNavigationBar: isCurrentHabit == false
                   ? HideBottomNavBar(
                       controller: controller,
                       child: Container(
@@ -225,58 +208,43 @@ class _HabitScreenState extends State<HabitScreen> {
                                                         "You are already building a habit. Do you want to replace it?"),
                                                     actions: [
                                                       TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                context),
+                                                        onPressed: () => Navigator.pop(context),
                                                         child: const Text("No"),
                                                       ),
                                                       TextButton(
                                                         onPressed: () {
-                                                          snapshot.data!.docs[0]
-                                                                      [
-                                                                      'type'] ==
-                                                                  'write'
+                                                          currentHabit.type == 'write'
                                                               ? deleteNotes()
                                                               : deleteTimer();
-                                                          setState(() {
-                                                            addHabit(context);
-                                                          });
-                                                          Navigator.pop(
-                                                              context);
+
+                                                          addHabit(context);
+
+                                                          Navigator.pop(context);
                                                         },
-                                                        child:
-                                                            const Text("Yes"),
+                                                        child: const Text("Yes"),
                                                       ),
                                                     ],
                                                   ))
                                           : showCupertinoDialog(
                                               context: context,
-                                              builder: (context) =>
-                                                  CupertinoAlertDialog(
+                                              builder: (context) => CupertinoAlertDialog(
                                                     title: const Text(
                                                         "You are already building a habit. Do you want to replace it?"),
                                                     actions: [
                                                       CupertinoDialogAction(
                                                         child: const Text("No"),
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                context),
+                                                        onPressed: () => Navigator.pop(context),
                                                       ),
                                                       CupertinoDialogAction(
-                                                        child:
-                                                            const Text("Yes"),
+                                                        child: const Text("Yes"),
                                                         onPressed: () {
-                                                          snapshot.data!.docs[0]
-                                                                      [
-                                                                      'type'] ==
-                                                                  'write'
+                                                          currentHabit.type == 'write'
                                                               ? deleteNotes()
                                                               : deleteTimer();
-                                                          setState(() {
-                                                            addHabit(context);
-                                                          });
-                                                          Navigator.pop(
-                                                              context);
+
+                                                          addHabit(context);
+
+                                                          Navigator.pop(context);
                                                         },
                                                       ),
                                                     ],
@@ -290,60 +258,46 @@ class _HabitScreenState extends State<HabitScreen> {
                                                         "You already did this habit. Do you want to do it again?"),
                                                     actions: [
                                                       TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                context),
+                                                        onPressed: () => Navigator.pop(context),
                                                         child: const Text("No"),
                                                       ),
                                                       TextButton(
                                                         onPressed: () {
-                                                          setState(() {
-                                                            addHabit(context);
-                                                          });
-                                                          Navigator.pop(
-                                                              context);
+                                                          addHabit(context);
+
+                                                          Navigator.pop(context);
                                                         },
-                                                        child:
-                                                            const Text("Yes"),
+                                                        child: const Text("Yes"),
                                                       ),
                                                     ],
                                                   ))
                                           : showCupertinoDialog(
                                               context: context,
-                                              builder: (context) =>
-                                                  CupertinoAlertDialog(
+                                              builder: (context) => CupertinoAlertDialog(
                                                     title: const Text(
                                                         "You already did this habit. Do you want to do it again?"),
                                                     actions: [
                                                       CupertinoDialogAction(
                                                         child: const Text("No"),
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                context),
+                                                        onPressed: () => Navigator.pop(context),
                                                       ),
                                                       CupertinoDialogAction(
-                                                        child:
-                                                            const Text("Yes"),
+                                                        child: const Text("Yes"),
                                                         onPressed: () {
-                                                          setState(() {
-                                                            addHabit(context);
-                                                          });
-                                                          Navigator.pop(
-                                                              context);
+                                                          addHabit(context);
+
+                                                          Navigator.pop(context);
                                                         },
                                                       ),
                                                     ],
                                                   ));
                                     } else {
-                                      setState(() {
-                                        addHabit(context);
-                                      });
+                                      addHabit(context);
                                     }
                                   },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: verticalBlock * 3,
-                                        vertical: verticalBlock * 2),
+                                        horizontal: verticalBlock * 3, vertical: verticalBlock * 2),
                                     decoration: BoxDecoration(
                                       color: blue,
                                       borderRadius: BorderRadius.circular(5),
@@ -363,8 +317,7 @@ class _HabitScreenState extends State<HabitScreen> {
                     )
                   : null);
         } else {
-          return const Scaffold(
-              body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
       },
     );

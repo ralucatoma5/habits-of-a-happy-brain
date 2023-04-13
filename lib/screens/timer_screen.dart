@@ -69,9 +69,7 @@ class _TimerScreenState extends State<TimerScreen> {
   Future updateDay(int nrday) async {
     resetTimer();
     final _collectionRef = FirebaseFirestore.instance.collection('habit');
-    return _collectionRef
-        .doc(FirebaseAuth.instance.currentUser!.email)
-        .update({'nrday': nrday});
+    return _collectionRef.doc(FirebaseAuth.instance.currentUser!.email).update({'nrday': nrday});
   }
 
   @override
@@ -82,16 +80,14 @@ class _TimerScreenState extends State<TimerScreen> {
             stream: refh.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasData) {
-                DateTime time = DateTime.parse(
-                    snapshot.data!.docs[0]['time'].toDate().toString());
+                DateTime time = DateTime.parse(snapshot.data!.docs[0]['time'].toDate().toString());
                 final initialDay = DateTime(time.year, time.month, time.day);
                 int nrday = snapshot.data!.docs[0]['nrday'].toInt();
 
                 final today = DateTime(time.year, time.month, time.day + nrday);
                 return duration.inSeconds != 0
                     ? Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: horizontalBlock * 10),
+                        padding: EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,13 +95,11 @@ class _TimerScreenState extends State<TimerScreen> {
                             Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
                                       width: horizontalBlock * 45,
-                                      child: Text(
-                                          snapshot.data!.docs[0]['name'],
+                                      child: Text(snapshot.data!.docs[0]['name'],
                                           style: TextStyle(
                                               fontSize: verticalBlock * 3,
                                               color: Colors.white,
@@ -122,41 +116,35 @@ class _TimerScreenState extends State<TimerScreen> {
                                   height: verticalBlock * 3,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     GestureDetector(
                                       child: Text('About the habit',
                                           style: TextStyle(
-                                            decoration:
-                                                TextDecoration.underline,
+                                            decoration: TextDecoration.underline,
                                             color: pink,
                                             fontWeight: FontWeight.w600,
                                             fontSize: verticalBlock * 2.4,
                                           )),
                                       onTap: () {
-                                        Navigator.push(
+                                        /*Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => HabitScreen(
+                                              //Change
+                                              id: 0,
                                               index: 4,
-                                              summary: snapshot.data!.docs[0]
-                                                  ['summary'],
-                                              description: snapshot
-                                                  .data!.docs[0]['description'],
-                                              name: snapshot.data!.docs[0]
-                                                  ['name'],
-                                              type: snapshot.data!.docs[0]
-                                                  ['type'],
+
+                                              name: snapshot.data!.docs[0]['name'],
+
                                               finishedHabit: false,
                                             ),
                                           ),
-                                        );
+                                        );*/
                                       },
                                     ),
                                     IconButton(
-                                        onPressed: () =>
-                                            deleteHabit(context, 'timer'),
+                                        onPressed: () => deleteHabit(context, 'timer'),
                                         icon: Icon(
                                           Icons.delete_outline_rounded,
                                           size: verticalBlock * 4.5,
@@ -167,9 +155,7 @@ class _TimerScreenState extends State<TimerScreen> {
                               ],
                             ),
                             Text(
-                                today ==
-                                        DateTime(
-                                            now.year, now.month, now.day + 1)
+                                today == DateTime(now.year, now.month, now.day + 1)
                                     ? 'Wait until tomorrow'
                                     : 'Day ${nrday + 1}',
                                 style: TextStyle(
@@ -203,13 +189,10 @@ class _TimerScreenState extends State<TimerScreen> {
             children: [
               TextButton(
                 onPressed: () {
-                  isRunning
-                      ? stopTimer(reset: false)
-                      : startTimer(reset: false);
+                  isRunning ? stopTimer(reset: false) : startTimer(reset: false);
                 },
                 style: buttonStyle(Colors.white),
-                child: Text(isRunning ? 'Pause' : 'Resume',
-                    style: buttonTextStyle(blue, 5)),
+                child: Text(isRunning ? 'Pause' : 'Resume', style: buttonTextStyle(blue, 5)),
               ),
               SizedBox(
                 width: horizontalBlock * 10,
@@ -255,7 +238,6 @@ class _TimerScreenState extends State<TimerScreen> {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return Text('$minutes:$seconds',
-        style: TextStyle(fontSize: verticalBlock * 5, color: Colors.white));
+    return Text('$minutes:$seconds', style: TextStyle(fontSize: verticalBlock * 5, color: Colors.white));
   }
 }
