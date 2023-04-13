@@ -5,23 +5,23 @@ class Chapter {
   final String imageUrl;
   final String name;
   final String summary;
-  final List<Subchapter> subChapters;
+  //final List<Subchapter> subChapters;
 
   Chapter({
     required this.imageUrl,
     required this.name,
     required this.summary,
-    required this.subChapters,
+    // required this.subChapters,
   });
 
   factory Chapter.fromJSON(DocumentSnapshot doc) {
     return Chapter(
       name: doc['name'],
-      imageUrl: doc['imageUrl'],
+      imageUrl: doc['img'],
       summary: doc['summary'],
-      subChapters: List<Subchapter>.from(
-        doc['subchapters'].map((subchapter) => Subchapter.fromJSON(subchapter)),
-      ),
+      /* subChapters: List<Subchapter>.from(
+       doc['subchapters'].map((subchapter) => Subchapter.fromJSON(subchapter)),
+      ),*/
     );
   }
 }

@@ -17,14 +17,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
-  final CollectionReference _referenceChapters =
-      FirebaseFirestore.instance.collection('chapters');
+
   late ScrollController controller;
 
   late Stream<QuerySnapshot> _streamChapters;
   @override
   void initState() {
-    _streamChapters = _referenceChapters.snapshots();
     controller = ScrollController();
     super.initState();
   }
@@ -40,27 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
     SizeConfig().init(context);
     final horizonalBlock = SizeConfig.safeBlockHorizontal!;
     return Scaffold(
-        body: StreamBuilder<QuerySnapshot>(
-            stream: _streamChapters,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasError == true) {
-                return Center(child: Text(snapshot.error.toString()));
-              }
-              if (snapshot.connectionState == ConnectionState.active) {
-                QuerySnapshot querySnapshot = snapshot.data;
-                List<QueryDocumentSnapshot> listQueryDocumentSnapshot =
-                    querySnapshot.docs;
-                return currentIndex == 0
-                    ? ReadingScreen(listQueryDocumentSnapshot,
-                        controller: controller)
-                    : currentIndex == 1
-                        ? MyHabitScreen()
-                        : Account();
-              }
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }),
+        body: currentIndex == 0
+            ? ReadingScreen(controller: controller)
+            : currentIndex == 1
+                ? MyHabitScreen()
+                : Account(),
         bottomNavigationBar: HideBottomNavBar(
           controller: controller,
           child: BottomNavigationBar(

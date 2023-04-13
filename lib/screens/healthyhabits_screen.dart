@@ -10,9 +10,8 @@ import '../const.dart';
 import 'habit_screen.dart';
 
 class HealthyHabits extends StatelessWidget {
-  final QueryDocumentSnapshot document;
   final int ind;
-  HealthyHabits({Key? key, required this.document, required this.ind}) : super(key: key);
+  HealthyHabits({Key? key, required this.ind}) : super(key: key);
 
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;

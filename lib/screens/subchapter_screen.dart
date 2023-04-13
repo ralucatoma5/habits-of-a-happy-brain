@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:habits/models/chapter_model.dart';
+import 'package:habits/models/subchapter_model.dart';
 
 import 'package:page_transition/page_transition.dart';
 
@@ -7,17 +9,17 @@ import '../const.dart';
 import 'chapter_screen.dart';
 
 class SubchapterScreen extends StatefulWidget {
-  final QueryDocumentSnapshot document;
-  int ind;
-  final List<QueryDocumentSnapshot> list;
-  final int screenIndex;
-  SubchapterScreen(
-      {Key? key,
-      required this.document,
-      required this.ind,
-      required this.screenIndex,
-      required this.list})
-      : super(key: key);
+  int subchapterIndex;
+  List<Subchapter> subchapters;
+  Chapter chapter;
+  final int chapterIndex;
+  SubchapterScreen({
+    Key? key,
+    required this.subchapters,
+    required this.chapter,
+    required this.subchapterIndex,
+    required this.chapterIndex,
+  }) : super(key: key);
 
   @override
   State<SubchapterScreen> createState() => _SubchapterScreenState();
@@ -39,8 +41,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
           elevation: 0.8,
           flexibleSpace: FlexibleSpaceBar(
             background: Padding(
-              padding: EdgeInsets.only(
-                  top: verticalBlock * 2, right: horizontalBlock * 2),
+              padding: EdgeInsets.only(top: verticalBlock * 2, right: horizontalBlock * 2),
             ),
             expandedTitleScale: 1.15,
             centerTitle: false,
@@ -49,43 +50,36 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                   maxWidth: horizontalBlock * 70,
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(
-                      top: safeareaVertical * 8,
-                      left: 0,
-                      right: horizontalBlock * 4),
-                  child: Text(widget.document['subtitles'][widget.ind],
+                  padding: EdgeInsets.only(top: safeareaVertical * 8, left: 0, right: horizontalBlock * 4),
+                  child: Text(widget.subchapters[widget.subchapterIndex].title,
                       style: TextStyle(
                         color: blue,
-                        fontSize:
-                            wordNr(widget.document['subtitles'][widget.ind]) < 3
-                                ? verticalBlock * 3.8
-                                : verticalBlock * 2.8,
+                        fontSize: wordNr(widget.subchapters[widget.subchapterIndex].title) < 3
+                            ? verticalBlock * 3.8
+                            : verticalBlock * 2.8,
                         fontWeight: FontWeight.w800,
                       )),
                 )),
           ),
           backgroundColor: Colors.white,
-          toolbarHeight: wordNr(widget.document['subtitles'][widget.ind]) < 2
+          toolbarHeight: wordNr(widget.subchapters[widget.subchapterIndex].title) < 2
               ? verticalBlock * 9
               : verticalBlock * 14,
           leading: IconButton(
-            padding: EdgeInsets.symmetric(
-                horizontal: horizontalBlock * 4, vertical: verticalBlock * 2),
+            padding: EdgeInsets.symmetric(horizontal: horizontalBlock * 4, vertical: verticalBlock * 2),
             onPressed: () {
               Navigator.push(
                   context,
                   PageTransition(
                     type: PageTransitionType.leftToRight,
-                    child: ChapterScreen(widget.screenIndex,
-                        document: widget.document, list: widget.list),
+                    child: ChapterScreen(widget.chapterIndex, chapter: widget.chapter),
                   ));
             },
-            icon: Icon(Icons.adaptive.arrow_back,
-                size: verticalBlock * 3, color: blue),
+            icon: Icon(Icons.adaptive.arrow_back, size: verticalBlock * 3, color: blue),
           ),
           centerTitle: false,
           leadingWidth: verticalBlock * 3,
-          expandedHeight: wordNr(widget.document['subtitles'][widget.ind]) < 2
+          expandedHeight: wordNr(widget.subchapters[widget.subchapterIndex].title) < 2
               ? verticalBlock * 10
               : verticalBlock * 15,
           pinned: true,
@@ -94,10 +88,8 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
           delegate: SliverChildListDelegate(
             [
               Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: horizontalBlock * 5, vertical: verticalBlock),
-                child: Text(widget.document['subtitle_description'][widget.ind],
-                    style: readingText),
+                padding: EdgeInsets.symmetric(horizontal: horizontalBlock * 5, vertical: verticalBlock),
+                child: Text(widget.subchapters[widget.subchapterIndex].description, style: readingText),
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -105,29 +97,23 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                   left: horizontalBlock * 8,
                   bottom: verticalBlock * 6,
                 ),
-                child: widget.screenIndex == 4 || widget.screenIndex == 0
-                    ? SizedBox(height: verticalBlock * 1)
+                child: widget.chapterIndex == 0 || widget.chapterIndex == 4
+                    ? SizedBox(height: verticalBlock)
                     : ListView.builder(
                         padding: EdgeInsets.zero,
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: widget
-                            .document['example']['example${widget.ind}'].length,
+                        itemCount: widget.subchapters[widget.subchapterIndex].examples.length,
                         itemBuilder: (context, index) {
                           return ListTile(
-                              visualDensity: const VisualDensity(
-                                  horizontal: 0, vertical: -4),
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: verticalBlock * 0.5,
-                                  horizontal: 0.0),
+                              visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: verticalBlock * 0.5, horizontal: 0.0),
                               leading: Container(
                                 width: verticalBlock * 2.5,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle, color: blue),
+                                decoration: BoxDecoration(shape: BoxShape.circle, color: blue),
                               ),
-                              title: Text(
-                                  widget.document['example']
-                                      ['example${widget.ind}'][index],
+                              title: Text(widget.subchapters[widget.subchapterIndex].examples[index],
                                   style: readingText));
                         }),
               ),
@@ -140,7 +126,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    widget.ind > 0
+                    widget.subchapterIndex > 0
                         ? SizedBox(
                             width: verticalBlock * 14,
                             height: verticalBlock * 6,
@@ -148,23 +134,22 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                                 onPressed: () {
                                   Navigator.of(context).push(PageTransition(
                                     child: SubchapterScreen(
-                                      document: widget.document,
-                                      ind: widget.ind - 1,
-                                      screenIndex: widget.screenIndex,
-                                      list: widget.list,
+                                      chapter: widget.chapter,
+                                      subchapters: widget.subchapters,
+                                      subchapterIndex: widget.subchapterIndex - 1,
+                                      chapterIndex: widget.chapterIndex,
                                     ),
                                     type: PageTransitionType.leftToRight,
                                   ));
                                 },
                                 style: buttonStyle(blue),
-                                child: Text('Previous',
-                                    style: buttonTextStyle(Colors.white, 4))),
+                                child: Text('Previous', style: buttonTextStyle(Colors.white, 4))),
                           )
                         : SizedBox(
                             width: verticalBlock * 14,
                             height: verticalBlock * 6,
                           ),
-                    widget.document['subtitles'].length > widget.ind + 1
+                    widget.subchapters.length > widget.subchapterIndex + 1
                         ? SizedBox(
                             width: verticalBlock * 14,
                             height: verticalBlock * 6,
@@ -172,17 +157,16 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                               onPressed: () {
                                 Navigator.of(context).push(PageTransition(
                                   child: SubchapterScreen(
-                                    document: widget.document,
-                                    ind: widget.ind + 1,
-                                    screenIndex: widget.screenIndex,
-                                    list: widget.list,
+                                    chapter: widget.chapter,
+                                    subchapters: widget.subchapters,
+                                    subchapterIndex: widget.subchapterIndex + 1,
+                                    chapterIndex: widget.chapterIndex,
                                   ),
                                   type: PageTransitionType.rightToLeft,
                                 ));
                               },
                               style: buttonStyle(blue),
-                              child: Text('Next',
-                                  style: buttonTextStyle(Colors.white, 4)),
+                              child: Text('Next', style: buttonTextStyle(Colors.white, 4)),
                             ),
                           )
                         : SizedBox(
