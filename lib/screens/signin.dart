@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../components/background_signin.dart';
+import '../widgets/background_signin.dart';
 import '../const.dart';
 import '../main.dart';
 import 'forgotpass_screen.dart';
@@ -48,19 +48,13 @@ class _SignInScreenState extends State<SignInScreen> {
             children: [
               Text(
                 "SIGN IN",
-                style: TextStyle(
-                    color: blue,
-                    fontSize: verticalBlock * 5,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(color: blue, fontSize: verticalBlock * 5, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: verticalBlock * 1.5,
               ),
               Text('TO CONTINUE',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: verticalBlock * 3,
-                      letterSpacing: 4)),
+                  style: TextStyle(color: Colors.white, fontSize: verticalBlock * 3, letterSpacing: 4)),
               SizedBox(
                 height: verticalBlock * 23,
               ),
@@ -97,17 +91,14 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(left: horizontalBlock * 10),
                         child: Text('Incorrect username or password',
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: verticalBlock * 2)),
+                            style: TextStyle(color: Colors.red, fontSize: verticalBlock * 2)),
                       ),
                     )
                   : const Text(''),
               GestureDetector(
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const ForgotPasswordScreen()),
+                  MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()),
                 ),
                 child: Container(
                   alignment: Alignment.centerRight,
@@ -118,18 +109,15 @@ class _SignInScreenState extends State<SignInScreen> {
                       top: verticalBlock * 4),
                   child: Text("Forgot your password?",
                       style: TextStyle(
-                          color: blue,
-                          fontSize: verticalBlock * 2,
-                          decoration: TextDecoration.underline)),
+                          color: blue, fontSize: verticalBlock * 2, decoration: TextDecoration.underline)),
                 ),
               ),
               SizedBox(height: verticalBlock * 0.3),
               GestureDetector(
                 onTap: signIn,
                 child: Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: horizontalBlock * 12,
-                      vertical: verticalBlock * 2),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: horizontalBlock * 12, vertical: verticalBlock * 2),
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       gradient: LinearGradient(
@@ -141,30 +129,23 @@ class _SignInScreenState extends State<SignInScreen> {
                         ],
                       ),
                       boxShadow: [buttonShadow]),
-                  margin:
-                      EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
+                  margin: EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
                   child: Text("Sign in",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: verticalBlock * 2.3)),
+                          color: Colors.white, fontWeight: FontWeight.bold, fontSize: verticalBlock * 2.3)),
                 ),
               ),
               SizedBox(height: verticalBlock * 3.5),
               RichText(
                   text: TextSpan(
                       text: "Don't have an accout?  ",
-                      style: TextStyle(
-                          color: Colors.black, fontSize: verticalBlock * 1.8),
+                      style: TextStyle(color: Colors.black, fontSize: verticalBlock * 1.8),
                       children: [
                     TextSpan(
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = widget.onClickedSignUp,
+                        recognizer: TapGestureRecognizer()..onTap = widget.onClickedSignUp,
                         text: "Sign up",
                         style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: blue,
-                            fontSize: verticalBlock * 2))
+                            decoration: TextDecoration.underline, color: blue, fontSize: verticalBlock * 2))
                   ])),
             ],
           ),
@@ -183,8 +164,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
+          email: emailController.text.trim(), password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
       signinError();
     }

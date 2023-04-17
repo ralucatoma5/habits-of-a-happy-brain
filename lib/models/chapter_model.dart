@@ -5,13 +5,11 @@ class Chapter {
   final String imageUrl;
   final String name;
   final String summary;
-  //final List<Subchapter> subChapters;
 
   Chapter({
     required this.imageUrl,
     required this.name,
     required this.summary,
-    // required this.subChapters,
   });
 
   factory Chapter.fromJSON(DocumentSnapshot doc) {
@@ -19,9 +17,6 @@ class Chapter {
       name: doc['name'],
       imageUrl: doc['img'],
       summary: doc['summary'],
-      /* subChapters: List<Subchapter>.from(
-       doc['subchapters'].map((subchapter) => Subchapter.fromJSON(subchapter)),
-      ),*/
     );
   }
 }

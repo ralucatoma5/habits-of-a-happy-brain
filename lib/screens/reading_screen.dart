@@ -118,7 +118,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
                               context,
                               PageTransition(
                                 type: PageTransitionType.fade,
-                                child: About(),
+                                child: AboutScreen(),
                               ));
                         },
                         child: Container(

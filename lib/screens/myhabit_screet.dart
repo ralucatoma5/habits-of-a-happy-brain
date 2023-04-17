@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:habits/models/currentHabit_model.dart';
 import 'package:habits/screens/nohabit_screen.dart';
 import 'package:habits/screens/notes_screen.dart';
 import 'package:habits/screens/timer_screen.dart';
@@ -21,9 +22,10 @@ class MyHabitScreen extends StatelessWidget {
               }
               if (snapshot.hasData) {
                 if (snapshot.data!.docs.length != 0) {
-                  return snapshot.data!.docs[0]['type'] == 'write'
-                      ? NotesScreen()
-                      : TimerScreen();
+                  CurrentHabit currentHabit = CurrentHabit.fromJSON(snapshot.data!.docs[0]);
+                  return currentHabit.type == 'write'
+                      ? NotesScreen(currentHabit: currentHabit)
+                      : TimerScreen(currentHabit: currentHabit);
                 } else if (snapshot.data!.docs.length == 0) {
                   return NoHabitScreen();
                 }

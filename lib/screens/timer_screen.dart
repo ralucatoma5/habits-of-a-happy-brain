@@ -3,18 +3,19 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
+import 'package:habits/models/currentHabit_model.dart';
 import 'package:habits/screens/congrats_screen.dart';
-import 'package:habits/screens/habit_screen.dart';
 
 import '../const.dart';
 
 import '../habitFunctions.dart';
-import 'home_screen.dart';
 
 class TimerScreen extends StatefulWidget {
-  const TimerScreen({Key? key}) : super(key: key);
+  CurrentHabit currentHabit;
+
+  TimerScreen({super.key, required this.currentHabit});
 
   @override
   _TimerScreenState createState() => _TimerScreenState();
@@ -74,60 +75,53 @@ class _TimerScreenState extends State<TimerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime time = DateTime.parse(widget.currentHabit.time.toString());
+    final today = DateTime(time.year, time.month, time.day + widget.currentHabit.nrday);
     return Scaffold(
-        backgroundColor: duration.inSeconds != 0 ? blue : Colors.white,
-        body: StreamBuilder(
-            stream: refh.snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasData) {
-                DateTime time = DateTime.parse(snapshot.data!.docs[0]['time'].toDate().toString());
-                final initialDay = DateTime(time.year, time.month, time.day);
-                int nrday = snapshot.data!.docs[0]['nrday'].toInt();
-
-                final today = DateTime(time.year, time.month, time.day + nrday);
-                return duration.inSeconds != 0
-                    ? Padding(
-                        padding: EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: horizontalBlock * 45,
-                                      child: Text(snapshot.data!.docs[0]['name'],
-                                          style: TextStyle(
-                                              fontSize: verticalBlock * 3,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w700)),
-                                    ),
-                                    Text('${(nrday * 100.00 / 45).round()}%',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: verticalBlock * 2.3)),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: verticalBlock * 3,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    GestureDetector(
-                                      child: Text('About the habit',
-                                          style: TextStyle(
-                                            decoration: TextDecoration.underline,
-                                            color: pink,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: verticalBlock * 2.4,
-                                          )),
-                                      onTap: () {
-                                        /*Navigator.push(
+      backgroundColor: duration.inSeconds != 0 ? blue : Colors.white,
+      body: duration.inSeconds != 0
+          ? Padding(
+              padding: EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: horizontalBlock * 45,
+                            child: Text(widget.currentHabit.name,
+                                style: TextStyle(
+                                    fontSize: verticalBlock * 3,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700)),
+                          ),
+                          Text('${(widget.currentHabit.nrday * 100.00 / 45).round()}%',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: verticalBlock * 2.3)),
+                        ],
+                      ),
+                      SizedBox(
+                        height: verticalBlock * 3,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            child: Text('About the habit',
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: pink,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: verticalBlock * 2.4,
+                                )),
+                            onTap: () {
+                              /*Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => HabitScreen(
@@ -141,42 +135,36 @@ class _TimerScreenState extends State<TimerScreen> {
                                             ),
                                           ),
                                         );*/
-                                      },
-                                    ),
-                                    IconButton(
-                                        onPressed: () => deleteHabit(context, 'timer'),
-                                        icon: Icon(
-                                          Icons.delete_outline_rounded,
-                                          size: verticalBlock * 4.5,
-                                          color: pink,
-                                        ))
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Text(
-                                today == DateTime(now.year, now.month, now.day + 1)
-                                    ? 'Wait until tomorrow'
-                                    : 'Day ${nrday + 1}',
-                                style: TextStyle(
-                                    fontSize: verticalBlock * 4,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700)),
-                            buildTimer(),
-                            buildButtons(today),
-                          ],
-                        ),
-                      )
-                    : CongratsScreen(
-                        name: snapshot.data!.docs[0]['name'],
-                        nrday: nrday,
-                        updateDay: updateDay,
-                        type: 'timer');
-              }
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }));
+                            },
+                          ),
+                          IconButton(
+                              onPressed: () => deleteHabit(context, 'timer'),
+                              icon: Icon(
+                                Icons.delete_outline_rounded,
+                                size: verticalBlock * 4.5,
+                                color: pink,
+                              ))
+                        ],
+                      ),
+                    ],
+                  ),
+                  Text(
+                      today == DateTime(now.year, now.month, now.day + 1)
+                          ? 'Wait until tomorrow'
+                          : 'Day ${widget.currentHabit.nrday + 1}',
+                      style: TextStyle(
+                          fontSize: verticalBlock * 4, color: Colors.white, fontWeight: FontWeight.w700)),
+                  buildTimer(),
+                  buildButtons(today),
+                ],
+              ),
+            )
+          : CongratsScreen(
+              name: widget.currentHabit.name,
+              nrday: widget.currentHabit.nrday,
+              updateDay: updateDay,
+              type: 'timer'),
+    );
   }
 
   Widget buildButtons(today) {

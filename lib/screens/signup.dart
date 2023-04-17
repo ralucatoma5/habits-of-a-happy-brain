@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../components/background_signup.dart';
+import '../widgets/background_signup.dart';
 import '../const.dart';
 import '../main.dart';
 
@@ -42,30 +42,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   Text(
                     "SIGN UP",
-                    style: TextStyle(
-                        color: pink,
-                        fontSize: verticalBlock * 5,
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(color: pink, fontSize: verticalBlock * 5, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: verticalBlock * 1.5,
                   ),
                   Text('TO CONTINUE',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: verticalBlock * 3,
-                          letterSpacing: 4)),
+                      style: TextStyle(color: Colors.white, fontSize: verticalBlock * 3, letterSpacing: 4)),
                   SizedBox(
                     height: verticalBlock * 17,
                   ),
                   Container(
                     alignment: Alignment.center,
-                    margin:
-                        EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
+                    margin: EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
                     child: TextFormField(
                       controller: emailController,
-                      style: TextStyle(
-                          color: Colors.white, fontSize: verticalBlock * 2),
+                      style: TextStyle(color: Colors.white, fontSize: verticalBlock * 2),
                       decoration: const InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: pink),
@@ -77,9 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           labelStyle: TextStyle(color: pink)),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (email) =>
-                          (email != null && !EmailValidator.validate(email))
-                              ? 'Enter a valid email'
-                              : null,
+                          (email != null && !EmailValidator.validate(email)) ? 'Enter a valid email' : null,
                     ),
                   ),
                   SizedBox(
@@ -87,12 +77,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   Container(
                     alignment: Alignment.center,
-                    margin:
-                        EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
+                    margin: EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
                     child: TextFormField(
                       controller: passwordController,
-                      style: TextStyle(
-                          color: Colors.white, fontSize: verticalBlock * 2),
+                      style: TextStyle(color: Colors.white, fontSize: verticalBlock * 2),
                       decoration: const InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: pink),
@@ -104,9 +92,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           labelStyle: TextStyle(color: pink)),
                       obscureText: true,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: ((value) => value != null && value.length < 6
-                          ? 'Enter in. 6 characters'
-                          : null),
+                      validator: ((value) =>
+                          value != null && value.length < 6 ? 'Enter in. 6 characters' : null),
                     ),
                   ),
                   SizedBox(
@@ -114,11 +101,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   Container(
                     alignment: Alignment.center,
-                    margin:
-                        EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
+                    margin: EdgeInsets.symmetric(horizontal: horizontalBlock * 10),
                     child: TextFormField(
-                      style: TextStyle(
-                          color: Colors.white, fontSize: verticalBlock * 2),
+                      style: TextStyle(color: Colors.white, fontSize: verticalBlock * 2),
                       decoration: const InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: pink),
@@ -131,9 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       obscureText: true,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: ((value) =>
-                          value != passwordController.text.trim()
-                              ? 'Passwords do not match'
-                              : null),
+                          value != passwordController.text.trim() ? 'Passwords do not match' : null),
                     ),
                   ),
                   SizedBox(height: verticalBlock * 3),
@@ -141,13 +124,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ? Align(
                           alignment: Alignment.bottomLeft,
                           child: Padding(
-                            padding:
-                                EdgeInsets.only(left: horizontalBlock * 10),
-                            child: Text(
-                                'This email adress is already in use by another account',
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: verticalBlock * 2)),
+                            padding: EdgeInsets.only(left: horizontalBlock * 10),
+                            child: Text('This email adress is already in use by another account',
+                                style: TextStyle(color: Colors.red, fontSize: verticalBlock * 2)),
                           ),
                         )
                       : Text(''),
@@ -158,30 +137,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       backgroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: horizontalBlock * 12,
-                          vertical: verticalBlock * 2),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: horizontalBlock * 12, vertical: verticalBlock * 2),
                     ),
                     onPressed: signUp,
                     child: Text(
                       'Sign up',
-                      style: TextStyle(
-                          color: blue,
-                          fontWeight: FontWeight.bold,
-                          fontSize: verticalBlock * 2.3),
+                      style:
+                          TextStyle(color: blue, fontWeight: FontWeight.bold, fontSize: verticalBlock * 2.3),
                     ),
                   ),
                   SizedBox(height: verticalBlock * 3.5),
                   RichText(
                       text: TextSpan(
                           text: "Already have an accout?  ",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: verticalBlock * 1.8),
+                          style: TextStyle(color: Colors.white, fontSize: verticalBlock * 1.8),
                           children: [
                         TextSpan(
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = widget.onClickedSignIn,
+                            recognizer: TapGestureRecognizer()..onTap = widget.onClickedSignIn,
                             text: "Sign in",
                             style: TextStyle(
                                 decoration: TextDecoration.underline,
@@ -207,8 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
+          email: emailController.text.trim(), password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
       signUpError();
     }
