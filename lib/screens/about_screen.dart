@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 import 'package:habits/models/about_model.dart';
+import 'package:habits/services/firestoreService.dart';
 
 class AboutScreen extends StatelessWidget {
   AboutScreen({super.key});
@@ -13,7 +14,7 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('aboutTheApp').snapshots(),
+            stream: aboutCollection.snapshots(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (!snapshot.hasData) {
                 return Center(child: Text(snapshot.error.toString()));

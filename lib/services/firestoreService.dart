@@ -5,6 +5,7 @@ final FirebaseFirestore _db = FirebaseFirestore.instance;
 final CollectionReference chaptersCollection = _db.collection('chapters');
 final CollectionReference habitsCollection = _db.collection('habits');
 final CollectionReference categoriesCollection = _db.collection('habits_categories');
+final CollectionReference aboutCollection = _db.collection('aboutTheApp');
 
 class FirestoreService {
   static Stream<QuerySnapshot> getHabitsByType(int id) {
@@ -27,5 +28,9 @@ class FirestoreService {
         .collection('habit')
         .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email)
         .snapshots();
+  }
+
+  static Stream<QuerySnapshot> getSubchapters(int screenIndex) {
+    return chaptersCollection.doc(screenIndex.toString()).collection('subchapters').snapshots();
   }
 }

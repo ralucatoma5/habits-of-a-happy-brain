@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'const.dart';
 import 'firebase_options.dart';
 import 'screens/auth_screen.dart';
-import 'screens/home_screen.dart';
+import 'screens/bottomNavBar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +48,7 @@ class MainPage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return const Center(child: Text('Something went wrong!'));
           } else if (snapshot.hasData) {
-            return const HomeScreen();
+            return const BottomNavBar();
           } else {
             return const AuthScreen();
           }

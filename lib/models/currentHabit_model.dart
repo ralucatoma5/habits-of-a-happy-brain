@@ -7,7 +7,7 @@ class CurrentHabit {
   final String type;
   final String id;
   final int nrday;
-  final Timestamp time;
+  final DateTime time;
 
   CurrentHabit({
     required this.name,
@@ -27,7 +27,7 @@ class CurrentHabit {
       type: doc['type'],
       id: doc['id'],
       nrday: doc['nrday'],
-      time: doc['time'],
+      time: DateTime.parse(doc['time'].toDate().toString()),
     );
   }
 }

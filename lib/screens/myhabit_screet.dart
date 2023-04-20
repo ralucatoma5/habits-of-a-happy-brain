@@ -23,6 +23,7 @@ class MyHabitScreen extends StatelessWidget {
               if (snapshot.hasData) {
                 if (snapshot.data!.docs.length != 0) {
                   CurrentHabit currentHabit = CurrentHabit.fromJSON(snapshot.data!.docs[0]);
+
                   return currentHabit.type == 'write'
                       ? NotesScreen(currentHabit: currentHabit)
                       : TimerScreen(currentHabit: currentHabit);

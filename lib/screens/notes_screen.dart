@@ -12,10 +12,11 @@ import '../const.dart';
 import '../habitFunctions.dart';
 import 'addNote.dart';
 import 'editNote.dart';
-import 'home_screen.dart';
+import 'bottomNavBar.dart';
 
 class NotesScreen extends StatefulWidget {
   CurrentHabit currentHabit;
+
   NotesScreen({super.key, required this.currentHabit});
 
   @override
@@ -43,7 +44,6 @@ class _NotesScreenState extends State<NotesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime time = DateTime.parse(widget.currentHabit.time.toString());
     return Scaffold(
         body: SafeArea(
             child: SingleChildScrollView(
@@ -73,7 +73,8 @@ class _NotesScreenState extends State<NotesScreen> {
               stream: refn.snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
-                  final today = DateTime(time.year, time.month, time.day + widget.currentHabit.nrday);
+                  final today = DateTime(widget.currentHabit.time.year, widget.currentHabit.time.month,
+                      widget.currentHabit.time.day + widget.currentHabit.nrday);
 
                   return Column(
                     children: [

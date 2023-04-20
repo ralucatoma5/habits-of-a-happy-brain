@@ -5,7 +5,7 @@ class Habit {
   final String description;
   final String summary;
   final String type;
-  final int id;
+  final String id;
 
   Habit({
     required this.name,

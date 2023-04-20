@@ -2,12 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/models/chapter_model.dart';
 import 'package:habits/models/subchapter_model.dart';
+import 'package:habits/services/firestoreService.dart';
 
 import 'package:page_transition/page_transition.dart';
 
 import '../const.dart';
-import 'healthyhabits_screen.dart';
-import 'home_screen.dart';
+import 'first_healthyhabits.dart';
+import 'bottomNavBar.dart';
 import 'subchapter_screen.dart';
 
 class ChapterScreen extends StatelessWidget {
@@ -35,7 +36,7 @@ class ChapterScreen extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.of(context).push(PageTransition(
-                child: HomeScreen(),
+                child: BottomNavBar(),
                 duration: Duration(milliseconds: 300),
                 type: PageTransitionType.leftToRight,
               ));
@@ -127,11 +128,7 @@ class ChapterScreen extends StatelessWidget {
         child: SizedBox(
             height: verticalBlock * 18,
             child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('chapters')
-                    .doc(screenIndex.toString())
-                    .collection('subchapters')
-                    .snapshots(),
+                stream: FirestoreService.getSubchapters(screenIndex),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const CircularProgressIndicator.adaptive();
@@ -181,7 +178,7 @@ class ChapterScreen extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => screenIndex == 5
-                                                  ? HealthyHabits(ind: index)
+                                                  ? FirstHealthyHabits(ind: index)
                                                   : SubchapterScreen(
                                                       subchapters: subchapters,
                                                       chapter: chapter,
