@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/container.dart';
+
 import 'package:habits/const.dart';
-import 'package:habits/models/habitType_model.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:habits/models/habit_model.dart';
 import 'package:habits/screens/habit_screen.dart';
@@ -24,7 +22,6 @@ class _HabitTypeGridViewState extends State<HabitTypeGridView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
         body: StreamBuilder<QuerySnapshot>(
             stream:
                 FirebaseFirestore.instance.collection('habits').where('id', isEqualTo: widget.id).snapshots(),
@@ -33,14 +30,15 @@ class _HabitTypeGridViewState extends State<HabitTypeGridView> {
                 return const CircularProgressIndicator.adaptive();
               } else {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  padding: EdgeInsets.only(
+                      left: horizontalBlock * 4, right: horizontalBlock * 4, top: verticalBlock * 4),
                   child: StaggeredGridView.countBuilder(
                     shrinkWrap: true,
                     physics: const ScrollPhysics(),
                     padding: const EdgeInsets.all(10),
                     crossAxisCount: 2,
                     mainAxisSpacing: 30,
-                    crossAxisSpacing: 30,
+                    crossAxisSpacing: 20,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       Habit habit = Habit.fromJSON(snapshot.data!.docs[index]);
@@ -95,16 +93,19 @@ class _HabitTypeGridViewState extends State<HabitTypeGridView> {
                                 },
                               ),
                               Positioned(
-                                bottom: verticalBlock * 5,
+                                bottom: verticalBlock * 4,
                                 left: horizontalBlock * 6,
                                 child: SizedBox(
                                   width: horizontalBlock * 35,
-                                  child: Text(
-                                    habit.name,
-                                    style: TextStyle(
-                                      color: blue,
-                                      fontSize: verticalBlock * 2.5,
-                                      fontWeight: FontWeight.w800,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(
+                                      habit.name,
+                                      style: TextStyle(
+                                        color: blue,
+                                        fontSize: verticalBlock * 2.5,
+                                        fontWeight: FontWeight.w800,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -124,7 +125,7 @@ class _HabitTypeGridViewState extends State<HabitTypeGridView> {
                       );
                     },
                     staggeredTileBuilder: (index) {
-                      return StaggeredTile.count(1, index == 1 || index == 3 ? 2 : 1.90);
+                      return StaggeredTile.count(1, index == 1 || index == 3 ? 1.35 : 1.45);
                     },
                   ),
                 );

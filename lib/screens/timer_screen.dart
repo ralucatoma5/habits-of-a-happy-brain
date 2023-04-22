@@ -6,7 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:habits/models/currentHabit_model.dart';
+import 'package:habits/models/habit_model.dart';
 import 'package:habits/screens/congrats_screen.dart';
+import 'package:habits/screens/habit_screen.dart';
 
 import '../const.dart';
 
@@ -121,20 +123,21 @@ class _TimerScreenState extends State<TimerScreen> {
                                   fontSize: verticalBlock * 2.4,
                                 )),
                             onTap: () {
-                              /*Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => HabitScreen(
-                                              //Change
-                                              id: 0,
-                                              index: 4,
-
-                                              name: snapshot.data!.docs[0]['name'],
-
-                                              finishedHabit: false,
-                                            ),
-                                          ),
-                                        );*/
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HabitScreen(
+                                    index: 4,
+                                    habit: Habit(
+                                        name: widget.currentHabit.name,
+                                        description: widget.currentHabit.description,
+                                        summary: widget.currentHabit.summary,
+                                        type: widget.currentHabit.type,
+                                        id: widget.currentHabit.id),
+                                    finishedHabit: false,
+                                  ),
+                                ),
+                              );
                             },
                           ),
                           IconButton(
@@ -196,14 +199,14 @@ class _TimerScreenState extends State<TimerScreen> {
           )
         : TextButton(
             style: buttonStyle(Colors.white),
-            child: Text('Start timer', style: buttonTextStyle(blue, 5)),
             onPressed: today == DateTime(now.year, now.month, now.day + 1)
                 ? () {}
                 : today == DateTime(now.year, now.month, now.day)
                     ? () {
                         startTimer();
                       }
-                    : () => startOverHabit(context, 'timer'));
+                    : () => startOverHabit(context, 'timer'),
+            child: Text('Start timer', style: buttonTextStyle(blue, 5)));
   }
 
   Widget buildTimer() => SizedBox(
@@ -213,9 +216,9 @@ class _TimerScreenState extends State<TimerScreen> {
           fit: StackFit.expand,
           children: [
             CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(pink),
+              valueColor: const AlwaysStoppedAnimation(pink),
               value: duration.inSeconds / 600,
-              backgroundColor: Color.fromARGB(255, 25, 95, 139),
+              backgroundColor: const Color.fromARGB(255, 25, 95, 139),
             ),
             Center(child: buildTime())
           ],

@@ -6,9 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:habits/const.dart';
 import 'package:habits/models/currentHabit_model.dart';
+import 'package:habits/models/habit_model.dart';
 import 'package:habits/screens/habit_screen.dart';
-import '../const.dart';
+import 'package:habits/services/firestoreService.dart';
+
 import '../habitFunctions.dart';
 import 'addNote.dart';
 import 'editNote.dart';
@@ -32,15 +35,6 @@ class _NotesScreenState extends State<NotesScreen> {
     final collectionRef = FirebaseFirestore.instance.collection('habit');
     return collectionRef.doc(FirebaseAuth.instance.currentUser!.email).update({'nrday': nrday});
   }
-
-  final refh = FirebaseFirestore.instance
-      .collection('habit')
-      .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email);
-
-  CollectionReference refn = FirebaseFirestore.instance
-      .collection('habit')
-      .doc(FirebaseAuth.instance.currentUser!.email)
-      .collection('notes');
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +64,7 @@ class _NotesScreenState extends State<NotesScreen> {
             ],
           ),
           StreamBuilder(
-              stream: refn.snapshots(),
+              stream: notesCollection.snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
                   final today = DateTime(widget.currentHabit.time.year, widget.currentHabit.time.month,
@@ -94,19 +88,20 @@ class _NotesScreenState extends State<NotesScreen> {
                                   fontSize: verticalBlock * 2.2,
                                 )),
                             onTap: () {
-                              /* Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => HabitScreen(
-                                                              ///CHANGE
-                                                              
-                                                              index: 4,
-
-                                                              habit: habit
-
-                                                              finishedHabit: false,
-                                                            )),
-                                                  );*/
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HabitScreen(
+                                          index: 4,
+                                          habit: Habit(
+                                              name: widget.currentHabit.name,
+                                              description: widget.currentHabit.description,
+                                              summary: widget.currentHabit.summary,
+                                              type: widget.currentHabit.type,
+                                              id: widget.currentHabit.id),
+                                          finishedHabit: false,
+                                        )),
+                              );
                             },
                           ),
                           SizedBox(
@@ -141,10 +136,7 @@ class _NotesScreenState extends State<NotesScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => AddNote(
-                                                updateDay: updateDay,
-                                                name: widget.currentHabit.name,
-                                                content: widget.currentHabit.summary,
-                                                nrd: widget.currentHabit.nrday)),
+                                                updateDay: updateDay, currentHabit: widget.currentHabit)),
                                       );
                                     }
                                   : () => startOverHabit(context, 'notes'),

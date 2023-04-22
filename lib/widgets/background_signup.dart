@@ -10,7 +10,7 @@ class BackgroundSignUp extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final verticalBlock = SizeConfig.safeBlockVertical!;
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: size.height,
       child: Stack(

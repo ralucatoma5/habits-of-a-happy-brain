@@ -27,10 +27,8 @@ class SizeConfig {
     blockSizeHorizontal = (screenWidth! / 100);
     blockSizeVertical = (screenHeight! / 100);
 
-    _safeAreaHorizontal =
-        _mediaQueryData!.padding.left + _mediaQueryData!.padding.right;
-    _safeAreaVertical =
-        _mediaQueryData!.padding.top + _mediaQueryData!.padding.bottom;
+    _safeAreaHorizontal = _mediaQueryData!.padding.left + _mediaQueryData!.padding.right;
+    _safeAreaVertical = _mediaQueryData!.padding.top + _mediaQueryData!.padding.bottom;
     safeBlockHorizontal = (screenWidth! - _safeAreaHorizontal!) / 100;
     safeBlockVertical = (screenHeight! - _safeAreaVertical!) / 100;
   }
@@ -41,7 +39,7 @@ int topPosition(int index) {
   if (index == 0)
     return -10;
   else if (index == 1)
-    return 7;
+    return 1;
   else if (index == 3)
     return 0;
   else
@@ -72,21 +70,19 @@ int circleHeight(int index) {
 
 Color circleColor(int index) {
   if (index == 0)
-    return Color(0xff3C3EFC);
+    return Color.fromARGB(255, 21, 106, 253);
   else if (index == 1)
-    return Color(0xffD93695);
+    return Color.fromARGB(255, 212, 46, 143);
   else if (index == 3)
-    return Color(0xff9C34FC);
+    return Color.fromARGB(255, 149, 45, 247);
   else if (index == 2)
-    return Color(0xffFB7706);
+    return Color.fromARGB(255, 252, 126, 16);
   else
     return blue;
 }
 
-TextStyle readingText = TextStyle(
-    fontSize: SizeConfig.safeBlockVertical! * 2.7,
-    height: 1.4,
-    fontWeight: FontWeight.w600);
+TextStyle readingText =
+    TextStyle(fontSize: SizeConfig.safeBlockVertical! * 2.7, height: 1.4, fontWeight: FontWeight.w600);
 
 List<String> img = [
   'assets/images/dopamine.png',
@@ -99,28 +95,21 @@ List<String> name = ['dopamine', 'endorphin', 'oxytocin', 'serotonin'];
 const Color pink = Color(0xffE94297);
 
 const Color blue2 = Color.fromARGB(255, 10, 136, 214);
-LinearGradient gradientBluePink = const LinearGradient(
-    begin: Alignment.bottomLeft,
-    end: Alignment.topRight,
-    colors: [
-      blue2,
-      pink,
-    ]);
+LinearGradient gradientBluePink =
+    const LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
+  blue2,
+  pink,
+]);
 
-LinearGradient gradientPinkBlue = LinearGradient(
-    begin: Alignment.bottomLeft,
-    end: Alignment.topRight,
-    colors: [
-      pink,
-      blue,
-    ]);
-LinearGradient gradientBright = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      blue,
-      pink,
-    ]);
+LinearGradient gradientPinkBlue =
+    LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
+  pink,
+  blue,
+]);
+LinearGradient gradientBright = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
+  blue,
+  pink,
+]);
 
 const BoxShadow buttonShadow = BoxShadow(
   color: Color.fromARGB(255, 223, 223, 223),
@@ -132,16 +121,13 @@ const BoxShadow buttonShadow = BoxShadow(
 buttonStyle(Color color) {
   return TextButton.styleFrom(
     backgroundColor: color,
-    shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(5))),
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
   );
 }
 
 buttonTextStyle(Color color, double font) {
   return TextStyle(
-      color: color,
-      fontWeight: FontWeight.w600,
-      fontSize: SizeConfig.safeBlockHorizontal! * font);
+      color: color, fontWeight: FontWeight.w600, fontSize: SizeConfig.safeBlockHorizontal! * font);
 }
 
 int wordNr(String s) {

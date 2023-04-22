@@ -6,6 +6,8 @@ final CollectionReference chaptersCollection = _db.collection('chapters');
 final CollectionReference habitsCollection = _db.collection('habits');
 final CollectionReference categoriesCollection = _db.collection('habits_categories');
 final CollectionReference aboutCollection = _db.collection('aboutTheApp');
+CollectionReference notesCollection =
+    _db.collection('habit').doc(FirebaseAuth.instance.currentUser!.email).collection('notes');
 
 class FirestoreService {
   static Stream<QuerySnapshot> getHabitsByType(int id) {

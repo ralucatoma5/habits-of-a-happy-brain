@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:habits/const.dart';
 import 'package:habits/widgets/habit_gridview.dart';
 
@@ -48,40 +45,50 @@ class _HealthyHabitsState extends State<HealthyHabits> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
               SliverAppBar(
-                  centerTitle: false,
-                  backgroundColor: Colors.white,
-                  elevation: 0,
-                  floating: true,
-                  forceElevated: innerBoxIsScrolled,
-                  bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(verticalBlock * 10),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: horizontalBlock * 5, vertical: verticalBlock * 1),
-                      child: TabBar(
-                        controller: _tabController,
-                        tabs: myTabs,
-                        indicatorColor: Colors.transparent,
-                        isScrollable: true,
-                        unselectedLabelColor: Color.fromARGB(255, 175, 174, 174),
-                        labelColor: blue,
-                        labelStyle: TextStyle(fontSize: verticalBlock * 2.2, fontWeight: FontWeight.w700),
-                        unselectedLabelStyle: TextStyle(fontSize: verticalBlock * 2),
-                        labelPadding: const EdgeInsets.only(right: 35),
+                automaticallyImplyLeading: false,
+                elevation: 0.8,
+                forceElevated: innerBoxIsScrolled,
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(verticalBlock * 10),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: horizontalBlock * 6, vertical: verticalBlock * 1),
+                    child: TabBar(
+                      indicator: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: blue,
                       ),
+                      controller: _tabController,
+                      tabs: myTabs,
+                      indicatorColor: Colors.transparent,
+                      isScrollable: true,
+                      unselectedLabelColor: const Color.fromARGB(255, 175, 174, 174),
+                      labelColor: Colors.white,
+                      labelStyle: TextStyle(fontSize: verticalBlock * 2.4, fontWeight: FontWeight.w700),
+                      unselectedLabelStyle: TextStyle(fontSize: verticalBlock * 2.2),
+                      labelPadding: EdgeInsets.symmetric(horizontal: horizontalBlock * 4.5),
                     ),
                   ),
-                  title: Padding(
-                    padding: EdgeInsets.only(top: verticalBlock * 2),
-                    child: Text('New Habits for Each Happy Chemical',
-                        style: TextStyle(
-                            color: blue, fontSize: verticalBlock * 3.8, fontWeight: FontWeight.w700)),
-                  )),
+                ),
+                centerTitle: false,
+                title: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: horizontalBlock * 2),
+                  child: Text(
+                    'New Habits for\nEach Happy Chemical',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: verticalBlock * 3.4,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                backgroundColor: Colors.white,
+                toolbarHeight: verticalBlock * 13,
+              ),
             ];
           },
           body: TabBarView(
