@@ -5,17 +5,16 @@ import 'package:habits/models/currentHabit_model.dart';
 import 'package:habits/screens/nohabit_screen.dart';
 import 'package:habits/screens/notes_screen.dart';
 import 'package:habits/screens/timer_screen.dart';
+import 'package:habits/services/firestoreService.dart';
 
 class MyHabitScreen extends StatelessWidget {
   MyHabitScreen({super.key});
-  final refh = FirebaseFirestore.instance
-      .collection('habit')
-      .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: StreamBuilder<QuerySnapshot>(
-            stream: refh.snapshots(),
+            stream: currentHabitUserRef.snapshots(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasError == true) {
                 return Center(child: Text(snapshot.error.toString()));

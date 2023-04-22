@@ -6,8 +6,12 @@ final CollectionReference chaptersCollection = _db.collection('chapters');
 final CollectionReference habitsCollection = _db.collection('habits');
 final CollectionReference categoriesCollection = _db.collection('habits_categories');
 final CollectionReference aboutCollection = _db.collection('aboutTheApp');
+CollectionReference finishedHabitsCollection = _db.collection("finishedHabits");
 CollectionReference notesCollection =
-    _db.collection('habit').doc(FirebaseAuth.instance.currentUser!.email).collection('notes');
+    _db.collection('currentHabit').doc(FirebaseAuth.instance.currentUser!.email).collection('notes');
+final CollectionReference currentHabitCollection = _db.collection('currentHabit');
+final currentHabitUserRef =
+    _db.collection('currentHabit').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email);
 
 class FirestoreService {
   static Stream<QuerySnapshot> getHabitsByType(int id) {
@@ -19,17 +23,14 @@ class FirestoreService {
   }
 
   static Stream<QuerySnapshot> getFinishedHabit() {
-    return FirebaseFirestore.instance
+    return _db
         .collection('finishedHabits')
         .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email)
         .snapshots();
   }
 
   static Stream<QuerySnapshot> getCurrentHabit() {
-    return FirebaseFirestore.instance
-        .collection('habit')
-        .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email)
-        .snapshots();
+    return currentHabitUserRef.snapshots();
   }
 
   static Stream<QuerySnapshot> getSubchapters(int screenIndex) {

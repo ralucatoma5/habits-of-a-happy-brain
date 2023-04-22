@@ -57,7 +57,7 @@ class _HabitScreenState extends State<HabitScreen> {
   }
 
   Future addToHabit() async {
-    CollectionReference collectionRef = FirebaseFirestore.instance.collection("habit");
+    CollectionReference collectionRef = FirebaseFirestore.instance.collection("currentHabit");
     return collectionRef.doc(FirebaseAuth.instance.currentUser!.email).set({
       'name': widget.habit.name,
       'description': widget.habit.description,

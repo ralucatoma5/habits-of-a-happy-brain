@@ -69,11 +69,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(
-                  const AssetImage('assets/images/habit_icon.png'),
+                  const AssetImage('assets/habit_icon.png'),
                   size: horizonalBlock * 7,
                 ),
                 activeIcon: ImageIcon(
-                  const AssetImage('assets/images/habit_icon.png'),
+                  const AssetImage('assets/habit_icon.png'),
                   size: horizonalBlock * 9,
                 ),
                 label: "",

@@ -9,6 +9,7 @@ import 'package:habits/models/currentHabit_model.dart';
 import 'package:habits/models/habit_model.dart';
 import 'package:habits/screens/congrats_screen.dart';
 import 'package:habits/screens/habit_screen.dart';
+import 'package:habits/services/firestoreService.dart';
 
 import '../const.dart';
 
@@ -30,9 +31,7 @@ class _TimerScreenState extends State<TimerScreen> {
   Timer? timer;
   final verticalBlock = SizeConfig.safeBlockVertical!;
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
-  final refh = FirebaseFirestore.instance
-      .collection('habit')
-      .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email);
+
   void resetTimer() => setState(() => duration = const Duration(minutes: 10));
 
   void startTimer({bool reset = true}) {
@@ -71,8 +70,8 @@ class _TimerScreenState extends State<TimerScreen> {
 
   Future updateDay(int nrday) async {
     resetTimer();
-    final _collectionRef = FirebaseFirestore.instance.collection('habit');
-    return _collectionRef.doc(FirebaseAuth.instance.currentUser!.email).update({'nrday': nrday});
+
+    return currentHabitCollection.doc(FirebaseAuth.instance.currentUser!.email).update({'nrday': nrday});
   }
 
   @override
