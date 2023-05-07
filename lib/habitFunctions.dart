@@ -7,21 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:habits/services/firestoreService.dart';
 
 Future addToFinisedHabits(String habitName) async {
-  DocumentReference finishedHabitsDoc =
-      finishedHabitsCollection.doc(FirebaseAuth.instance.currentUser!.email);
+  DocumentReference finishedHabitsDoc = finishedHabitsCollection.doc(FirebaseAuth.instance.currentUser!.uid);
   finishedHabitsDoc.get().then((docSnapshot) => {
         if (docSnapshot.exists)
           {
             finishedHabitsDoc.update({
               'finishedHabits': FieldValue.arrayUnion([habitName]),
-              'id': FirebaseAuth.instance.currentUser!.email
+              'id': FirebaseAuth.instance.currentUser!.uid
             }),
           }
         else
           {
             finishedHabitsDoc.set({
               'finishedHabits': [habitName],
-              'id': FirebaseAuth.instance.currentUser!.email
+              'id': FirebaseAuth.instance.currentUser!.uid
             }),
           }
       });
@@ -30,33 +29,33 @@ Future addToFinisedHabits(String habitName) async {
 Future<void> startOverNotes() async {
   final collectionhabit = FirebaseFirestore.instance
       .collection('currentHabit')
-      .doc(FirebaseAuth.instance.currentUser!.email)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('notes');
   var snapshots = await collectionhabit.get();
   for (var doc in snapshots.docs) {
     await doc.reference.delete();
     CollectionReference collectionRef = FirebaseFirestore.instance.collection('currentHabit');
-    collectionRef.doc(FirebaseAuth.instance.currentUser!.email).update({'nrday': 0, 'time': DateTime.now()});
+    collectionRef.doc(FirebaseAuth.instance.currentUser!.uid).update({'nrday': 0, 'time': DateTime.now()});
   }
 }
 
 Future<void> startOverTimer() async {
   CollectionReference collectionRef = FirebaseFirestore.instance.collection('currentHabit');
-  collectionRef.doc(FirebaseAuth.instance.currentUser!.email).update({'nrday': 0, 'time': DateTime.now()});
+  collectionRef.doc(FirebaseAuth.instance.currentUser!.uid).update({'nrday': 0, 'time': DateTime.now()});
 }
 
 Future<void> deleteTimer() async {
   CollectionReference collectionRef = FirebaseFirestore.instance.collection('currentHabit');
-  collectionRef.doc(FirebaseAuth.instance.currentUser!.email).delete();
+  collectionRef.doc(FirebaseAuth.instance.currentUser!.uid).delete();
 }
 
 Future<void> deleteNotes() async {
   CollectionReference collectionRef = FirebaseFirestore.instance.collection('currentHabit');
-  collectionRef.doc(FirebaseAuth.instance.currentUser!.email).delete();
+  collectionRef.doc(FirebaseAuth.instance.currentUser!.uid).delete();
 
   final collectionhabit = FirebaseFirestore.instance
       .collection('currentHabit')
-      .doc(FirebaseAuth.instance.currentUser!.email)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('notes');
   var snapshots = await collectionhabit.get();
   for (var doc in snapshots.docs) {

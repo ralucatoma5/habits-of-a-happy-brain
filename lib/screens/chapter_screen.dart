@@ -140,59 +140,49 @@ class ChapterScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.only(left: horizontalBlock * 5, bottom: verticalBlock * 5),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: verticalBlock * 2,
-                                vertical: verticalBlock,
-                              ),
-                              width: horizontalBlock * 47,
-                              decoration: BoxDecoration(
-                                boxShadow: [containerShadow],
-                                color: Colors.white,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(height: verticalBlock),
-                                  Text(
-                                    subchapters[index].title,
-                                    style: TextStyle(
-                                        color: blue,
-                                        fontSize: wordNr(subchapters[index].title) == 1
-                                            ? verticalBlock * 2.5
-                                            : verticalBlock * 2,
-                                        fontWeight: FontWeight.w800),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: IconButton(
-                                      padding: EdgeInsets.zero,
-                                      constraints: const BoxConstraints(),
-                                      icon: Icon(Icons.adaptive.arrow_forward),
-                                      iconSize: verticalBlock * 2,
-                                      color: blue,
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => screenIndex == 5
-                                                  ? HealthyHabits()
-                                                  : SubchapterScreen(
-                                                      subchapters: subchapters,
-                                                      chapter: chapter,
-                                                      subchapterIndex: index,
-                                                      chapterIndex: screenIndex,
-                                                    )),
-                                        );
-                                      },
+                          return GestureDetector(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: horizontalBlock * 5, bottom: verticalBlock * 5),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: verticalBlock * 3,
+                                ),
+                                width: horizontalBlock * 47,
+                                decoration: BoxDecoration(
+                                  boxShadow: [containerShadow],
+                                  color: Colors.white,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      subchapters[index].title,
+                                      style: TextStyle(
+                                          color: blue,
+                                          fontSize: wordNr(subchapters[index].title) == 1
+                                              ? verticalBlock * 2.5
+                                              : verticalBlock * 2,
+                                          fontWeight: FontWeight.w800),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => screenIndex == 5
+                                        ? const HealthyHabits()
+                                        : SubchapterScreen(
+                                            subchapters: subchapters,
+                                            chapter: chapter,
+                                            subchapterIndex: index,
+                                            chapterIndex: screenIndex,
+                                          )),
+                              );
+                            },
                           );
                         });
                   }

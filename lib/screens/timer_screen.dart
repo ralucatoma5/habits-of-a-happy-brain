@@ -71,7 +71,7 @@ class _TimerScreenState extends State<TimerScreen> {
   Future updateDay(int nrday) async {
     resetTimer();
 
-    return currentHabitCollection.doc(FirebaseAuth.instance.currentUser!.email).update({'nrday': nrday});
+    return currentHabitCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({'nrday': nrday});
   }
 
   @override

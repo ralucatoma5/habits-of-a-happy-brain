@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/screens/healthyhabits_screen.dart';
 import 'package:habits/screens/myhabit_screet.dart';
@@ -37,7 +38,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final horizonalBlock = SizeConfig.safeBlockHorizontal!;
+    final verticalBlock = SizeConfig.safeBlockVertical!;
+
+    final horizontalBlock = SizeConfig.safeBlockHorizontal!;
     return Scaffold(
         body: currentIndex == 0
             ? ReadingScreen(controller: controller)
@@ -57,35 +60,35 @@ class _BottomNavBarState extends State<BottomNavBar> {
             selectedItemColor: Colors.black,
             items: [
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.menu_book,
-                  size: horizonalBlock * 7,
+                icon: ImageIcon(
+                  const AssetImage('assets/book-icon.png'),
+                  size: horizontalBlock * 5.5,
                 ),
-                activeIcon: Icon(
-                  Icons.menu_book,
-                  size: horizonalBlock * 9,
+                activeIcon: ImageIcon(
+                  const AssetImage('assets/book-icon.png'),
+                  size: horizontalBlock * 7.5,
+                ),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: ImageIcon(
+                  const AssetImage('assets/heart-icon.png'),
+                  size: horizontalBlock * 5.5,
+                ),
+                activeIcon: ImageIcon(
+                  const AssetImage('assets/heart-icon.png'),
+                  size: horizontalBlock * 7.5,
                 ),
                 label: "",
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(
                   const AssetImage('assets/habit_icon.png'),
-                  size: horizonalBlock * 7,
+                  size: horizontalBlock * 7,
                 ),
                 activeIcon: ImageIcon(
                   const AssetImage('assets/habit_icon.png'),
-                  size: horizonalBlock * 9,
-                ),
-                label: "",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.account_circle,
-                  size: horizonalBlock * 6,
-                ),
-                activeIcon: Icon(
-                  Icons.account_circle,
-                  size: horizonalBlock * 9,
+                  size: horizontalBlock * 9,
                 ),
                 label: "",
               ),

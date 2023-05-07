@@ -32,7 +32,7 @@ class _NotesScreenState extends State<NotesScreen> {
 
   final horizontalBlock = SizeConfig.safeBlockHorizontal!;
   Future updateDay(int nrday) async {
-    return currentHabitCollection.doc(FirebaseAuth.instance.currentUser!.email).update({'nrday': nrday});
+    return currentHabitCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({'nrday': nrday});
   }
 
   @override

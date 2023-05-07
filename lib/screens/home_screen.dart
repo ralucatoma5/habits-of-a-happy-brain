@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/const.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,7 +31,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
         SliverAppBar(
           automaticallyImplyLeading: false,
           elevation: 1,
-          expandedHeight: verticalBlock * 42,
+          expandedHeight: verticalBlock * 45,
           flexibleSpace: FlexibleSpaceBar(
             title: LayoutBuilder(builder: (context, constraints) {
               return constraints.maxHeight > verticalBlock * 15
@@ -46,28 +47,48 @@ class _ReadingScreenState extends State<ReadingScreen> {
             }),
             background: Column(children: [
               Stack(
-                alignment: Alignment.center,
                 children: [
                   SizedBox(
-                    height: verticalBlock * 24,
+                    height: verticalBlock * 27,
                     width: double.maxFinite,
                     child: Image.asset(
                       'assets/images/homepage.png',
                       fit: BoxFit.fill,
                     ),
                   ),
-                  SizedBox(
-                    width: horizontalBlock * 80,
-                    child: Text(
-                      'Feel good while doing things that are actually good for you',
-                      style: TextStyle(
-                          fontSize: verticalBlock * 2.5,
-                          color: Colors.white,
-                          height: 1.5,
-                          fontWeight: FontWeight.w500),
-                      textAlign: TextAlign.center,
-                    ),
-                  )
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: verticalBlock * 4, bottom: verticalBlock),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  FirebaseAuth.instance.signOut();
+                                });
+                              },
+                              icon: const Icon(Icons.logout),
+                              color: Colors.white,
+                              iconSize: verticalBlock * 2.7,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: horizontalBlock * 80,
+                        child: Text(
+                          'Feel good while doing things that are actually good for you',
+                          style: TextStyle(
+                              fontSize: verticalBlock * 2.5,
+                              color: Colors.white,
+                              height: 1.5,
+                              fontWeight: FontWeight.w500),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
                 ],
               ),
               Stack(

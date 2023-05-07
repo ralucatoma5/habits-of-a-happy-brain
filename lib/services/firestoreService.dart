@@ -8,10 +8,10 @@ final CollectionReference categoriesCollection = _db.collection('habits_categori
 final CollectionReference aboutCollection = _db.collection('aboutTheApp');
 CollectionReference finishedHabitsCollection = _db.collection("finishedHabits");
 CollectionReference notesCollection =
-    _db.collection('currentHabit').doc(FirebaseAuth.instance.currentUser!.email).collection('notes');
+    _db.collection('currentHabit').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes');
 final CollectionReference currentHabitCollection = _db.collection('currentHabit');
 final currentHabitUserRef =
-    _db.collection('currentHabit').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email);
+    _db.collection('currentHabit').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid);
 
 class FirestoreService {
   static Stream<QuerySnapshot> getHabitsByType(int id) {
@@ -25,7 +25,7 @@ class FirestoreService {
   static Stream<QuerySnapshot> getFinishedHabit() {
     return _db
         .collection('finishedHabits')
-        .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.email)
+        .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
   }
 
