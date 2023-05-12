@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/services/firestoreService.dart';
 
-Future addToFinisedHabits(String habitName) async {
+Future addToFinishedHabits(String habitName) async {
   DocumentReference finishedHabitsDoc = finishedHabitsCollection.doc(FirebaseAuth.instance.currentUser!.uid);
   finishedHabitsDoc.get().then((docSnapshot) => {
         if (docSnapshot.exists)

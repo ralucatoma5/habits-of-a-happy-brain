@@ -45,7 +45,7 @@ class AboutScreen extends StatelessWidget {
                     SliverToBoxAdapter(
                         child: SizedBox(
                       width: double.maxFinite,
-                      height: verticalBlock * 150,
+                      height: verticalBlock * 300,
                       child: Stack(
                         children: [
                           Positioned(
@@ -89,19 +89,43 @@ class AboutScreen extends StatelessWidget {
                           Positioned(
                               top: verticalBlock * 42,
                               bottom: 0,
-                              child: Container(
-                                width: horizontalBlock * 100,
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: verticalBlock * 3,
-                                      left: horizontalBlock * 8,
-                                      right: horizontalBlock * 8,
-                                      bottom: verticalBlock * 5),
-                                  child: Text(about.content, style: readingText),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: horizontalBlock * 100,
+                                  decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: verticalBlock * 3,
+                                        left: horizontalBlock * 9,
+                                        right: horizontalBlock * 9,
+                                        bottom: verticalBlock * 5),
+                                    child: Column(
+                                      children: [
+                                        Text(about.content, style: readingText),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(vertical: verticalBlock * 4),
+                                          child: Container(
+                                            height: 1,
+                                            width: SizeConfig.safeBlockHorizontal! * 80,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Text('How to correctly build the habits',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: verticalBlock * 3.2,
+                                                height: 1.4)),
+                                        SizedBox(
+                                          height: verticalBlock * 3,
+                                        ),
+                                        Text(about.contentHabit, style: readingText),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ))
                         ],

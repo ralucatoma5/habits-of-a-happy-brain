@@ -173,14 +173,12 @@ class ChapterScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => screenIndex == 5
-                                        ? const HealthyHabits()
-                                        : SubchapterScreen(
-                                            subchapters: subchapters,
-                                            chapter: chapter,
-                                            subchapterIndex: index,
-                                            chapterIndex: screenIndex,
-                                          )),
+                                    builder: (context) => SubchapterScreen(
+                                          subchapters: subchapters,
+                                          chapter: chapter,
+                                          subchapterIndex: index,
+                                          chapterIndex: screenIndex,
+                                        )),
                               );
                             },
                           );

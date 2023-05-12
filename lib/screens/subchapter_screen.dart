@@ -54,6 +54,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
                   child: Text(widget.subchapters[widget.subchapterIndex].title,
                       style: TextStyle(
                         color: blue,
+                        height: 1.3,
                         fontSize: wordNr(widget.subchapters[widget.subchapterIndex].title) < 3
                             ? verticalBlock * 3.8
                             : verticalBlock * 2.8,
@@ -64,7 +65,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
           backgroundColor: Colors.white,
           toolbarHeight: wordNr(widget.subchapters[widget.subchapterIndex].title) < 2
               ? verticalBlock * 9
-              : verticalBlock * 14,
+              : verticalBlock * 14.5,
           leading: IconButton(
             padding: EdgeInsets.symmetric(horizontal: horizontalBlock * 4, vertical: verticalBlock * 2),
             onPressed: () {
@@ -88,7 +89,7 @@ class _SubchapterScreenState extends State<SubchapterScreen> {
           delegate: SliverChildListDelegate(
             [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: horizontalBlock * 5, vertical: verticalBlock),
+                padding: EdgeInsets.symmetric(horizontal: horizontalBlock * 7, vertical: verticalBlock * 2.5),
                 child: Text(widget.subchapters[widget.subchapterIndex].description, style: readingText),
               ),
               Padding(

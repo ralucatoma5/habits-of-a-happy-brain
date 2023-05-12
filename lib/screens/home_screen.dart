@@ -177,95 +177,97 @@ class _ReadingScreenState extends State<ReadingScreen> {
                     if (!snapshot.hasData) {
                       return const CircularProgressIndicator.adaptive();
                     } else {
-                      return ListView.builder(
-                          physics: const ScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.docs.length,
-                          padding: EdgeInsets.only(bottom: verticalBlock),
-                          itemBuilder: (context, index) {
-                            Chapter chapter = Chapter.fromJSON(snapshot.data!.docs[index]);
-
-                            return Padding(
-                              padding: EdgeInsets.symmetric(vertical: verticalBlock * 2.5),
-                              child: SizedBox(
-                                width: double.infinity,
-                                height: verticalBlock * 32,
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Positioned(
-                                        right: horizontalBlock * 5,
-                                        child: Hero(
-                                          tag: index,
-                                          child: Container(
-                                            height: verticalBlock * 32,
-                                            width: horizontalBlock * 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(50),
-                                              boxShadow: [containerShadow],
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(5),
-                                              child: Image.asset(
-                                                chapter.imageUrl,
-                                                fit: BoxFit.fill,
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: verticalBlock * 4),
+                        child: ListView.builder(
+                            physics: const ScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.docs.length,
+                            padding: EdgeInsets.only(bottom: verticalBlock),
+                            itemBuilder: (context, index) {
+                              Chapter chapter = Chapter.fromJSON(snapshot.data!.docs[index]);
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: verticalBlock * 2.5),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: verticalBlock * 32,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Positioned(
+                                          right: horizontalBlock * 5,
+                                          child: Hero(
+                                            tag: index,
+                                            child: Container(
+                                              height: verticalBlock * 32,
+                                              width: horizontalBlock * 50,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(50),
+                                                boxShadow: [containerShadow],
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(5),
+                                                child: Image.asset(
+                                                  chapter.imageUrl,
+                                                  fit: BoxFit.fill,
+                                                ),
                                               ),
                                             ),
+                                          )),
+                                      Positioned(
+                                        right: horizontalBlock * 50,
+                                        child: Container(
+                                          height: verticalBlock * 27,
+                                          width: horizontalBlock * 40,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(5),
+                                            boxShadow: [containerShadow],
                                           ),
-                                        )),
-                                    Positioned(
-                                      right: horizontalBlock * 50,
-                                      child: Container(
-                                        height: verticalBlock * 27,
-                                        width: horizontalBlock * 40,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(5),
-                                          boxShadow: [containerShadow],
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: verticalBlock, horizontal: horizontalBlock * 4),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text('${index + 1}.',
-                                                  style: TextStyle(
-                                                      fontSize: verticalBlock * 3.5,
-                                                      fontWeight: FontWeight.w800)),
-                                              SizedBox(
-                                                height: verticalBlock,
-                                              ),
-                                              Text(chapter.name,
-                                                  style: TextStyle(
-                                                      fontSize: verticalBlock * 2.5,
-                                                      fontWeight: FontWeight.w600)),
-                                              Align(
-                                                  alignment: Alignment.bottomRight,
-                                                  child: IconButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context).push(
-                                                          PageTransition(
-                                                            child: ChapterScreen(chapter: chapter, index),
-                                                            type: PageTransitionType.rightToLeftWithFade,
-                                                            duration: const Duration(milliseconds: 650),
-                                                            reverseDuration:
-                                                                const Duration(milliseconds: 600),
-                                                          ),
-                                                        );
-                                                      },
-                                                      icon: Icon(Icons.adaptive.arrow_forward)))
-                                            ],
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: verticalBlock, horizontal: horizontalBlock * 4),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text('${index + 1}.',
+                                                    style: TextStyle(
+                                                        fontSize: verticalBlock * 3.5,
+                                                        fontWeight: FontWeight.w800)),
+                                                SizedBox(
+                                                  height: verticalBlock,
+                                                ),
+                                                Text(chapter.name,
+                                                    style: TextStyle(
+                                                        fontSize: verticalBlock * 2.5,
+                                                        fontWeight: FontWeight.w600)),
+                                                Align(
+                                                    alignment: Alignment.bottomRight,
+                                                    child: IconButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context).push(
+                                                            PageTransition(
+                                                              child: ChapterScreen(chapter: chapter, index),
+                                                              type: PageTransitionType.rightToLeftWithFade,
+                                                              duration: const Duration(milliseconds: 650),
+                                                              reverseDuration:
+                                                                  const Duration(milliseconds: 600),
+                                                            ),
+                                                          );
+                                                        },
+                                                        icon: Icon(Icons.adaptive.arrow_forward)))
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    )
-                                  ],
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          });
+                              );
+                            }),
+                      );
                     }
                   })
             ],

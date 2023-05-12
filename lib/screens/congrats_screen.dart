@@ -44,7 +44,7 @@ class CongratsScreen extends StatelessWidget {
                       nrday == 44 ? "You've finished building the habit" : "You've finished day ${nrday + 1}",
                       style: TextStyle(
                           fontSize: verticalBlock * 2.7,
-                          color: type == 'write' ? const Color.fromARGB(255, 142, 141, 141) : Colors.white,
+                          color: const Color.fromARGB(255, 142, 141, 141),
                           fontWeight: FontWeight.w700)),
                 ],
               ),
@@ -54,7 +54,7 @@ class CongratsScreen extends StatelessWidget {
               TextButton(
                 onPressed: () => nrday == 44
                     ? {
-                        addToFinisedHabits(name),
+                        addToFinishedHabits(name),
                         type == 'write' ? deleteNotes() : deleteTimer(),
                         Navigator.push(
                           context,

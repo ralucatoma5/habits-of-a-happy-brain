@@ -39,7 +39,7 @@ int topPosition(int index) {
   if (index == 0)
     return -10;
   else if (index == 1)
-    return 1;
+    return 2;
   else if (index == 3)
     return 0;
   else
@@ -70,11 +70,11 @@ int circleHeight(int index) {
 
 Color circleColor(int index) {
   if (index == 0)
-    return Color.fromARGB(255, 21, 106, 253);
+    return Color.fromARGB(255, 43, 120, 251);
   else if (index == 1)
-    return Color.fromARGB(255, 212, 46, 143);
+    return Color.fromARGB(255, 211, 56, 146);
   else if (index == 3)
-    return Color.fromARGB(255, 149, 45, 247);
+    return Color(0xff9C34FC);
   else if (index == 2)
     return Color.fromARGB(255, 252, 126, 16);
   else

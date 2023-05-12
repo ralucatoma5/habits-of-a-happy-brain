@@ -1,8 +1,25 @@
-# habits
+# Habits of a Happy Brain 
 
-A new Flutter project.
+Aplicatie ce are rolul de a te ajuta sa dezvolti obiceiuri sanatoase pentru creierul tau.
 
-## Getting Started
+## Tehnologii utilizate
+
+* Flutter
+* Firebase Database
+
+
+## Descriere
+
+descriere
+
+
+## Componente preluate
+
+* fotografii: 
+* text: preluat din cartea "Habits of a Happy Brain "
+
+
+
 
 This project is a starting point for a Flutter application.
 
