@@ -53,7 +53,7 @@ class _HideBottomNavBarState extends State<HideBottomNavBar> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: widget.duration,
-      height: isVisible ? verticalBlock * 12 : 0,
+      height: isVisible ? kBottomNavigationBarHeight * 1.5 : 0,
       child: Wrap(children: [widget.child]),
     );
   }

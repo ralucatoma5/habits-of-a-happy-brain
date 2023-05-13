@@ -1,22 +1,36 @@
 # Habits of a Happy Brain 
 
-Aplicatie ce are rolul de a te ajuta sa dezvolti obiceiuri sanatoase pentru creierul tau.
+Aplicatie dezvoltata pentru a-ti creste nivelul de fericire in doar 45 de zile
 
 ## Tehnologii utilizate
 
-* Flutter
-* Firebase Database
+* Flutter Framework
+* Firebase 
 
 
 ## Descriere
 
 descriere
 
+<p float="left">
+  <img src="assets/app_images/app_img1.png" width="100" />
+  <img src="assets/app_images/app_img2.png" width="100" /> 
+  <img src="assets/app_images/app_img3.png" width="100" />
+  <img src="assets/app_images/app_img4.png" width="100" />
+  <img src="assets/app_images/app_img5.png" width="100" /> 
+  <img src="assets/app_images/app_img6.png" width="100" />
+  <img src="assets/app_images/app_img7.png" width="100" /> 
+  <img src="assets/app_images/app_img8.png" width="100" />
+</p>
+
+
+
+
 
 ## Componente preluate
 
-* fotografii: 
-* text: preluat din cartea "Habits of a Happy Brain "
+* fotografii: de pe internet
+* text: din cartea "Habits of a Happy Brain "
 
 
 
