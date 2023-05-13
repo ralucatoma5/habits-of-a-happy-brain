@@ -17,6 +17,13 @@ Partea sa aplicativa consta in dezvoltarea unui obicei pe parcursul a 45 de zile
 
 
 
+
+
+
+
+
+
+
 <p float="left">
   <img src="assets/app_images/app_img1.png" width="250" />
   <img src="assets/app_images/app_img2.png" width="250" /> 
