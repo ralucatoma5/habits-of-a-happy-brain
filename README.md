@@ -16,20 +16,20 @@ Partea sa aplicativa consta in dezvoltarea unui obicei pe parcursul a 45 de zile
 
 
 <p float="left">
-  <img src="assets/app_images/app_img1.png" width="100" />
-  <img src="assets/app_images/app_img2.png" width="100" /> 
-  <img src="assets/app_images/app_img8.png" width="100" />
+  <img src="assets/app_images/app_img1.png" width="250" />
+  <img src="assets/app_images/app_img2.png" width="250" /> 
+  <img src="assets/app_images/app_img8.png" width="250" />
 </p>
 
 <p float="left">
-  <img src="assets/app_images/app_img3.png" width="100" />
-  <img src="assets/app_images/app_img4.png" width="100" />
-  <img src="assets/app_images/app_img5.png" width="100" /> 
+  <img src="assets/app_images/app_img3.png" width="250" />
+  <img src="assets/app_images/app_img4.png" width="250" />
+  <img src="assets/app_images/app_img5.png" width="250" /> 
 </p>
 
 <p float="left">
-  <img src="assets/app_images/app_img6.png" width="100" />
-  <img src="assets/app_images/app_img7.png" width="100" />  
+  <img src="assets/app_images/app_img6.png" width="250" />
+  <img src="assets/app_images/app_img7.png" width="250" />  
 </p>
 
 
