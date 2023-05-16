@@ -18,11 +18,13 @@ Partea sa aplicativa consta in dezvoltarea unui obicei pe parcursul a 45 de zile
 
 
 
+### Logo
 
 
+<img src="assets/app_images/app_logo.png" width="350">
 
 
-
+### UI
 
 <p float="left">
   <img src="assets/app_images/app_img1.png" width="250" height="500" />
@@ -47,5 +49,20 @@ Partea sa aplicativa consta in dezvoltarea unui obicei pe parcursul a 45 de zile
 ## Componente preluate
 
 * fotografii: de pe internet
-* text: din cartea "Habits of a Happy Brain "
+* text: din cartea "Habits of a Happy Brain"
+
+## Dependencies
+
+  * [cupertino_icons](https://pub.dev/packages/cupertino_icons)
+  * [gradient_borders](https://pub.dev/packages/gradient_borders)
+  * [page_transition](https://pub.dev/packages/page_transition)
+  * [firebase_core](https://pub.dev/packages/firebase_core)
+  * [equatable](https://pub.dev/packages/equatable)
+  * [cloud_firestore](https://pub.dev/packages/cloud_firestore)
+  * [firebase_auth](https://pub.dev/packages/firebase_auth)
+  * [email_validator](https://pub.dev/packages/email_validator)
+  * [another_flushbar](https://pub.dev/packages/another_flushbar)
+  * [top_snackbar_flutter](https://pub.dev/packages/top_snackbar_flutter)
+  
+
 

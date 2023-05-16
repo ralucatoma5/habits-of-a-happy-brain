@@ -1,14 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/screens/healthyhabits_screen.dart';
 import 'package:habits/screens/myhabit_screet.dart';
-import 'package:habits/screens/timer_screen.dart';
 
 import '../const.dart';
 import '../widgets/hideButtomNavBar_widget.dart';
-import 'account.dart';
-import 'notes_screen.dart';
 import 'home_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -22,7 +17,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   late ScrollController controller;
 
-  late Stream<QuerySnapshot> _streamChapters;
   @override
   void initState() {
     controller = ScrollController();
@@ -38,7 +32,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final verticalBlock = SizeConfig.safeBlockVertical!;
 
     final horizontalBlock = SizeConfig.safeBlockHorizontal!;
     return Scaffold(
@@ -46,7 +39,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ? ReadingScreen(controller: controller)
             : currentIndex == 1
                 ? MyHabitScreen()
-                : HealthyHabits(),
+                : const HealthyHabits(),
         bottomNavigationBar: HideBottomNavBar(
           controller: controller,
           child: BottomNavigationBar(

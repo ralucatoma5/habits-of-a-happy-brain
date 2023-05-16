@@ -24,7 +24,7 @@ class AddNote extends StatelessWidget {
           color: blue,
         ),
         elevation: 0,
-        backgroundColor: Color(0xffFEFEFE),
+        backgroundColor: const Color(0xffFEFEFE),
         actions: [
           TextButton(
               onPressed: () {

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habits/models/chapter_model.dart';
 import 'package:habits/models/subchapter_model.dart';
-import 'package:habits/screens/healthyhabits_screen.dart';
+
 import 'package:habits/services/firestoreService.dart';
 
 import 'package:page_transition/page_transition.dart';
