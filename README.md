@@ -1,21 +1,11 @@
 # Habits of a Happy Brain 
 
-#### Aplicatie dezvoltata cu scopul de a-ti creste nivelul de fericire in doar 45 de zile
-
-## Tehnologii utilizate
-
-* Flutter Framework
-* Firebase 
+#### A cross-platform app with responsive & adaptive UI designed to boost your happiness in just 45 days, inspired by the book “Habits of a Happy Brain”.
 
 
-## Descriere
+## Description
 
-Aplicatia are rolul de a prezenta felul in care functioneaza creierul si factorii declansatori ai substantelor chimice pe care le contine, fiind demonstrat modul in care serotonina, dopamina, oxitocina și endorfina, au un adevarat impact asupra nivelului de fericire. 
-
-Partea sa aplicativa consta in dezvoltarea unui obicei pe parcursul a 45 de zile prin care va puteti activa hormonii fericirii, fiind ghidati de aplicatie pentru a-l dezvolta intr-un mod corect.
-
-
-
+The application is developed to guide you in forming a habit over the course of 45 days that will help activate your happiness hormones. It also explains how the brain works and the triggers for the chemicals it contains, demonstrating how serotonin, dopamine, oxytocin, and endorphins have a real impact on happiness levels. 
 
 
 ### Logo
@@ -45,11 +35,13 @@ Partea sa aplicativa consta in dezvoltarea unui obicei pe parcursul a 45 de zile
 </p>
 
 
+[Demo Video](https://youtu.be/ioDwc2_0haw)
 
-## Componente preluate
+## Tech Stack
 
-* fotografii: de pe internet
-* text: din cartea "Habits of a Happy Brain"
+* Flutter Framework
+* Firebase 
+
 
 ## Dependencies
 
